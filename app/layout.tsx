@@ -5,6 +5,7 @@ import { Loader } from "@/components/Loader";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CommandPaletteTrigger } from "@/components/CommandPaletteTrigger";
 import { SmartCursor } from "@/components/SmartCursor";
+import { siteUrl } from "@/lib/site";
 
 const geist = Geist({
   variable: "--font-sans",
@@ -18,7 +19,6 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://vishalmaurya.design";
 const siteTitle = "Vishal Maurya — Product Designer";
 const siteDescription =
   "Product designer in Mumbai. I design consumer products — lately in quick-commerce, healthtech, and interfaces that feel alive.";

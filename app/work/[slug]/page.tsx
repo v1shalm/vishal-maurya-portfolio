@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getWork, works } from "@/lib/works";
+import { siteUrl } from "@/lib/site";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
@@ -39,7 +40,7 @@ export async function generateMetadata({
       type: "article",
       title: `${work.title} — Case study by Vishal Maurya`,
       description: work.summary,
-      url: `https://vishalmaurya.design/work/${slug}`,
+      url: `${siteUrl}/work/${slug}`,
       images: poster ? [{ url: poster, alt: work.title }] : undefined,
     },
     twitter: {

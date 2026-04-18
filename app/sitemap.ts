@@ -1,32 +1,31 @@
 import type { MetadataRoute } from "next";
 import { works } from "@/lib/works";
-
-const base = "https://vishalmaurya.design";
+import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   return [
     {
-      url: `${base}/`,
+      url: `${siteUrl}/`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 1.0,
     },
     {
-      url: `${base}/about`,
+      url: `${siteUrl}/about`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.7,
     },
     {
-      url: `${base}/pixels`,
+      url: `${siteUrl}/pixels`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,
     },
     ...works.map((w) => ({
-      url: `${base}/work/${w.slug}`,
+      url: `${siteUrl}/work/${w.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
