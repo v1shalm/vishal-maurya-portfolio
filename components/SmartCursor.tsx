@@ -49,7 +49,10 @@ export function SmartCursor() {
       const target = e.target as HTMLElement | null;
       if (!target) return;
       const anchor = target.closest("[data-cursor]") as HTMLElement | null;
-      const kind = (anchor?.dataset.cursor ?? null) as CursorKind | null;
+      const raw = anchor?.dataset.cursor ?? null;
+      // Only adopt kinds we have presets for; anything else is treated as no-op.
+      const kind: CursorKind | null =
+        raw && raw in presets ? (raw as CursorKind) : null;
 
       setState((prev) => (prev.kind === kind ? prev : { kind }));
     };
@@ -66,7 +69,8 @@ export function SmartCursor() {
 
   if (!supported) return null;
 
-  const active = state.kind !== null && presets[state.kind];
+  const preset = state.kind ? presets[state.kind] : undefined;
+  const active = Boolean(preset);
 
   return (
     <div
@@ -83,9 +87,9 @@ export function SmartCursor() {
           scale: active ? "1" : "0.8",
         }}
       >
-        {state.kind && presets[state.kind].icon}
+        {preset?.icon}
         <span className="text-[10.5px] font-semibold uppercase tracking-[0.16em] leading-none whitespace-nowrap">
-          {state.kind ? presets[state.kind].label : ""}
+          {preset?.label ?? ""}
         </span>
       </div>
     </div>

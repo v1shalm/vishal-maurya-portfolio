@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  /* Cool neutral monochrome — slight cool tint on the neutrals */
-  --color-bg: oklch(0.985 0.002 260);
+  /* Cool neutral monochrome — pure white base, subtle elevated surface */
+  --color-bg: #ffffff;
   --color-bg-elevated: oklch(0.96 0.002 260);
   --color-ink: oklch(0.15 0.005 260);
   --color-ink-soft: oklch(0.36 0.004 260);
@@ -304,4 +304,13 @@ body {
 }
 [data-cursor] * {
   cursor: inherit;
+}
+
+/* ——— Scrollbar-free carousel track ——— */
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / old Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

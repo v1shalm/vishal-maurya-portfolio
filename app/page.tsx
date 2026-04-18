@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { WorkCard } from "@/components/WorkCard";
 import { Reveal } from "@/components/Reveal";
+import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
 import { works } from "@/lib/works";
 
@@ -42,31 +42,84 @@ const clients: {
   },
 ];
 
-const playground: Array<{
-  slug: string;
-  title: string;
-  kind: string;
-  year: string;
-  thumbnail?: string;
-}> = [
+const playground: PixelsItem[] = [
   {
-    slug: "frozen-cosmos",
-    title: "Frozen Cosmos",
-    kind: "Concept UI",
+    slug: "lumen",
+    title: "Lumen",
+    kind: "Research synthesis",
     year: "2025",
+    images: [
+      {
+        src: "/Pixels/lumen%20command%20center.png",
+        alt: "Lumen — command center, workspace chat with synthesis agent",
+        width: 3024,
+        height: 1964,
+      },
+      {
+        src: "/Pixels/lumen%20ingestion%20hub.png",
+        alt: "Lumen — ingestion hub, source input and knowledge base",
+        width: 3024,
+        height: 1964,
+      },
+      {
+        src: "/Pixels/lumen%20verified%20insights.png",
+        alt: "Lumen — verified insights, synthesized findings with confidence scores",
+        width: 3024,
+        height: 1964,
+      },
+      {
+        src: "/Pixels/lumen%20verified%20insights%20modal.png",
+        alt: "Lumen — insight dossier modal, evidence registry and metadata",
+        width: 3024,
+        height: 1964,
+      },
+    ],
+  },
+  {
+    slug: "dsp",
+    title: "DSP",
+    kind: "Mutual fund landing",
+    year: "2025",
+    images: [
+      {
+        src: "/Pixels/dsp%20-%20Homepage.png",
+        alt: "DSP Mutual Fund — homepage, Invest in India's first retail offshore mutual fund from GIFT City",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp%20-%20into%20india.png",
+        alt: "DSP — Invest Into India, tap into India's booming economy",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp-%20Outside%20India.png",
+        alt: "DSP — Invest Globally, access global markets via the GIFT City platform",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp-cards.png",
+        alt: "DSP — Invest into India vs. Invest Globally, the two value props side-by-side",
+        width: 3840,
+        height: 2160,
+      },
+    ],
   },
   {
     slug: "providence",
     title: "Providence",
     kind: "Concept UI",
     year: "2025",
-    thumbnail: "/works/providence.png",
-  },
-  {
-    slug: "eternal-dunes",
-    title: "Eternal Dunes",
-    kind: "Concept UI",
-    year: "2025",
+    images: [
+      {
+        src: "/works/providence.png",
+        alt: "Providence — concept UI",
+        width: 2880,
+        height: 1400,
+      },
+    ],
   },
 ];
 
@@ -142,34 +195,7 @@ export default function Home() {
             <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-28">
               {playground.map((item, i) => (
                 <Reveal key={item.slug} delay={i * 80}>
-                  <div className="group flex flex-col">
-                    <div className="relative aspect-[3/2] w-full overflow-hidden bg-bg-elevated">
-                      {item.thumbnail ? (
-                        <Image
-                          src={item.thumbnail}
-                          alt={`${item.title} — ${item.kind}`}
-                          fill
-                          sizes="(min-width: 1024px) 700px, (min-width: 768px) 50vw, 100vw"
-                          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-end p-10">
-                          <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-                            {item.title} — thumbnail pending
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mt-8 flex flex-col gap-3 md:mt-10">
-                      <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-                        {item.kind} — {item.year}
-                      </span>
-                      <span className="text-[24px] font-medium leading-[1.2] tracking-[-0.01em] text-ink md:text-[30px]">
-                        {item.title}
-                      </span>
-                    </div>
-                  </div>
+                  <PixelsTile item={item} />
                 </Reveal>
               ))}
             </div>
