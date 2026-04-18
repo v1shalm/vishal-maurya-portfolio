@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Container } from "@/components/Container";
 import { AboutStrip, type AboutStripItem } from "@/components/AboutStrip";
+import { EmailLink } from "@/components/EmailLink";
 import { links } from "@/lib/links";
 
 export const metadata: Metadata = {
@@ -88,6 +89,7 @@ export default function AboutPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         data-cursor="external"
+                        data-cursor-label="Open resume"
                         className="link-accent"
                       >
                         my resume (PDF)
@@ -99,13 +101,10 @@ export default function AboutPage() {
                   <Row label="Elsewhere">
                     <ul className="flex flex-col gap-1.5">
                       <li>
-                        <a
-                          href={links.email}
+                        <EmailLink
+                          email={links.emailDisplay}
                           className="link-accent"
-                          data-cursor="email"
-                        >
-                          {links.emailDisplay}
-                        </a>
+                        />
                       </li>
                       <li>
                         <a
@@ -113,6 +112,7 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           data-cursor="external"
+                          data-cursor-label="Open LinkedIn"
                           className="link-accent"
                         >
                           LinkedIn
@@ -124,6 +124,7 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           data-cursor="external"
+                          data-cursor-label="Open Dribbble"
                           className="link-accent"
                         >
                           Dribbble

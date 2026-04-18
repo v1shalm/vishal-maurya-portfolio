@@ -25,13 +25,9 @@ export async function generateMetadata({
   const work = getWork(slug);
   if (!work) return {};
 
-  // Prefer a still-image poster for social previews (video thumbnails won't embed)
-  const poster =
-    work.thumbnailPoster ??
-    (work.thumbnail && !/\.(mp4|webm|mov)$/i.test(work.thumbnail)
-      ? work.thumbnail
-      : undefined);
-
+  // Note: no explicit `images` here — Next.js auto-attaches the dynamic OG
+  // card from ./opengraph-image.tsx, which renders the project title and
+  // tagline on the brand orange background.
   return {
     title: work.title,
     description: work.summary,
@@ -41,13 +37,11 @@ export async function generateMetadata({
       title: `${work.title} — Case study by Vishal Maurya`,
       description: work.summary,
       url: `${siteUrl}/work/${slug}`,
-      images: poster ? [{ url: poster, alt: work.title }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
       title: `${work.title} — Vishal Maurya`,
       description: work.summary,
-      images: poster ? [poster] : undefined,
     },
   };
 }
@@ -92,6 +86,10 @@ export default async function WorkPage({
                 <p className="mt-5 max-w-[54ch] text-[17px] leading-[1.6] text-ink-soft md:text-[18px]">
                   {work.summary}
                 </p>
+
+                {work.liveUrl && (
+                  <LiveLink href={work.liveUrl} label={work.liveLabel} />
+                )}
 
                 <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-y border-line py-6 text-[13.5px] md:grid-cols-4 md:gap-x-10">
                   <MetaItem label="Role" value={work.role} />
@@ -274,6 +272,45 @@ function MetaItem({ label, value }: { label: string; value: string }) {
         {label}
       </dt>
       <dd className="text-ink">{value}</dd>
+    </div>
+  );
+}
+
+function LiveLink({ href, label }: { href: string; label?: string }) {
+  // Derive hostname when no explicit label is set (strip www., trailing slash).
+  const display =
+    label ??
+    (() => {
+      try {
+        return new URL(href).hostname.replace(/^www\./, "");
+      } catch {
+        return href;
+      }
+    })();
+
+  return (
+    <div className="mt-6">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="external"
+        data-cursor-label={`Visit ${display}`}
+        className="row-link group inline-flex items-baseline gap-2.5"
+      >
+        <span className="text-[10.5px] uppercase tracking-[0.2em] text-muted">
+          Live
+        </span>
+        <span className="row-title text-[15px] text-ink md:text-[15.5px]">
+          {display}
+        </span>
+        <span
+          aria-hidden
+          className="row-arrow text-[13px] leading-none text-muted"
+        >
+          ↗
+        </span>
+      </a>
     </div>
   );
 }

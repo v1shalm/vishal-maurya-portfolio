@@ -6,6 +6,7 @@ import { WorkCard } from "@/components/WorkCard";
 import { Reveal } from "@/components/Reveal";
 import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
+import { EmailLink } from "@/components/EmailLink";
 import { works } from "@/lib/works";
 
 const clients: {
@@ -208,13 +209,10 @@ export default function Home() {
             <div className="max-w-[58ch] text-[15px] leading-[1.8]">
               <p className="text-ink-soft">
                 Say hello —{" "}
-                <a
-                  href="mailto:vishalm.designs@gmail.com"
+                <EmailLink
+                  email="vishalm.designs@gmail.com"
                   className="link-accent"
-                  data-cursor="email"
-                >
-                  vishalm.designs@gmail.com
-                </a>
+                />
               </p>
               <p className="mt-2 text-muted">
                 Or grab the{" "}
@@ -223,6 +221,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
+                  data-cursor-label="Open resume"
                   className="transition-colors hover:text-ink"
                 >
                   resume
@@ -233,6 +232,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
+                  data-cursor-label="Open LinkedIn"
                   className="transition-colors hover:text-ink"
                 >
                   LinkedIn
@@ -243,6 +243,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
+                  data-cursor-label="Open Dribbble"
                   className="transition-colors hover:text-ink"
                 >
                   Dribbble

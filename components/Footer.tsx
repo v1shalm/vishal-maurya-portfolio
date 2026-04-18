@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import { Signature } from "@/components/Signature";
+import { EmailLink } from "@/components/EmailLink";
 import { links } from "@/lib/links";
 
 export function Footer() {
@@ -11,13 +12,10 @@ export function Footer() {
       <Container>
         <div className="flex flex-col gap-8 border-t border-line pt-12 md:flex-row md:items-baseline md:justify-between md:gap-10 md:pt-14">
           <div className="flex flex-col gap-2 text-[13.5px]">
-            <a
-              href={links.email}
+            <EmailLink
+              email={links.emailDisplay}
               className="link-accent"
-              data-cursor="email"
-            >
-              {links.emailDisplay}
-            </a>
+            />
             <span className="text-muted">Mumbai</span>
           </div>
 
@@ -27,6 +25,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
+              data-cursor-label="Open resume"
               className="transition-colors hover:text-ink"
             >
               Resume
@@ -36,6 +35,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
+              data-cursor-label="Open LinkedIn"
               className="transition-colors hover:text-ink"
             >
               LinkedIn
@@ -45,6 +45,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
+              data-cursor-label="Open Dribbble"
               className="transition-colors hover:text-ink"
             >
               Dribbble

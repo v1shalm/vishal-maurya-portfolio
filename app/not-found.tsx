@@ -2,6 +2,10 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
+import { EmailLink } from "@/components/EmailLink";
+import { WorkThumbnail } from "@/components/WorkThumbnail";
+import { works } from "@/lib/works";
+import { links } from "@/lib/links";
 
 export const metadata = {
   title: "Not found",
@@ -15,29 +19,73 @@ export default function NotFound() {
       <main className="flex flex-1 flex-col">
         <section className="pt-24 md:pt-40">
           <Container>
-            <div className="max-w-[58ch]">
+            <div className="grid gap-12 md:grid-cols-[minmax(0,58ch)_1fr] md:items-start md:gap-16">
+              <div>
               <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
                 404 — Not found
               </span>
 
               <h1 className="mt-6 text-[clamp(2rem,5vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
-                This page wandered off.
+                This page doesn&rsquo;t exist.
               </h1>
 
               <p className="mt-8 text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
-                Wrong address, broken link, or a page that moved while you
-                weren&rsquo;t looking.
+                Wrong address, broken link, or a page that moved. Here&rsquo;s
+                what you might have been looking for.
               </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] leading-[1.75]">
+              {/* Case studies — the most likely intent */}
+              <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
+                {works.map((w) => (
+                  <li key={w.slug}>
+                    <Link
+                      href={`/work/${w.slug}`}
+                      data-cursor="view-case-study"
+                      className="row-link group flex items-center gap-5 py-5 md:gap-7"
+                    >
+                      <div className="relative aspect-[3/2] w-[120px] shrink-0 overflow-hidden bg-bg-elevated md:w-[160px]">
+                        {w.thumbnail ? (
+                          <WorkThumbnail
+                            src={w.thumbnail}
+                            poster={w.thumbnailPoster}
+                            alt={`${w.title} — ${w.tagline}`}
+                            className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-end p-3">
+                            <span className="text-[10px] uppercase tracking-[0.18em] text-muted">
+                              {w.title}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <span className="flex min-w-0 flex-1 flex-col gap-1">
+                        <span className="row-title text-[18px] font-medium text-ink md:text-[20px]">
+                          {w.title}
+                        </span>
+                        <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
+                          {w.kind} · {w.year}
+                        </span>
+                      </span>
+
+                      <span
+                        aria-hidden
+                        className="row-arrow text-[18px] leading-none text-muted"
+                      >
+                        →
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] leading-[1.75] text-ink-soft">
+                <span className="text-[10.5px] uppercase tracking-[0.18em] text-muted">
+                  Or
+                </span>
                 <Link href="/" className="link-accent">
                   Index
-                </Link>
-                <span aria-hidden className="text-line">
-                  ·
-                </span>
-                <Link href="/#work" className="link-accent">
-                  Selected work
                 </Link>
                 <span aria-hidden className="text-line">
                   ·
@@ -48,13 +96,34 @@ export default function NotFound() {
                 <span aria-hidden className="text-line">
                   ·
                 </span>
-                <a
-                  href="mailto:vishalm.designs@gmail.com"
-                  data-cursor="email"
+                <Link href="/about" className="link-accent">
+                  About
+                </Link>
+                <span aria-hidden className="text-line">
+                  ·
+                </span>
+                <EmailLink
+                  email={links.emailDisplay}
+                  display="Email me"
                   className="link-accent"
+                />
+              </div>
+              </div>
+
+              {/* Right column — giant typographic 404 filling empty space */}
+              <div
+                aria-hidden
+                className="hidden md:flex md:justify-end md:self-start md:pt-2"
+              >
+                <span
+                  className="select-none font-medium leading-[0.82] tracking-[-0.055em]"
+                  style={{
+                    fontSize: "clamp(9rem, 18vw, 16rem)",
+                    color: "var(--color-line)",
+                  }}
                 >
-                  Email me
-                </a>
+                  404
+                </span>
               </div>
             </div>
           </Container>

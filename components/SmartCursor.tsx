@@ -21,11 +21,15 @@ const presets: Record<CursorKind, Preset> = {
  * the native cursor hides and a contextual pill follows the pointer.
  * Touch / no-hover devices: completely inert.
  */
+type CursorState = {
+  kind: CursorKind | null;
+  /** Optional per-element override of the preset's label. */
+  label: string | null;
+};
+
 export function SmartCursor() {
   const [supported, setSupported] = useState(false);
-  const [state, setState] = useState<{ kind: CursorKind | null }>({
-    kind: null,
-  });
+  const [state, setState] = useState<CursorState>({ kind: null, label: null });
   const pillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,11 +57,14 @@ export function SmartCursor() {
       // Only adopt kinds we have presets for; anything else is treated as no-op.
       const kind: CursorKind | null =
         raw && raw in presets ? (raw as CursorKind) : null;
+      const label = anchor?.dataset.cursorLabel ?? null;
 
-      setState((prev) => (prev.kind === kind ? prev : { kind }));
+      setState((prev) =>
+        prev.kind === kind && prev.label === label ? prev : { kind, label },
+      );
     };
 
-    const onLeave = () => setState({ kind: null });
+    const onLeave = () => setState({ kind: null, label: null });
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
@@ -89,7 +96,7 @@ export function SmartCursor() {
       >
         {preset?.icon}
         <span className="text-[10.5px] font-semibold uppercase tracking-[0.16em] leading-none whitespace-nowrap">
-          {preset?.label ?? ""}
+          {state.label ?? preset?.label ?? ""}
         </span>
       </div>
     </div>

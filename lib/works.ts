@@ -52,6 +52,13 @@ export type Work = {
   role: string;
   timeline: string;
   team: string;
+  /**
+   * Public URL for the live site or app (https://... or store link).
+   * When present, the case study hero renders a "Live site" / "App" CTA.
+   */
+  liveUrl?: string;
+  /** Optional short label for the liveUrl CTA (e.g. "App Store"). Defaults to hostname. */
+  liveLabel?: string;
   /** Path under /public, e.g. "/works/nexus-247.jpg" or .mp4. Video formats play on hover. */
   thumbnail?: string;
   /** Optional still image shown before a video thumbnail begins playing. */
@@ -73,6 +80,7 @@ export const works: Work[] = [
     role: "UI Designer, Pineapple Design Studio",
     timeline: "2025",
     team: "Studio team",
+    liveUrl: "https://shopnexusone.com/",
     thumbnail: "/works/nexus-247.mp4",
     thumbnailPoster: "/works/nexus-247.png",
     heroMedia: {
@@ -241,6 +249,7 @@ export const works: Work[] = [
     role: "UI Designer, Pineapple Design Studio",
     timeline: "2025",
     team: "Studio team",
+    liveUrl: "https://outcomes.ai/",
     thumbnail: "/works/outcomes/outcomes-thumbnail.mp4",
     heroMedia: {
       kind: "single",
@@ -351,6 +360,7 @@ export const works: Work[] = [
     role: "UI Designer",
     timeline: "2025",
     team: "TBD",
+    liveUrl: "https://zilo.one/",
     thumbnail: "/works/zilo.mp4",
     thumbnailPoster: "/works/zilo.png",
     heroMedia: {
