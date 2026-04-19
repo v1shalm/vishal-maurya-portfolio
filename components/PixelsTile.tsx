@@ -4,9 +4,9 @@ import { Carousel } from "@/components/Carousel";
 export type PixelsImage = {
   src: string;
   alt: string;
-  /** Intrinsic pixel width — drives the tile's aspect. */
+  /** Intrinsic pixel width. Drives the tile's aspect. */
   width: number;
-  /** Intrinsic pixel height — drives the tile's aspect. */
+  /** Intrinsic pixel height. Drives the tile's aspect. */
   height: number;
 };
 
@@ -34,12 +34,16 @@ export function PixelsTile({
     <div className="group flex flex-col">
       <TileMedia item={item} sizes={sizes} />
 
-      <div className="mt-8 flex flex-col gap-3 md:mt-10">
-        <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-          {item.kind} — {item.year}
-        </span>
-        <span className="text-[24px] font-medium leading-[1.2] tracking-[-0.01em] text-ink md:text-[30px]">
+      <div className="mt-5 flex items-baseline justify-between gap-5 md:mt-6 md:gap-8">
+        <p className="max-w-[40ch] text-pretty text-[16px] leading-[1.45] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[17px]">
           {item.title}
+        </p>
+        <span className="shrink-0 text-[10.5px] uppercase tracking-[0.14em] text-muted tabular-nums">
+          <span className="text-ink-soft">{item.kind}</span>
+          <span aria-hidden className="mx-1.5 text-line">
+            ·
+          </span>
+          {item.year}
         </span>
       </div>
     </div>
@@ -71,15 +75,15 @@ function TileMedia({ item, sizes }: { item: PixelsItem; sizes: string }) {
     );
   }
 
-  // No images — placeholder with a fallback aspect so the grid stays rhythmic.
+  // No images: placeholder with a fallback aspect so the grid stays rhythmic.
   return (
     <div
       className="relative w-full overflow-hidden bg-bg-elevated"
       style={{ aspectRatio: item.fallbackAspect ?? "3 / 2" }}
     >
       <div className="absolute inset-0 flex items-end p-10">
-        <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-          {item.title} — thumbnail pending
+        <span className="text-[12.5px] text-muted">
+          {item.title} · thumbnail pending
         </span>
       </div>
     </div>

@@ -156,7 +156,7 @@ export function CommandPalette() {
     el?.scrollIntoView({ block: "nearest" });
   }, [index]);
 
-  // Focus trap — keep Tab/Shift+Tab cycling focus inside the palette
+  // Focus trap: keep Tab/Shift+Tab cycling focus inside the palette
   useEffect(() => {
     if (!open) return;
 
@@ -242,7 +242,7 @@ export function CommandPalette() {
       aria-label="Command palette"
       className="fixed inset-0 z-[110] flex items-start justify-center px-4 pt-[14vh]"
     >
-      {/* Backdrop — dark tint + blur */}
+      {/* Backdrop: dark tint + blur */}
       <button
         aria-label="Close"
         onClick={() => setOpen(false)}
@@ -250,9 +250,9 @@ export function CommandPalette() {
         className="absolute inset-0 cursor-default bg-black/45 backdrop-blur-md"
       />
 
-      {/* Panel — softened shadow, single subtle lift */}
+      {/* Panel: softened shadow, single subtle lift */}
       <div className="relative w-full max-w-[620px] overflow-hidden rounded-[24px] border border-line-soft bg-bg shadow-[0_20px_60px_-24px_rgba(20,15,10,0.18)]">
-        {/* Input — minimal 1px stroke, whisper-soft inner lift on focus */}
+        {/* Input: minimal 1px stroke, whisper-soft inner lift on focus */}
         <div className="px-7 pt-7 pb-6">
           <label
             htmlFor="cmdk-input"
@@ -268,7 +268,7 @@ export function CommandPalette() {
               className="flex-1 bg-transparent text-[15.5px] leading-none text-ink placeholder:text-muted"
               style={{ outline: "none", boxShadow: "none" }}
             />
-            <kbd className="shrink-0 rounded-md border border-line-soft bg-bg-elevated px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.1em] text-muted">
+            <kbd className="shrink-0 rounded-md border border-line-soft bg-bg-elevated px-2 py-0.5 text-[10.5px] font-medium text-muted">
               Esc
             </kbd>
           </label>
@@ -286,7 +286,7 @@ export function CommandPalette() {
                     setFilter(f.group);
                     setIndex(0);
                   }}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-[12.5px] transition-[background,border,color] duration-200 ${
+                  className={`shrink-0 rounded-full border px-4 py-2 text-[12.5px] transition-[background,border,color,scale] duration-200 ease-out active:scale-[0.96] ${
                     active
                       ? "border-transparent text-white"
                       : "border-line-soft bg-bg-elevated text-ink-soft hover:border-line hover:text-ink"
@@ -331,7 +331,7 @@ export function CommandPalette() {
                 >
                   <div className="flex min-w-0 items-center gap-5">
                     <span
-                      className="w-16 shrink-0 text-[10px] uppercase tracking-[0.16em] transition-colors"
+                      className="w-16 shrink-0 text-[11px] transition-colors"
                       style={{
                         color: active
                           ? "var(--color-accent)"
@@ -356,7 +356,7 @@ export function CommandPalette() {
         </ul>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-4 border-t border-line-soft bg-bg-elevated px-7 py-4 text-[10.5px] uppercase tracking-[0.14em] text-muted">
+        <div className="flex items-center justify-between gap-4 border-t border-line-soft bg-bg-elevated px-7 py-4 text-[11.5px] text-muted">
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2">
               <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-ink-soft">
@@ -387,7 +387,7 @@ export function CommandPalette() {
             <span style={{ color: "var(--color-accent)" }}>{copied}</span>
           ) : (
             <span className="flex items-center gap-2">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums uppercase tracking-[0.08em] text-ink-soft">
+              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums text-ink-soft">
                 {modKey} K
               </kbd>
               Toggle

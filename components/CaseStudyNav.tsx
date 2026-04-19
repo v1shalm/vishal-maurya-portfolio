@@ -48,32 +48,40 @@ export function CaseStudyNav({ sections }: { sections: CaseSection[] }) {
 
   return (
     <nav aria-label="Case study contents">
-      <span className="text-[10.5px] uppercase tracking-[0.2em] text-muted">
-        Contents
-      </span>
-      <ul className="mt-5 flex flex-col gap-3">
+      <ul className="flex flex-col">
         {items.map((item) => {
           const isActive = active === item.id;
           return (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
-                className={`group relative flex items-baseline gap-3 text-[13px] leading-[1.35] transition-colors duration-300 ${
-                  isActive
-                    ? "text-ink"
-                    : "text-muted hover:text-ink-soft"
-                }`}
+                className="group flex items-start gap-4 py-[5px]"
               >
-                <span className="inline-block w-5 shrink-0 font-sans tabular-nums text-[10.5px] text-muted">
-                  {item.kicker}
-                </span>
-                <span className="relative">{item.label}</span>
                 <span
                   aria-hidden
-                  className={`absolute -left-4 top-[0.55em] inline-block h-px bg-ink transition-[width,opacity] duration-300 ease-out ${
-                    isActive ? "w-2 opacity-100" : "w-0 opacity-0"
+                  className="relative mt-[0.7em] inline-block h-px w-7 shrink-0"
+                >
+                  <span
+                    className="absolute inset-y-0 left-0 block transition-[width,background-color,height,top] duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    style={{
+                      width: isActive ? "100%" : "50%",
+                      height: isActive ? "1.5px" : "1px",
+                      top: isActive ? "-0.25px" : "0",
+                      backgroundColor: isActive
+                        ? "var(--color-ink)"
+                        : "var(--color-line)",
+                    }}
+                  />
+                </span>
+                <span
+                  className={`text-[14px] leading-[1.4] text-pretty transition-colors duration-[350ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                    isActive
+                      ? "font-medium text-ink"
+                      : "text-muted group-hover:text-ink-soft"
                   }`}
-                />
+                >
+                  {item.label}
+                </span>
               </a>
             </li>
           );

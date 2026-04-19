@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * Thin accent-colored bar fixed to the top of the viewport, scaleX growing
  * as the reader scrolls through the document. Performance: directly mutates
- * transform via rAF — no React re-render per scroll tick.
+ * transform via rAF. No React re-render per scroll tick.
  */
 export function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);

@@ -10,9 +10,9 @@ type Preset = {
 };
 
 const presets: Record<CursorKind, Preset> = {
-  "view-case-study": { label: "View case study", icon: <EyeIcon /> },
-  email: { label: "Send email", icon: <MailIcon /> },
-  external: { label: "Open external", icon: <ExternalIcon /> },
+  "view-case-study": { label: "Peek inside", icon: <EyeIcon /> },
+  email: { label: "Say hi", icon: <MailIcon /> },
+  external: { label: "Open", icon: <ExternalIcon /> },
   copy: { label: "Copy", icon: <CopyIcon /> },
 };
 
@@ -95,7 +95,7 @@ export function SmartCursor() {
         }}
       >
         {preset?.icon}
-        <span className="text-[10.5px] font-semibold uppercase tracking-[0.16em] leading-none whitespace-nowrap">
+        <span className="text-[12px] font-semibold leading-none whitespace-nowrap">
           {state.label ?? preset?.label ?? ""}
         </span>
       </div>

@@ -44,7 +44,7 @@ export function Drawer({ label, hint, children, defaultOpen = false }: Props) {
           </span>
         </span>
         {hint && (
-          <span className="text-[11px] uppercase tracking-[0.16em] text-muted">
+          <span className="text-[12.5px] text-muted">
             {hint}
           </span>
         )}

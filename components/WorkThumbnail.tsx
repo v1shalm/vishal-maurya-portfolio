@@ -11,7 +11,7 @@ type Props = {
 };
 
 /**
- * Autoplaying, muted, looped video thumbnail — or an optimised <Image /> for
+ * Autoplaying, muted, looped video thumbnail, or an optimised <Image /> for
  * non-video srcs. Fills its aspect-ratio parent with object-cover.
  * Muted+looped video is allowed by all major browsers; `onCanPlay` is a belt-
  * and-suspenders fallback that calls play() explicitly once the browser has

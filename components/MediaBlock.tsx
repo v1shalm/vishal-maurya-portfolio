@@ -93,16 +93,16 @@ function MediaFrame({
   defaultAspect: string;
   onClick: (item: MediaItem) => void;
 }) {
-  // Real image — click opens the lightbox.
+  // Real image: click opens the lightbox.
   if (item.src) {
     return (
       <button
         type="button"
         onClick={() => onClick(item)}
         data-cursor="view-case-study"
-        data-cursor-label="View full size"
+        data-cursor-label="Full size"
         className="group block w-full cursor-zoom-in overflow-hidden"
-        aria-label={item.alt ? `${item.alt} — click to view full size` : "View full size"}
+        aria-label={item.alt ? `${item.alt}, click to view full size` : "View full size"}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -125,7 +125,7 @@ function MediaFrame({
       style={{ aspectRatio: aspect }}
     >
       <div className="absolute inset-0 flex flex-col items-start justify-end p-4">
-        <span className="text-[10px] uppercase tracking-[0.16em] text-muted">
+        <span className="text-[11.5px] text-muted">
           Placeholder
         </span>
         {item.alt && (
@@ -140,7 +140,7 @@ function MediaFrame({
 
 function Caption({ children }: { children: React.ReactNode }) {
   return (
-    <figcaption className="mt-3 text-[11px] uppercase tracking-[0.16em] text-muted">
+    <figcaption className="mt-3 text-pretty text-[12.5px] text-muted">
       {children}
     </figcaption>
   );

@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
 
 export const metadata: Metadata = {
-  title: "Pixels — Vishal Maurya",
+  title: "Pixels · Vishal Maurya",
   description: "Personal UI screens, explorations, and side quests.",
 };
 
@@ -19,25 +19,25 @@ const items: PixelsItem[] = [
     images: [
       {
         src: "/Pixels/lumen%20command%20center.png",
-        alt: "Lumen — command center",
+        alt: "Lumen: command center",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20ingestion%20hub.png",
-        alt: "Lumen — ingestion hub",
+        alt: "Lumen: ingestion hub",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20verified%20insights.png",
-        alt: "Lumen — verified insights",
+        alt: "Lumen: verified insights",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20verified%20insights%20modal.png",
-        alt: "Lumen — insight dossier modal",
+        alt: "Lumen: insight dossier modal",
         width: 3024,
         height: 1964,
       },
@@ -51,25 +51,25 @@ const items: PixelsItem[] = [
     images: [
       {
         src: "/Pixels/dsp%20-%20Homepage.png",
-        alt: "DSP — homepage, first retail offshore mutual fund from GIFT City",
+        alt: "DSP homepage: first retail offshore mutual fund from GIFT City",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp%20-%20into%20india.png",
-        alt: "DSP — Invest Into India",
+        alt: "DSP: Invest Into India",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp-%20Outside%20India.png",
-        alt: "DSP — Invest Globally",
+        alt: "DSP: Invest Globally",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp-cards.png",
-        alt: "DSP — Invest into India vs. Invest Globally",
+        alt: "DSP: Invest into India vs. Invest Globally",
         width: 3840,
         height: 2160,
       },
@@ -83,17 +83,12 @@ const items: PixelsItem[] = [
     images: [
       {
         src: "/works/providence.png",
-        alt: "Providence — concept UI",
+        alt: "Providence concept UI",
         width: 2880,
         height: 1400,
       },
     ],
   },
-  { slug: "untitled-04", title: "Untitled 04", kind: "Sketch", year: "—", fallbackAspect: "4/5" },
-  { slug: "untitled-05", title: "Untitled 05", kind: "Sketch", year: "—", fallbackAspect: "3/4" },
-  { slug: "untitled-06", title: "Untitled 06", kind: "Sketch", year: "—", fallbackAspect: "16/10" },
-  { slug: "untitled-07", title: "Untitled 07", kind: "Sketch", year: "—", fallbackAspect: "1/1" },
-  { slug: "untitled-08", title: "Untitled 08", kind: "Sketch", year: "—", fallbackAspect: "4/5" },
 ];
 
 export default function PixelsPage() {
@@ -104,22 +99,22 @@ export default function PixelsPage() {
         <section className="pt-16 md:pt-24">
           <Container>
             <div className="max-w-[720px]">
-              <h1 className="text-[11px] uppercase tracking-[0.18em] text-muted">
+              <h1 className="text-[13px] text-muted">
                 Pixels
               </h1>
 
-              <p className="mt-8 max-w-[54ch] text-[17px] leading-[1.7] text-ink md:text-[18px]">
-                Interfaces without briefs. A sketchbook — some become
+              <p className="mt-8 max-w-[54ch] text-pretty text-[17px] leading-[1.7] text-ink md:text-[18px]">
+                Interfaces without briefs. A sketchbook: some become
                 products, most stay themselves.
               </p>
             </div>
 
             <section className="mt-20 md:mt-24">
-              <div className="flex items-baseline justify-between border-b border-line pb-4">
-                <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-                  All — {items.length}
+              <div className="flex items-baseline justify-between border-b border-line pb-5">
+                <span className="text-[13px] text-muted">
+                  All · {items.length}
                 </span>
-                <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
+                <span className="text-[13px] text-muted">
                   2025
                 </span>
               </div>

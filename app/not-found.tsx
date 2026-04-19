@@ -21,20 +21,21 @@ export default function NotFound() {
           <Container>
             <div className="grid gap-12 md:grid-cols-[minmax(0,58ch)_1fr] md:items-start md:gap-16">
               <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
-                404 — Not found
+              <span className="text-[12.5px] text-muted">
+                404 · Not found
               </span>
 
-              <h1 className="mt-6 text-[clamp(2rem,5vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
-                This page doesn&rsquo;t exist.
+              <h1 className="mt-6 text-balance text-[clamp(2rem,5vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
+                This one got away.
               </h1>
 
-              <p className="mt-8 text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
-                Wrong address, broken link, or a page that moved. Here&rsquo;s
-                what you might have been looking for.
+              <p className="mt-8 text-pretty text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
+                No page lives at this address. Maybe the link bit-rotted,
+                maybe something moved. Here&rsquo;s what you were probably
+                after.
               </p>
 
-              {/* Case studies — the most likely intent */}
+              {/* Case studies: the most likely intent */}
               <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
                 {works.map((w) => (
                   <li key={w.slug}>
@@ -48,12 +49,12 @@ export default function NotFound() {
                           <WorkThumbnail
                             src={w.thumbnail}
                             poster={w.thumbnailPoster}
-                            alt={`${w.title} — ${w.tagline}`}
+                            alt={`${w.title}: ${w.tagline}`}
                             className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                           />
                         ) : (
                           <div className="absolute inset-0 flex items-end p-3">
-                            <span className="text-[10px] uppercase tracking-[0.18em] text-muted">
+                            <span className="text-[11.5px] text-muted">
                               {w.title}
                             </span>
                           </div>
@@ -64,7 +65,7 @@ export default function NotFound() {
                         <span className="row-title text-[18px] font-medium text-ink md:text-[20px]">
                           {w.title}
                         </span>
-                        <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
+                        <span className="text-[13px] text-muted">
                           {w.kind} · {w.year}
                         </span>
                       </span>
@@ -81,7 +82,7 @@ export default function NotFound() {
               </ul>
 
               <div className="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] leading-[1.75] text-ink-soft">
-                <span className="text-[10.5px] uppercase tracking-[0.18em] text-muted">
+                <span className="text-[12px] text-muted">
                   Or
                 </span>
                 <Link href="/" className="link-accent">
@@ -110,7 +111,7 @@ export default function NotFound() {
               </div>
               </div>
 
-              {/* Right column — giant typographic 404 filling empty space */}
+              {/* Right column: giant typographic 404 filling empty space */}
               <div
                 aria-hidden
                 className="hidden md:flex md:justify-end md:self-start md:pt-2"

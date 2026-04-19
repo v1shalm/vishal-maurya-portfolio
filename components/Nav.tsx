@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Container } from "@/components/Container";
-import { LiveTime } from "@/components/LiveTime";
 
 export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }) {
   return (
@@ -17,10 +16,6 @@ export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }
               className="status-dot translate-y-[-1px]"
               title="Open to product roles"
             />
-            <span className="hidden text-muted md:inline"> · </span>
-            <span className="hidden text-[12.5px] text-muted md:inline">
-              <LiveTime />
-            </span>
           </Link>
 
           <nav

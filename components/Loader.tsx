@@ -8,7 +8,7 @@ gsap.registerPlugin(useGSAP);
 
 /**
  * Brief signature loader. Shows the name + accent dot with a loading bar,
- * then fades to reveal the page. Only on first paint — not on every route change
+ * then fades to reveal the page. Only on first paint, not on every route change
  * (page-transition template handles those).
  */
 export function Loader() {
@@ -19,7 +19,7 @@ export function Loader() {
     () => {
       const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
       if (mq.matches) {
-        // Skip the loader entirely for reduced-motion users — no flash, no delay.
+        // Skip the loader entirely for reduced-motion users: no flash, no delay.
         setMounted(false);
         return;
       }
@@ -94,14 +94,14 @@ export function Loader() {
       <div className="flex items-end justify-between">
         <span
           data-loader-meta
-          className="text-[10.5px] uppercase tracking-[0.18em] text-muted"
+          className="text-[10.5px] text-muted"
           style={{ opacity: 0 }}
         >
           Portfolio · 2026
         </span>
         <span
           data-loader-meta
-          className="text-[10.5px] uppercase tracking-[0.18em] text-muted"
+          className="text-[10.5px] text-muted"
           style={{ opacity: 0 }}
         >
           Mumbai

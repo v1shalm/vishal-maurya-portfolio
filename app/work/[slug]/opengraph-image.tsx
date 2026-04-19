@@ -18,13 +18,13 @@ export default async function Image({
   const work = getWork(slug);
 
   // If the slug is unknown, fall back to a simple branded card instead of
-  // throwing — this route still gets hit by crawlers for stale URLs.
+  // throwing. This route still gets hit by crawlers for stale URLs.
   const title = work?.title ?? "Vishal Maurya";
   const tagline =
     work?.tagline ??
     "I design consumer products. Lately: quick-commerce, healthtech, and interfaces that feel alive.";
   const kind = work?.kind ?? "Case study";
-  const status = work?.status ?? "—";
+  const status = work?.status ?? "";
   const year = work?.year ?? "";
 
   return new ImageResponse(
@@ -42,7 +42,7 @@ export default async function Image({
           color: "#ffffff",
         }}
       >
-        {/* Top — byline + small white dot */}
+        {/* Top: byline + small white dot */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: 24, letterSpacing: "-0.005em" }}>
             Vishal Maurya
@@ -59,17 +59,15 @@ export default async function Image({
           <span
             style={{
               marginLeft: 14,
-              fontSize: 16,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
+              fontSize: 18,
               color: "rgba(255,255,255,0.78)",
             }}
           >
-            Case Study
+            Case study
           </span>
         </div>
 
-        {/* Middle — title + tagline */}
+        {/* Middle: title + tagline */}
         <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
           <div
             style={{
@@ -97,15 +95,13 @@ export default async function Image({
           </div>
         </div>
 
-        {/* Bottom — meta */}
+        {/* Bottom: meta */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "14px",
-            fontSize: 20,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
+            fontSize: 22,
             color: "rgba(255, 255, 255, 0.85)",
           }}
         >

@@ -25,7 +25,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
-              data-cursor-label="Open resume"
+              data-cursor-label="Resume"
               className="transition-colors hover:text-ink"
             >
               Resume
@@ -35,7 +35,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
-              data-cursor-label="Open LinkedIn"
+              data-cursor-label="LinkedIn"
               className="transition-colors hover:text-ink"
             >
               LinkedIn
@@ -45,7 +45,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="external"
-              data-cursor-label="Open Dribbble"
+              data-cursor-label="Dribbble"
               className="transition-colors hover:text-ink"
             >
               Dribbble

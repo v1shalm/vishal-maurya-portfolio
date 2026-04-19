@@ -6,7 +6,7 @@ import { EmailLink } from "@/components/EmailLink";
 import { links } from "@/lib/links";
 
 export const metadata: Metadata = {
-  title: "About — Vishal Maurya",
+  title: "About · Vishal Maurya",
   description:
     "A product designer based in Mumbai, currently at Pineapple Design Studio.",
 };
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 // Placeholder tiles until real photos are dropped in. Varied aspects give the
 // strip visual rhythm; swap the `src` in and the tile uses the photo.
 const stripItems: AboutStripItem[] = [
-  { alt: "Studio morning — Mumbai", aspect: "3/4" },
+  { alt: "Studio morning, Mumbai", aspect: "3/4" },
   { alt: "Pineapple desk", aspect: "4/5" },
   { alt: "Sketching", aspect: "3/2" },
   { alt: "Out and about", aspect: "4/5" },
@@ -30,14 +30,14 @@ export default function AboutPage() {
         <section className="flex flex-1 min-h-0">
           <Container className="flex min-h-0 flex-1 flex-col py-10 md:py-12">
             {/*
-              Mobile: stack — text then a fixed-height strip.
+              Mobile: stack, text then a fixed-height strip.
               md+: 60/40 grid, cells stretch so the strip matches the text
               column height; strip uses absolute positioning inside its cell
               so horizontal-scroll doesn't disturb layout.
             */}
             <div className="flex flex-col gap-12 md:grid md:min-h-0 md:flex-1 md:grid-cols-[60fr_40fr] md:items-stretch md:gap-10 lg:gap-14">
               <div className="flex min-h-0 flex-col">
-                <h1 className="text-[11px] uppercase tracking-[0.18em] text-muted">
+                <h1 className="text-[13px] text-muted">
                   About
                 </h1>
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
                       and healthtech (OutcomesAI).
                     </p>
                     <p className="mt-4">
-                      I&rsquo;m exploring a move to an in-house product team —
+                      I&rsquo;m exploring a move to an in-house product team,
                       ideally at a consumer-facing company building for Indian
                       users. If you&rsquo;re hiring for product design,{" "}
                       <a
@@ -61,6 +61,16 @@ export default function AboutPage() {
                         I&rsquo;d love to talk
                       </a>
                       .
+                    </p>
+                  </Row>
+
+                  <Row label="What I believe">
+                    <p>
+                      My best consumer product decisions have been about
+                      removing steps, not adding features. Especially in
+                      India, where users shop on commutes, between errands,
+                      at 11&nbsp;pm — the work is mostly reducing the cost of
+                      what&rsquo;s already there.
                     </p>
                   </Row>
 
@@ -89,7 +99,7 @@ export default function AboutPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         data-cursor="external"
-                        data-cursor-label="Open resume"
+                        data-cursor-label="Resume"
                         className="link-accent"
                       >
                         my resume (PDF)
@@ -112,7 +122,7 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           data-cursor="external"
-                          data-cursor-label="Open LinkedIn"
+                          data-cursor-label="LinkedIn"
                           className="link-accent"
                         >
                           LinkedIn
@@ -124,7 +134,7 @@ export default function AboutPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           data-cursor="external"
-                          data-cursor-label="Open Dribbble"
+                          data-cursor-label="Dribbble"
                           className="link-accent"
                         >
                           Dribbble
@@ -135,7 +145,7 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Strip cell — fills the grid row height on md+ */}
+              {/* Strip cell: fills the grid row height on md+ */}
               <div className="relative h-[clamp(260px,60vw,420px)] min-h-0 md:h-auto">
                 <div className="absolute inset-0">
                   <AboutStrip items={stripItems} />
@@ -158,10 +168,10 @@ function Row({
 }) {
   return (
     <div className="flex flex-col gap-2 md:grid md:grid-cols-[8.5rem_1fr] md:gap-8">
-      <span className="pt-[3px] text-[10.5px] uppercase tracking-[0.18em] text-muted">
+      <span className="pt-[3px] text-[12.5px] text-muted">
         {label}
       </span>
-      <div className="text-[15px] leading-[1.65] text-ink md:text-[15.5px]">
+      <div className="text-pretty text-[15px] leading-[1.65] text-ink md:text-[15.5px]">
         {children}
       </div>
     </div>

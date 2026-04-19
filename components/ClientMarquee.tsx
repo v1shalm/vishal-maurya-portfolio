@@ -4,7 +4,7 @@ export type Client = {
   name: string;
   /** Path under /public, e.g. "/logos/outcomes-ai.png". If missing, name renders as text. */
   logo?: string;
-  /** Optional Tailwind height classes to override the default "h-10 md:h-14" — used to visually match logos of different optical weights. */
+  /** Optional Tailwind height classes to override the default "h-10 md:h-14". Used to visually match logos of different optical weights. */
   heightClass?: string;
 };
 
@@ -30,7 +30,7 @@ export function ClientMarquee({ clients }: Props) {
           <li
             key={i}
             aria-hidden={i >= clients.length}
-            className="flex shrink-0 items-center pr-14 md:pr-20"
+            className="flex shrink-0 items-center pr-8 md:pr-10"
           >
             {client.logo ? (
               // eslint-disable-next-line @next/next/no-img-element

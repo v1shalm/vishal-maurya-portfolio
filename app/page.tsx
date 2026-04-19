@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TransitionLink } from "@/components/TransitionLink";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
@@ -52,25 +53,25 @@ const playground: PixelsItem[] = [
     images: [
       {
         src: "/Pixels/lumen%20command%20center.png",
-        alt: "Lumen — command center, workspace chat with synthesis agent",
+        alt: "Lumen: command center, workspace chat with synthesis agent",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20ingestion%20hub.png",
-        alt: "Lumen — ingestion hub, source input and knowledge base",
+        alt: "Lumen: ingestion hub, source input and knowledge base",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20verified%20insights.png",
-        alt: "Lumen — verified insights, synthesized findings with confidence scores",
+        alt: "Lumen: verified insights, synthesized findings with confidence scores",
         width: 3024,
         height: 1964,
       },
       {
         src: "/Pixels/lumen%20verified%20insights%20modal.png",
-        alt: "Lumen — insight dossier modal, evidence registry and metadata",
+        alt: "Lumen: insight dossier modal, evidence registry and metadata",
         width: 3024,
         height: 1964,
       },
@@ -84,25 +85,25 @@ const playground: PixelsItem[] = [
     images: [
       {
         src: "/Pixels/dsp%20-%20Homepage.png",
-        alt: "DSP Mutual Fund — homepage, Invest in India's first retail offshore mutual fund from GIFT City",
+        alt: "DSP Mutual Fund homepage: Invest in India's first retail offshore mutual fund from GIFT City",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp%20-%20into%20india.png",
-        alt: "DSP — Invest Into India, tap into India's booming economy",
+        alt: "DSP: Invest Into India, tap into India's booming economy",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp-%20Outside%20India.png",
-        alt: "DSP — Invest Globally, access global markets via the GIFT City platform",
+        alt: "DSP: Invest Globally, access global markets via the GIFT City platform",
         width: 4320,
         height: 2400,
       },
       {
         src: "/Pixels/dsp-cards.png",
-        alt: "DSP — Invest into India vs. Invest Globally, the two value props side-by-side",
+        alt: "DSP: Invest into India vs. Invest Globally, the two value props side-by-side",
         width: 3840,
         height: 2160,
       },
@@ -116,7 +117,7 @@ const playground: PixelsItem[] = [
     images: [
       {
         src: "/works/providence.png",
-        alt: "Providence — concept UI",
+        alt: "Providence concept UI",
         width: 2880,
         height: 1400,
       },
@@ -132,20 +133,44 @@ export default function Home() {
         {/* Intro */}
         <section className="pt-24 md:pt-40">
           <Container>
-            <div className="max-w-[58ch]">
-              <p className="text-[17px] leading-[1.75] text-ink md:text-[18px]">
+            <div>
+              <p className="max-w-[30ch] text-balance text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.1] tracking-[-0.02em] text-ink">
                 I&rsquo;m a product designer based in Mumbai. I design
-                consumer products. Lately: quick-commerce, healthtech, and
-                interfaces that feel alive.
+                consumer products. Lately:{" "}
+                <TransitionLink
+                  href="/work/zilo"
+                  className="underline decoration-line decoration-[0.06em] underline-offset-[0.12em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
+                >
+                  quick-commerce
+                </TransitionLink>
+                ,{" "}
+                <TransitionLink
+                  href="/work/outcomes-ai"
+                  className="underline decoration-line decoration-[0.06em] underline-offset-[0.12em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
+                >
+                  healthtech
+                </TransitionLink>
+                , and interfaces that feel alive.
               </p>
-              <p className="mt-6 text-[16px] leading-[1.75] text-ink-soft">
-                Currently at Pineapple Design Studio. Open to product roles.
-              </p>
+
+              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 md:mt-12">
+                <span className="inline-flex items-center gap-2.5 text-[17px] text-ink-soft md:text-[18px]">
+                  <span aria-hidden className="status-dot" />
+                  Open to product roles
+                </span>
+                <span
+                  aria-hidden
+                  className="hidden h-3 w-px bg-line sm:inline-block"
+                />
+                <span className="text-[17px] text-muted md:text-[18px]">
+                  Currently at Pineapple Design Studio
+                </span>
+              </div>
             </div>
 
-            {/* Client strip — infinite marquee (stays within the global container) */}
-            <div className="mt-24 flex flex-col gap-5 md:mt-32">
-              <span className="whitespace-nowrap text-[10.5px] uppercase tracking-[0.18em] text-muted">
+            {/* Client strip: infinite marquee (stays within the global container) */}
+            <div className="mt-24 flex flex-col gap-7 md:mt-32 md:gap-8">
+              <span className="whitespace-nowrap text-[13px] text-muted">
                 Worked with
               </span>
               <ClientMarquee clients={clients} />
@@ -155,15 +180,15 @@ export default function Home() {
 
         {/* Work */}
         <Reveal as="section" className="pt-36 md:pt-48">
-          {/* Work section wrapper — single reveal for the heading + card grid */}
+          {/* Work section wrapper: single reveal for the heading + card grid */}
           <div id="work">
             <Container>
-              <div className="flex items-baseline justify-between border-b border-line pb-4">
-                <h2 className="text-[11px] uppercase tracking-[0.18em] text-muted">
+              <div className="flex items-baseline justify-between border-b border-line pb-5">
+                <h2 className="text-[13px] text-muted">
                   Selected Work
                 </h2>
-                <span className="text-[11px] uppercase tracking-[0.18em] text-muted">
-                  2023 — 2025
+                <span className="text-[13px] text-muted">
+                  2023–2025
                 </span>
               </div>
 
@@ -181,13 +206,13 @@ export default function Home() {
         {/* Pixels */}
         <Reveal as="section" className="pt-36 md:pt-48">
           <Container>
-            <div className="flex items-baseline justify-between border-b border-line pb-4">
-              <h2 className="text-[11px] uppercase tracking-[0.18em] text-muted">
+            <div className="flex items-baseline justify-between border-b border-line pb-5">
+              <h2 className="text-[13px] text-muted">
                 Pixels
               </h2>
               <Link
                 href="/pixels"
-                className="text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-ink"
+                className="text-[13px] text-muted transition-colors hover:text-ink"
               >
                 All →
               </Link>
@@ -206,23 +231,27 @@ export default function Home() {
         {/* Contact */}
         <Reveal as="section" className="pt-36 md:pt-48">
           <Container>
-            <div className="max-w-[58ch] text-[15px] leading-[1.8]">
-              <p className="text-ink-soft">
-                Say hello —{" "}
+            <div className="max-w-[800px]">
+              <h2 className="text-balance text-[clamp(2.25rem,5.5vw,4rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ink">
+                Say hello.
+              </h2>
+
+              <div className="mt-8 md:mt-10">
                 <EmailLink
                   email="vishalm.designs@gmail.com"
-                  className="link-accent"
+                  className="link-accent inline-flex items-baseline gap-2 text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] tracking-[-0.01em]"
                 />
-              </p>
-              <p className="mt-2 text-muted">
+              </div>
+
+              <p className="mt-10 max-w-[58ch] text-pretty text-[16px] leading-[1.7] text-ink-soft md:mt-12 md:text-[17px]">
                 Or grab the{" "}
                 <a
                   href="https://drive.google.com/file/d/1H9CUwS7UnFzxy1oD_wa5A7KJ4P_i45ch/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
-                  data-cursor-label="Open resume"
-                  className="transition-colors hover:text-ink"
+                  data-cursor-label="Resume"
+                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
                 >
                   resume
                 </a>
@@ -232,8 +261,8 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
-                  data-cursor-label="Open LinkedIn"
-                  className="transition-colors hover:text-ink"
+                  data-cursor-label="LinkedIn"
+                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
                 >
                   LinkedIn
                 </a>{" "}
@@ -243,8 +272,8 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
-                  data-cursor-label="Open Dribbble"
-                  className="transition-colors hover:text-ink"
+                  data-cursor-label="Dribbble"
+                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
                 >
                   Dribbble
                 </a>

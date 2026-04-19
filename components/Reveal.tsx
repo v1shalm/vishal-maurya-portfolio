@@ -8,14 +8,14 @@ type Props = {
   delay?: number;
   /** Distance in pixels the element slides up from. */
   offset?: number;
-  /** Viewport fraction to trigger — 0 = any entry, 0.25 = 25% in view. */
+  /** Viewport fraction to trigger. 0 = any entry, 0.25 = 25% in view. */
   threshold?: number;
   className?: string;
   as?: "div" | "section" | "article" | "header" | "footer";
 };
 
 /**
- * Reveals content on scroll — fade + slight y-translate.
+ * Reveals content on scroll: fade + slight y-translate.
  * IntersectionObserver-based; reveals once and disconnects.
  * Respects prefers-reduced-motion (content just appears).
  */
@@ -39,7 +39,7 @@ export function Reveal({
     const el = ref.current;
     if (!el) return;
 
-    // If reduced motion, show immediately — no observer needed.
+    // If reduced motion, show immediately: no observer needed.
     if (mq.matches) {
       setVisible(true);
       return;

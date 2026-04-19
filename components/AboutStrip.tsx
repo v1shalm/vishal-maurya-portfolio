@@ -15,7 +15,7 @@ type Props = {
 };
 
 /**
- * Horizontal photo strip. Native scroll only — no drag, no click.
+ * Horizontal photo strip. Native scroll only, no drag, no click.
  * Wheel events anywhere on the page (not just over the strip) translate to
  * horizontal scroll on md+, where the About page is viewport-locked. On
  * mobile the page scrolls vertically normally, so wheel is left alone.
@@ -67,8 +67,8 @@ export function AboutStrip({ items }: Props) {
             />
           ) : (
             <div className="absolute inset-0 flex flex-col items-start justify-end p-4 md:p-5">
-              <span className="text-[10px] uppercase tracking-[0.18em] text-muted">
-                Photo — pending
+              <span className="text-[11.5px] text-muted">
+                Photo · pending
               </span>
               <span className="mt-1 text-[12.5px] leading-[1.4] text-ink-soft">
                 {item.alt}

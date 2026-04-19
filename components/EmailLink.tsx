@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  /** The raw email address — used for both clipboard and mailto fallback. */
+  /** The raw email address. Used for both clipboard and mailto fallback. */
   email: string;
   /** What to display. Defaults to the email itself. */
   display?: React.ReactNode;
@@ -46,14 +46,14 @@ export function EmailLink({ email, display, className = "" }: Props) {
         href={`mailto:${email}`}
         onClick={handle}
         data-cursor="copy"
-        data-cursor-label="Copy email"
+        data-cursor-label="Copy address"
         className={className}
       >
         {display ?? email}
       </a>
       <span
         aria-live="polite"
-        className="select-none text-[10px] uppercase tracking-[0.18em] transition-opacity duration-200"
+        className="select-none text-[11.5px] transition-opacity duration-200"
         style={{
           opacity: copied ? 1 : 0,
           color: "var(--color-accent)",

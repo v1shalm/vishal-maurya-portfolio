@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Vishal Maurya — Product Designer";
+export const alt = "Vishal Maurya · Product Designer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,7 +20,7 @@ export default async function Image() {
           color: "#ffffff",
         }}
       >
-        {/* Top — name + small white dot */}
+        {/* Top: name + small white dot */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: 26, letterSpacing: "-0.005em" }}>
             Vishal Maurya
@@ -36,7 +36,7 @@ export default async function Image() {
           />
         </div>
 
-        {/* Middle — tagline */}
+        {/* Middle: tagline */}
         <div
           style={{
             display: "flex",
@@ -50,15 +50,13 @@ export default async function Image() {
           interfaces that feel alive.
         </div>
 
-        {/* Bottom — meta row */}
+        {/* Bottom: meta row */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "14px",
-            fontSize: 20,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
+            fontSize: 22,
             color: "rgba(255, 255, 255, 0.85)",
           }}
         >

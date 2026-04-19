@@ -19,14 +19,14 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteTitle = "Vishal Maurya — Product Designer";
+const siteTitle = "Vishal Maurya · Product Designer";
 const siteDescription =
-  "Product designer in Mumbai. I design consumer products — lately in quick-commerce, healthtech, and interfaces that feel alive.";
+  "Product designer in Mumbai. I design consumer products, lately in quick-commerce, healthtech, and interfaces that feel alive.";
 
 export const metadata: Metadata = {
   title: {
     default: siteTitle,
-    template: "%s — Vishal Maurya",
+    template: "%s · Vishal Maurya",
   },
   description: siteDescription,
   applicationName: "Vishal Maurya",

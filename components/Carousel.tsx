@@ -193,7 +193,7 @@ export function Carousel({
               data-slide
               data-slide-idx={i}
               aria-roledescription="slide"
-              aria-label={`${img.alt} (${i + 1} of ${images.length}) — click to expand`}
+              aria-label={`${img.alt} (${i + 1} of ${images.length}), click to expand`}
               onClick={() => onSlideClick(i)}
               className="relative w-full flex-none cursor-pointer snap-start overflow-hidden"
               style={{ aspectRatio: trackAspect }}
@@ -225,7 +225,7 @@ export function Carousel({
         />
       </div>
 
-      {/* iOS-style page control — small pills, active expands */}
+      {/* iOS-style page control: small pills, active expands */}
       <div
         role="tablist"
         aria-label="Carousel page control"
