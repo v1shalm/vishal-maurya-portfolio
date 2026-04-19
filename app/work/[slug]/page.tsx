@@ -230,7 +230,7 @@ export default async function WorkPage({
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-end p-8">
-                          <span className="text-[11px] text-muted">
+                          <span className="text-[12.5px] text-muted">
                             {next.title} · thumbnail pending
                           </span>
                         </div>
@@ -238,7 +238,7 @@ export default async function WorkPage({
                     </div>
 
                     <div className="flex flex-col gap-2">
-                      <span className="text-[11px] text-muted">
+                      <span className="text-[13px] text-muted">
                         {next.kind}
                         {" · "}
                         <span
@@ -252,10 +252,10 @@ export default async function WorkPage({
                         </span>{" "}
                         {next.year}
                       </span>
-                      <span className="text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink transition-colors group-hover:text-ink-soft md:text-[34px]">
+                      <span className="text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[34px]">
                         {next.title}
                       </span>
-                      <p className="mt-1 max-w-[52ch] text-[15.5px] leading-[1.55] text-ink-soft md:text-[15.5px]">
+                      <p className="mt-1 max-w-[52ch] text-pretty text-[15.5px] leading-[1.55] text-ink-soft">
                         {next.tagline}
                       </p>
                     </div>

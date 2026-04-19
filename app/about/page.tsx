@@ -69,7 +69,7 @@ export default function AboutPage() {
                       My best consumer product decisions have been about
                       removing steps, not adding features. Especially in
                       India, where users shop on commutes, between errands,
-                      at 11&nbsp;pm — the work is mostly reducing the cost of
+                      at 11&nbsp;pm: the work is mostly reducing the cost of
                       what&rsquo;s already there.
                     </p>
                   </Row>

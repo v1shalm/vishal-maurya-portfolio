@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Cool neutral monochrome — pure white base, subtle elevated surface */
+  /* Cool neutral monochrome: pure white base, subtle elevated surface */
   --color-bg: #ffffff;
   --color-bg-elevated: oklch(0.96 0.002 260);
   --color-ink: oklch(0.15 0.005 260);
@@ -10,18 +10,18 @@
   --color-line: oklch(0.9 0.003 260);
   --color-line-soft: oklch(0.94 0.003 260);
 
-  /* Accent — warm orange-red, used sparingly (primary CTA, live status, identity dot) */
+  /* Accent: warm orange-red, used sparingly (primary CTA, live status, identity dot) */
   --color-accent: #ff4a05;
   --color-accent-ink: #c73a03;
 
-  /* Typography — single sans family */
+  /* Typography: single sans family */
   --font-sans:
     var(--font-sans, ""), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, sans-serif;
   --font-mono:
     var(--font-mono, ""), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Spacing scale — 4pt, semantic tokens */
+  /* Spacing scale: 4pt, semantic tokens */
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1rem;
@@ -30,10 +30,10 @@
   --space-2xl: 4rem;
   --space-3xl: 6rem;
 
-  /* Global container / page rhythm — single source of truth for margins */
+  /* Global container / page rhythm: single source of truth for margins */
   --page-width: 1440px;
-  --page-px: 1.5rem; /* 24px — mobile */
-  --page-px-md: 4rem; /* 64px — desktop, generous */
+  --page-px: 1.5rem; /* 24px, mobile */
+  --page-px-md: 4rem; /* 64px, desktop */
 }
 
 html {
@@ -68,7 +68,7 @@ body {
   color: var(--color-ink);
 }
 
-/* Minimal scrollbar — site-wide, thin, rounded, neutral */
+/* Minimal scrollbar, site-wide: thin, rounded, neutral */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-line) transparent;
@@ -105,7 +105,7 @@ body {
   border-radius: 2px;
 }
 
-/* Work row hover interactions — subtle, no underline flair */
+/* Work row hover interactions: subtle, no underline flair */
 .row-link .row-arrow {
   transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1),
     color 300ms ease-out;
@@ -126,7 +126,7 @@ body {
   color: var(--color-ink-soft);
 }
 
-/* Container primitive — applied via <Container /> */
+/* Container primitive: applied via <Container /> */
 .page-container {
   width: 100%;
   max-width: var(--page-width);
@@ -154,7 +154,7 @@ body {
   text-decoration-color: var(--color-accent);
 }
 
-/* Status dot — used for "available" signal next to the name */
+/* Status dot: "available" signal next to the name */
 .status-dot {
   display: inline-block;
   width: 6px;
@@ -175,9 +175,9 @@ body {
   }
 }
 
-/* ——— Motion primitives ——— */
+/* === Motion primitives === */
 
-/* Page transition — applied via template.tsx; every route mount fades in. */
+/* Page transition, applied via template.tsx: every route mount fades in. */
 @keyframes page-enter {
   from {
     opacity: 0;
@@ -193,7 +193,7 @@ body {
   animation: page-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
-/* Loader — one signature entrance on first mount */
+/* Loader: one signature entrance on first mount */
 @keyframes loader-in {
   from {
     opacity: 0;
@@ -233,7 +233,7 @@ body {
   }
 }
 
-/* ——— View transitions ——— */
+/* === View transitions === */
 /* Smooth morphs for shared elements (work card thumbnail → case study hero) */
 ::view-transition-group(*) {
   animation-duration: 550ms;
@@ -254,7 +254,7 @@ body {
   }
 }
 
-/* ——— Marquee (client strip) ——— */
+/* === Marquee (client strip) === */
 @keyframes marquee-x {
   from {
     transform: translate3d(0, 0, 0);
@@ -297,7 +297,7 @@ body {
   }
 }
 
-/* ——— Smart cursor ——— */
+/* === Smart cursor === */
 /* Hide native cursor over elements that opt into the custom one */
 [data-cursor] {
   cursor: none;
@@ -306,7 +306,7 @@ body {
   cursor: inherit;
 }
 
-/* ——— Scrollbar-free carousel track ——— */
+/* === Scrollbar-free carousel track === */
 .no-scrollbar {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / old Edge */

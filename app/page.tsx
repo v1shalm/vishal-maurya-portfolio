@@ -139,14 +139,14 @@ export default function Home() {
                 consumer products. Lately:{" "}
                 <TransitionLink
                   href="/work/zilo"
-                  className="underline decoration-line decoration-[0.06em] underline-offset-[0.12em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
+                  className="underline decoration-line decoration-[1.5px] underline-offset-[0.14em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
                 >
                   quick-commerce
                 </TransitionLink>
                 ,{" "}
                 <TransitionLink
                   href="/work/outcomes-ai"
-                  className="underline decoration-line decoration-[0.06em] underline-offset-[0.12em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
+                  className="underline decoration-line decoration-[1.5px] underline-offset-[0.14em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
                 >
                   healthtech
                 </TransitionLink>
