@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/Container";
-import { Signature } from "@/components/Signature";
+import { SignatureLetters } from "@/components/SignatureLetters";
 import { EmailLink } from "@/components/EmailLink";
 import { BouncyText } from "@/components/BouncyText";
 import { links } from "@/lib/links";
@@ -65,7 +65,7 @@ export function Footer() {
 
         <div className="mt-12 flex items-end justify-between gap-8">
           <span className="text-[12px] text-muted">© {year}</span>
-          <Signature className="h-16 w-auto text-ink-soft md:h-24" />
+          <SignatureLetters />
         </div>
       </Container>
     </footer>
