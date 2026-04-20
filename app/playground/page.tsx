@@ -46,20 +46,6 @@ const experiments: Experiment[] = [
       pattern: DOT_PATTERN,
     },
   },
-  {
-    slug: "nexus-247-story",
-    href: "/drafts/nexus-247-story",
-    title: "Nexus 247, told in scroll",
-    subtext:
-      "The Nexus 247 case study re-shaped for the scroll bar. Pinned graphic on one side, chapter text on the other; the image crossfades as each chapter enters the viewport.",
-    tags: ["Scrollytelling", "GSAP", "ScrollTrigger", "Case study"],
-    status: "Draft",
-    preview: {
-      kind: "image",
-      src: "/works/nexus-247.png",
-      alt: "Nexus 247 preview",
-    },
-  },
 ];
 
 export default function PlaygroundPage() {
