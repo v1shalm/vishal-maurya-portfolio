@@ -33,6 +33,14 @@ export function EmailLink({ email, display, className = "" }: Props) {
     try {
       await navigator.clipboard.writeText(email);
       setCopied(true);
+      // Tactile confirmation on devices that support it. Android + Chrome honors
+      // this; iOS Safari silently ignores. Skip for users who prefer reduced motion.
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!reduced && typeof navigator.vibrate === "function") {
+        navigator.vibrate(15);
+      }
       if (timerRef.current) window.clearTimeout(timerRef.current);
       timerRef.current = window.setTimeout(() => setCopied(false), 1600);
     } catch {

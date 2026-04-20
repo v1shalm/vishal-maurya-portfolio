@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/Container";
 import { Signature } from "@/components/Signature";
 import { EmailLink } from "@/components/EmailLink";
+import { BouncyText } from "@/components/BouncyText";
 import { links } from "@/lib/links";
 
 export function Footer() {
@@ -52,6 +53,12 @@ export function Footer() {
             </a>
             <Link href="/about" className="transition-colors hover:text-ink">
               About
+            </Link>
+            <Link
+              href="/playground"
+              className="group transition-colors hover:text-ink"
+            >
+              <BouncyText text="Playground" />
             </Link>
           </div>
         </div>

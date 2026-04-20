@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/Container";
+import { BouncyText } from "@/components/BouncyText";
 
 export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }) {
   return (
@@ -41,6 +42,12 @@ export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }
                   className="py-2 transition-colors hover:text-ink"
                 >
                   About
+                </Link>
+                <Link
+                  href="/playground"
+                  className="group py-2 transition-colors hover:text-ink"
+                >
+                  <BouncyText text="Playground" />
                 </Link>
                 <a
                   href="mailto:vishalm.designs@gmail.com"

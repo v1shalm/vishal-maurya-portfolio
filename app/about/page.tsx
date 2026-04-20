@@ -11,15 +11,10 @@ export const metadata: Metadata = {
     "A product designer based in Mumbai, currently at Pineapple Design Studio.",
 };
 
-// Placeholder tiles until real photos are dropped in. Varied aspects give the
-// strip visual rhythm; swap the `src` in and the tile uses the photo.
 const stripItems: AboutStripItem[] = [
-  { alt: "Studio morning, Mumbai", aspect: "3/4" },
-  { alt: "Pineapple desk", aspect: "4/5" },
-  { alt: "Sketching", aspect: "3/2" },
-  { alt: "Out and about", aspect: "4/5" },
-  { alt: "Workshop bench", aspect: "3/4" },
-  { alt: "Home setup", aspect: "3/2" },
+  { src: "/image1.jpg", alt: "Studio morning, Mumbai", aspect: "4/5" },
+  { src: "/image2.jpg", alt: "At the desk", aspect: "4/5" },
+  { src: "/image3.jpg", alt: "Out and about", aspect: "4/5" },
 ];
 
 export default function AboutPage() {
@@ -83,10 +78,10 @@ export default function AboutPage() {
                         </span>
                       </li>
                       <li className="text-ink-soft">
-                        and freelancing on the side
+                        Freelancing on the side
                       </li>
                       <li className="text-ink-soft">
-                        and tinkering with personal UI in{" "}
+                        Tinkering with personal UI in{" "}
                         <a href="/pixels" className="link-accent">
                           Pixels
                         </a>

@@ -39,6 +39,10 @@
 html {
   color-scheme: light;
   scroll-behavior: smooth;
+  /* Reserve gutter for the scrollbar so fixed-positioned elements like the
+     command-palette pill stay optically centered whether or not the page
+     needs to scroll. */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -193,42 +197,9 @@ body {
   animation: page-enter 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
-/* Loader: one signature entrance on first mount */
-@keyframes loader-in {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 8px, 0);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes loader-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes loader-bar {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* Reduced-motion: disable keyframes + transitions globally. */
+/* Reduced-motion: disable page-enter animation. */
 @media (prefers-reduced-motion: reduce) {
-  .page-enter,
-  .anim-fade-up,
-  .anim-fade-in,
-  .anim-draw-x {
+  .page-enter {
     animation: none !important;
   }
 }

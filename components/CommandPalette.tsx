@@ -289,7 +289,7 @@ export function CommandPalette() {
                   className={`shrink-0 rounded-full border px-4 py-2 text-[12.5px] transition-[background,border,color,scale] duration-200 ease-out active:scale-[0.96] ${
                     active
                       ? "border-transparent text-white"
-                      : "border-line-soft bg-bg-elevated text-ink-soft hover:border-line hover:text-ink"
+                      : "border-line-soft bg-bg-elevated text-muted hover:border-line hover:text-ink-soft"
                   }`}
                   style={
                     active ? { backgroundColor: "var(--color-accent)" } : undefined
@@ -359,7 +359,7 @@ export function CommandPalette() {
         <div className="flex items-center justify-between gap-4 border-t border-line-soft bg-bg-elevated px-7 py-4 text-[11.5px] text-muted">
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-ink-soft">
+              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-muted">
                 ↑↓
               </kbd>
               Navigate
@@ -377,7 +377,7 @@ export function CommandPalette() {
               Open
             </span>
             <span className="hidden items-center gap-2 md:flex">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-ink-soft">
+              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-muted">
                 Tab
               </kbd>
               Move focus
@@ -387,7 +387,7 @@ export function CommandPalette() {
             <span style={{ color: "var(--color-accent)" }}>{copied}</span>
           ) : (
             <span className="flex items-center gap-2">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums text-ink-soft">
+              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums text-muted">
                 {modKey} K
               </kbd>
               Toggle
