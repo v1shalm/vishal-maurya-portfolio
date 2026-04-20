@@ -31,7 +31,10 @@ export function WorkCard({ work }: { work: Work }) {
         )}
       </div>
 
-      <div className="mt-5 flex items-baseline justify-between gap-5 md:mt-6 md:gap-8">
+      {/* On phone: meta (project · status · year) stacks above the tagline so
+          the hierarchy reads cleanly without crushing either line.
+          On md+: side-by-side as before. */}
+      <div className="mt-4 flex flex-col-reverse gap-2 md:mt-6 md:flex-row md:items-baseline md:justify-between md:gap-8">
         <p className="max-w-[40ch] text-pretty text-[16px] leading-[1.45] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[17px]">
           {work.tagline}
         </p>

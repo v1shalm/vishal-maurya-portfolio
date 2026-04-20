@@ -24,6 +24,8 @@ export function SignatureLetters({ className = "" }: { className?: string }) {
         color="#FF4A05"
         strokeWidth={2}
         autoPlay
+        loop
+        loopPauseMs={1200}
         className="block h-16 w-auto md:h-24"
         style={{ display: "block" }}
       />
