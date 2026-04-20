@@ -90,18 +90,49 @@ export function GuestCard() {
   const canConfirmSignature = hasSignature;
   const isComplete = nameDone && messageDone && signatureDone;
 
+  /**
+   * Fire a short haptic pulse on devices that support it (Android + Chromium).
+   * iOS Safari and desktop browsers silently ignore. Skipped for users with
+   * reduced-motion preference. Duration in ms, or a pattern array.
+   */
+  function haptic(pattern: number | number[]) {
+    if (typeof navigator === "undefined") return;
+    if (typeof navigator.vibrate !== "function") return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reduced) return;
+    navigator.vibrate(pattern);
+  }
+
   function toggleNameDone() {
     if (nameDone) return setNameDone(false);
-    if (canConfirmName) setNameDone(true);
+    if (canConfirmName) {
+      setNameDone(true);
+      haptic(12);
+    }
   }
   function toggleMessageDone() {
     if (messageDone) return setMessageDone(false);
-    if (canConfirmMessage) setMessageDone(true);
+    if (canConfirmMessage) {
+      setMessageDone(true);
+      haptic(12);
+    }
   }
   function toggleSignatureDone() {
     if (signatureDone) return setSignatureDone(false);
-    if (canConfirmSignature) setSignatureDone(true);
+    if (canConfirmSignature) {
+      setSignatureDone(true);
+      haptic(12);
+    }
   }
+
+  // When the third confirmation completes, fire a brief double-tap so the
+  // "now draggable" state has its own tactile signature.
+  useEffect(() => {
+    if (isComplete) haptic([18, 40, 18]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isComplete]);
 
   // Drag motion values. Used by visual transforms for realism.
   const y = useMotionValue(0);
@@ -247,6 +278,7 @@ export function GuestCard() {
       if (!isComplete) {
         if (info.offset.y > 40) {
           flashHint("Tick all three fields to confirm first.");
+          haptic([6, 40, 6]);
         }
         y.set(0);
         return;
@@ -260,6 +292,7 @@ export function GuestCard() {
       const draggedDown = info.offset.y > 60;
 
       if (overlap || draggedDown) {
+        haptic(28);
         triggerSend(barRect.top - cardRect.top);
       } else {
         y.set(0);
