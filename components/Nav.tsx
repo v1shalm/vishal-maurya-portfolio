@@ -21,7 +21,7 @@ export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }
 
           <nav
             aria-label="Primary"
-            className="-my-2 flex items-baseline gap-4 text-[13.5px] text-muted md:gap-6"
+            className="-my-2 flex items-baseline gap-3.5 text-[13px] text-muted sm:gap-4 md:gap-6 md:text-[13.5px]"
           >
             {variant === "default" && (
               <>
@@ -33,7 +33,7 @@ export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }
                 </Link>
                 <Link
                   href="/pixels"
-                  className="py-2 transition-colors hover:text-ink"
+                  className="hidden py-2 transition-colors hover:text-ink md:inline"
                 >
                   Pixels
                 </Link>
@@ -45,7 +45,7 @@ export function Nav({ variant = "default" }: { variant?: "default" | "minimal" }
                 </Link>
                 <Link
                   href="/playground"
-                  className="group py-2 transition-colors hover:text-ink"
+                  className="group hidden py-2 transition-colors hover:text-ink md:inline"
                 >
                   <BouncyText text="Playground" />
                 </Link>
