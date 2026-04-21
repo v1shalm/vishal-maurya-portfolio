@@ -308,6 +308,7 @@ export function CommandPalette() {
         {/* List */}
         <ul
           ref={listRef}
+          data-lenis-prevent
           className="max-h-[54vh] overflow-y-auto px-4 py-4"
           role="listbox"
         >
