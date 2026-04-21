@@ -5,6 +5,16 @@ export type MediaItem = {
   aspect?: string;
 };
 
+export type DeviceScrollTab = {
+  /** Tab label shown in the pill selector above the frame. */
+  label: string;
+  /** Short line of copy shown below the tabs for this tab. */
+  caption?: string;
+  /** Path to the tall full-page capture (taller than the frame). */
+  src?: string;
+  alt?: string;
+};
+
 export type Media =
   | {
       kind: "single";
@@ -25,6 +35,20 @@ export type Media =
   | {
       kind: "row";
       items: MediaItem[];
+      caption?: string;
+    }
+  | {
+      /**
+       * Scrollable device frame: a clipped window holding a tall screenshot.
+       * As the section scrolls, the inner image translates upward so the full
+       * page plays through the frame. Tabs switch between different captures.
+       */
+      kind: "deviceScroll";
+      tabs: DeviceScrollTab[];
+      /** Optional small thumbnail docked below the frame. */
+      thumbnail?: { src: string; alt?: string };
+      /** Aspect ratio of the frame viewport. Defaults to a mobile phone shape. */
+      frameAspect?: string;
       caption?: string;
     };
 
@@ -197,6 +221,68 @@ export const works: Work[] = [
       },
       {
         kicker: "05",
+        label: "Full screens",
+        title: "The full flow, end to end.",
+        body: [
+          "A walk through the shipped surfaces. Scroll to follow each page in full, and switch between home, browse, and the phygital checkout.",
+        ],
+        media: {
+          kind: "deviceScroll",
+          tabs: [
+            {
+              label: "Homepage",
+              caption: "The daily entry point, built for return visits.",
+              src: "/works/nexus-247/homepage_light_tall.png",
+              alt: "Nexus 247 homepage, full-page walkthrough",
+            },
+            {
+              label: "PLP",
+              caption: "Product list, paced like turning corners in a mall.",
+              src: "/works/nexus-247/plp_tall.png",
+              alt: "Nexus 247 product list page, full-page walkthrough",
+            },
+            {
+              label: "PDP",
+              caption: "Product detail, the moment of consideration.",
+              src: "/works/nexus-247/pdp_tall.png",
+              alt: "Nexus 247 product detail page, full-page walkthrough",
+            },
+          ],
+        },
+      },
+      {
+        kicker: "06",
+        label: "Checkout flow",
+        title: "The phygital handoff, in full.",
+        body: [
+          "Bag, coupon, and order tracking. The short path back to the next visit, scrollable in full across each surface.",
+        ],
+        media: {
+          kind: "deviceScroll",
+          tabs: [
+            {
+              label: "Bag",
+              caption: "Bag. Every tap removed is a return visit earned.",
+              src: "/works/nexus-247/bag_tall.png",
+              alt: "Nexus 247 bag, full-page walkthrough",
+            },
+            {
+              label: "Coupons",
+              caption: "Coupons. The reward moment, made tangible.",
+              src: "/works/nexus-247/coupons_tall.png",
+              alt: "Nexus 247 coupons, full-page walkthrough",
+            },
+            {
+              label: "Tracking",
+              caption: "Tracking. The post-buy surface that earns the next visit.",
+              src: "/works/nexus-247/tracking_tall.png",
+              alt: "Nexus 247 order tracking, full-page walkthrough",
+            },
+          ],
+        },
+      },
+      {
+        kicker: "07",
         label: "Craft details",
         title: "The small surfaces do a lot of the work.",
         body: [
@@ -230,7 +316,7 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "06",
+        kicker: "08",
         label: "Reflection",
         title:
           "Digital can extend the physical world without replacing it.",
@@ -239,7 +325,7 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "07",
+        kicker: "09",
         label: "Throwaways",
         title: "Explorations that didn't ship.",
         collapsible: true,
@@ -503,6 +589,39 @@ export const works: Work[] = [
       },
       {
         kicker: "07",
+        label: "Full screens",
+        title: "Four flows, one editorial voice.",
+        body: [
+          "The four design responses, shipped. Scroll each page in full, and switch between home, discover, home trials, and the post-buy surface.",
+        ],
+        media: {
+          kind: "deviceScroll",
+          tabs: [
+            {
+              label: "Home",
+              caption: "Daily Planner by occasion, not category.",
+              alt: "Zilo home, full-page walkthrough",
+            },
+            {
+              label: "Discover",
+              caption: "Lookbook and Trend Radar, an editorial destination.",
+              alt: "Zilo discover, full-page walkthrough",
+            },
+            {
+              label: "Home Trials",
+              caption: "Try at home, return the rest, all inside the 60-minute window.",
+              alt: "Zilo home trials flow, full-page walkthrough",
+            },
+            {
+              label: "Post-buy",
+              caption: "Bag, live tracking, and order history, shipped at launch.",
+              alt: "Zilo post-purchase surfaces, full-page walkthrough",
+            },
+          ],
+        },
+      },
+      {
+        kicker: "08",
         label: "Craft",
         title: "The hardest problem was making it feel different. The answer was one mark.",
         body: [
@@ -520,7 +639,7 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "08",
+        kicker: "09",
         label: "Outcome",
         title: "Shipped fast. Found product-market fit. Raised $19.9M.",
         body: [
@@ -539,7 +658,7 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "09",
+        kicker: "10",
         label: "Reflection",
         title: "If I started Zilo tomorrow, I'd push the UI further.",
         body: [
@@ -547,7 +666,7 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "10",
+        kicker: "11",
         label: "Throwaways",
         title: "Explorations that didn't ship.",
         collapsible: true,

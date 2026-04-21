@@ -3,9 +3,23 @@
 import { useState } from "react";
 import type { Media, MediaItem } from "@/lib/works";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
+import { ScrollingDeviceFrame } from "@/components/ScrollingDeviceFrame";
 
 export function MediaBlock({ media }: { media: Media }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+
+  if (media.kind === "deviceScroll") {
+    return (
+      <figure>
+        <ScrollingDeviceFrame
+          tabs={media.tabs}
+          thumbnail={media.thumbnail}
+          frameAspect={media.frameAspect}
+        />
+        {media.caption && <Caption>{media.caption}</Caption>}
+      </figure>
+    );
+  }
 
   // Flatten the block into a list of real images, preserving order. Index of
   // any clicked image maps 1:1 into this list so the lightbox opens on it.
@@ -81,6 +95,7 @@ export function MediaBlock({ media }: { media: Media }) {
 
 function collectItems(media: Media): MediaItem[] {
   if (media.kind === "single") return [media.item];
+  if (media.kind === "deviceScroll") return [];
   return media.items;
 }
 

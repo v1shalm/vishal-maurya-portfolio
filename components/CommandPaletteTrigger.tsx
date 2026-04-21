@@ -63,24 +63,43 @@ export function CommandPaletteTrigger() {
         its ends into semicircles of half its height, which ends up equal to
         (outer_radius - 6px) and reads concentric.
       */}
-      <span className="flex items-center gap-2 rounded-full border border-line-soft bg-bg/85 p-1.5 pl-3 shadow-[0_1px_0_rgba(0,0,0,0.015),0_8px_24px_-12px_rgba(20,15,10,0.12)] backdrop-blur-md transition-colors group-hover:border-line">
+      <span
+        className="flex items-center gap-2 rounded-full p-1.5 pl-3 transition-transform duration-200 ease-out"
+        style={{
+          background:
+            "linear-gradient(180deg, #ff7a3c 0%, #ff4a05 55%, #e8400a 100%)",
+          boxShadow: [
+            "inset 0 1px 0 rgba(255,255,255,0.38)",
+            "inset 0 -1px 0 rgba(0,0,0,0.14)",
+            "0 1px 2px rgba(199,58,3,0.18)",
+            "0 10px 22px -8px rgba(255,74,5,0.5)",
+          ].join(", "),
+        }}
+      >
         <span className="flex items-center gap-1.5">
           <span
             aria-hidden
-            className="inline-block h-[6px] w-[6px] rounded-full"
-            style={{ backgroundColor: "var(--color-accent)" }}
+            className="inline-block h-[6px] w-[6px] rounded-full bg-white"
+            style={{
+              boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
+            }}
           />
-          <span className="text-[12.5px] text-muted transition-colors group-hover:text-ink">
+          <span
+            className="text-[12.5px] font-medium text-white"
+            style={{ textShadow: "0 1px 1px rgba(0,0,0,0.14)" }}
+          >
             Menu
           </span>
         </span>
-        <span className="flex items-center gap-1 rounded-full border border-line-soft bg-bg-elevated px-2 py-0.5">
-          <kbd className="text-[10.5px] tabular-nums text-muted">
-            {modKey}
-          </kbd>
-          <kbd className="text-[10.5px] font-medium text-muted">
-            K
-          </kbd>
+        <span
+          className="flex items-center gap-1 rounded-full bg-white px-2 py-0.5"
+          style={{
+            boxShadow:
+              "inset 0 -1px 0 rgba(12,12,16,0.06), 0 1px 1px rgba(12,12,16,0.08)",
+          }}
+        >
+          <kbd className="text-[10.5px] tabular-nums text-ink">{modKey}</kbd>
+          <kbd className="text-[10.5px] font-medium text-ink">K</kbd>
         </span>
       </span>
     </button>

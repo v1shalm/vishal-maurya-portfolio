@@ -5,6 +5,7 @@ import { Loader } from "@/components/Loader";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CommandPaletteTrigger } from "@/components/CommandPaletteTrigger";
 import { SmartCursor } from "@/components/SmartCursor";
+import { LenisProvider } from "@/components/LenisProvider";
 import { siteUrl } from "@/lib/site";
 
 const geist = Geist({
@@ -130,6 +131,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
+        <LenisProvider />
         <Loader />
         <CommandPalette />
         <CommandPaletteTrigger />
