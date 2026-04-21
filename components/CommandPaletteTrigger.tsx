@@ -64,7 +64,7 @@ export function CommandPaletteTrigger() {
         (outer_radius - 6px) and reads concentric.
       */}
       <span
-        className="flex items-center gap-2 rounded-full p-1.5 pl-3 transition-transform duration-200 ease-out"
+        className="flex items-center gap-2 rounded-full p-1.5 pl-3 transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[1px] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(0,0,0,0.14),0_1px_2px_rgba(199,58,3,0.2),0_14px_28px_-10px_rgba(255,74,5,0.6)]"
         style={{
           background:
             "linear-gradient(180deg, #ff7a3c 0%, #ff4a05 55%, #e8400a 100%)",

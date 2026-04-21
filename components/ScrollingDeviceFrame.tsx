@@ -57,14 +57,11 @@ export function ScrollingDeviceFrame({
       aria-label="Scrollable device mockup"
       className="relative"
     >
-      <div
-        className="relative flex w-full flex-col items-center rounded-[20px] px-5 py-10 md:rounded-[28px] md:px-10 md:py-14"
-        style={{ backgroundColor: "#F5F5F5" }}
-      >
+      <div className="relative flex w-full flex-col items-center rounded-[20px] bg-bg-elevated px-5 py-10 md:rounded-[28px] md:px-10 md:py-14">
         <div
           role="tablist"
           aria-label="Device mockup views"
-          className="flex items-center gap-1 rounded-full border border-line bg-bg p-1"
+          className="flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={TAB_CONTAINER_STYLE}
         >
           {tabs.map((tab, i) => (
@@ -76,7 +73,7 @@ export function ScrollingDeviceFrame({
               aria-controls={`device-scroll-panel-${i}`}
               onClick={() => setActive(i)}
               className={
-                "relative rounded-full px-4 py-1.5 text-[13px] font-medium leading-none transition-all duration-200 ease-out " +
+                "relative shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[13px] font-medium leading-none transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg-elevated md:py-1.5 " +
                 (active === i ? "text-white" : "text-ink-soft hover:text-ink")
               }
               style={active === i ? ACTIVE_PILL_STYLE : undefined}
