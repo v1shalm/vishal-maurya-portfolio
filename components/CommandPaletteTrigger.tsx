@@ -1,38 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useIsApplePlatform, useMediaQuery } from "@/lib/useMediaQuery";
 
 /**
  * Fixed bottom-center pill that signals the ⌘K palette exists.
  * Click dispatches a custom event that the CommandPalette listens for.
  * Hidden on touch-only devices (where ⌘K doesn't apply).
- * Fades in shortly after page-load so it doesn't fight with the loader.
+ * Fades in shortly after mount so it doesn't slam onto the page.
  */
 export function CommandPaletteTrigger() {
+  const hoverable = useMediaQuery("(hover: hover) and (pointer: fine)");
+  const isMac = useIsApplePlatform();
+  const modKey = isMac ? "⌘" : "Ctrl";
   const [visible, setVisible] = useState(false);
-  const [hoverable, setHoverable] = useState(false);
-  const [modKey, setModKey] = useState("⌘");
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Detect hover-capable device (skip on touch)
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    setHoverable(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setHoverable(e.matches);
-    mq.addEventListener?.("change", onChange);
-
-    // Mac vs Windows/Linux label
-    const isMac = /mac|iphone|ipad|ipod/i.test(navigator.platform || navigator.userAgent);
-    setModKey(isMac ? "⌘" : "Ctrl");
-
-    // Fade in after the loader settles
-    const t = setTimeout(() => setVisible(true), 1800);
-
-    return () => {
-      mq.removeEventListener?.("change", onChange);
-      clearTimeout(t);
-    };
+    const t = setTimeout(() => setVisible(true), 300);
+    return () => clearTimeout(t);
   }, []);
 
   const openPalette = () => {

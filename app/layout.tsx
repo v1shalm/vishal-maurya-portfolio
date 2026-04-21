@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Loader } from "@/components/Loader";
 import { CommandPalette } from "@/components/CommandPalette";
 import { CommandPaletteTrigger } from "@/components/CommandPaletteTrigger";
 import { SmartCursor } from "@/components/SmartCursor";
@@ -132,7 +131,6 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
         <LenisProvider />
-        <Loader />
         <CommandPalette />
         <CommandPaletteTrigger />
         <SmartCursor />

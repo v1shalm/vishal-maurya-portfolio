@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 type Props = {
   children: ReactNode;
@@ -28,28 +29,19 @@ export function Reveal({
   as: Tag = "div",
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [intersected, setIntersected] = useState(false);
+  const visible = reducedMotion || intersected;
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-
     const el = ref.current;
-    if (!el) return;
-
-    // If reduced motion, show immediately: no observer needed.
-    if (mq.matches) {
-      setVisible(true);
-      return;
-    }
+    if (!el || reducedMotion) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setVisible(true);
+            setIntersected(true);
             observer.disconnect();
             break;
           }
@@ -60,7 +52,7 @@ export function Reveal({
 
     observer.observe(el);
     return () => observer.disconnect();
-  }, [threshold]);
+  }, [threshold, reducedMotion]);
 
   const style: React.CSSProperties = reducedMotion
     ? {}

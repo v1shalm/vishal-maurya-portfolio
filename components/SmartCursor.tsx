@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 type CursorKind = "view-case-study" | "email" | "external" | "copy";
 
@@ -28,18 +29,9 @@ type CursorState = {
 };
 
 export function SmartCursor() {
-  const [supported, setSupported] = useState(false);
+  const supported = useMediaQuery("(hover: hover) and (pointer: fine)");
   const [state, setState] = useState<CursorState>({ kind: null, label: null });
   const pillRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    setSupported(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setSupported(e.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
 
   useEffect(() => {
     if (!supported) return;
