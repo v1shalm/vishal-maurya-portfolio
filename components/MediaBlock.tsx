@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import type { Media, MediaItem } from "@/lib/works";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
 import { ScrollingDeviceFrame } from "@/components/ScrollingDeviceFrame";
+import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 
 export function MediaBlock({ media }: { media: Media }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -21,10 +23,23 @@ export function MediaBlock({ media }: { media: Media }) {
     );
   }
 
-  // Flatten the block into a list of real images, preserving order. Index of
+  if (media.kind === "slider") {
+    return (
+      <BeforeAfterSlider
+        before={{ src: media.before.src, alt: media.before.alt ?? "" }}
+        after={{ src: media.after.src, alt: media.after.alt ?? "" }}
+        aspect={media.aspect}
+        caption={media.caption}
+      />
+    );
+  }
+
+  // Flatten the block into a list of real images, preserving order. Videos
+  // are excluded — they play inline and never open the lightbox. Index of
   // any clicked image maps 1:1 into this list so the lightbox opens on it.
   const realItems: MediaItem[] = collectItems(media).filter(
-    (i): i is MediaItem & { src: string } => typeof i.src === "string",
+    (i): i is MediaItem & { src: string } =>
+      typeof i.src === "string" && !/\.(mp4|webm|mov)$/i.test(i.src),
   );
   const lightboxImages: LightboxImage[] = realItems.map((i) => ({
     src: i.src!,
@@ -96,6 +111,7 @@ export function MediaBlock({ media }: { media: Media }) {
 function collectItems(media: Media): MediaItem[] {
   if (media.kind === "single") return [media.item];
   if (media.kind === "deviceScroll") return [];
+  if (media.kind === "slider") return [media.before, media.after];
   return media.items;
 }
 
@@ -108,8 +124,36 @@ function MediaFrame({
   defaultAspect: string;
   onClick: (item: MediaItem) => void;
 }) {
-  // Real image: click opens the lightbox.
   if (item.src) {
+    const isVideo = /\.(mp4|webm|mov)$/i.test(item.src);
+
+    // Video: autoplay, muted, looped, no click-to-lightbox (plays inline).
+    if (isVideo) {
+      const aspect = item.aspect ?? defaultAspect;
+      return (
+        <div
+          className="relative w-full overflow-hidden bg-bg-elevated"
+          style={{ aspectRatio: aspect }}
+          aria-label={item.alt}
+        >
+          <video
+            src={item.src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            disablePictureInPicture
+            controls={false}
+            preload="metadata"
+            aria-label={item.alt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+      );
+    }
+
+    // Image: click opens the lightbox. Width/height are intrinsic placeholders
+    // so the layout reserves space; CSS overrides to fluid 100% width.
     return (
       <button
         type="button"
@@ -119,12 +163,12 @@ function MediaFrame({
         className="group block w-full cursor-zoom-in overflow-hidden"
         aria-label={item.alt ? `${item.alt}, click to view full size` : "View full size"}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={item.src}
           alt={item.alt ?? ""}
-          loading="lazy"
-          decoding="async"
+          width={2400}
+          height={1500}
+          sizes="(min-width: 1024px) 720px, (min-width: 768px) 90vw, 100vw"
           className="block h-auto w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.01]"
           draggable={false}
         />

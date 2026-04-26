@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import type { DeviceScrollTab } from "@/lib/works";
 import { ScrollIndicator } from "@/components/ScrollIndicator";
+import { play } from "@/lib/sounds";
 
 type Props = {
   tabs: DeviceScrollTab[];
@@ -10,16 +12,21 @@ type Props = {
   frameAspect?: string;
 };
 
+// SSR-safe layout-effect — on the server this falls back to useEffect so
+// React doesn't warn; on the client it runs synchronously before paint.
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+// Pill-tab style: rounded-full track + a single sliding pink pill that
+// jumps to the active button's rect. Track has subtle inset depth so it
+// reads as a chunky segmented control.
 const ACTIVE_PILL_STYLE: React.CSSProperties = {
-  background:
-    "linear-gradient(180deg, #ff7a3c 0%, #ff4a05 55%, #e8400a 100%)",
+  background: "var(--color-accent)",
+  border: "1px solid var(--color-accent-ink)",
   boxShadow: [
-    "inset 0 1px 0 rgba(255,255,255,0.38)",
-    "inset 0 -1px 0 rgba(0,0,0,0.14)",
-    "0 1px 2px rgba(199,58,3,0.18)",
-    "0 8px 16px -6px rgba(255,74,5,0.5)",
+    "inset 0 1px 0 rgba(255,255,255,0.32)",
+    "inset 0 -2px 4px rgba(0,0,0,0.14)",
   ].join(", "),
-  textShadow: "0 1px 1px rgba(0,0,0,0.14)",
 };
 
 const TAB_CONTAINER_STYLE: React.CSSProperties = {
@@ -33,8 +40,38 @@ export function ScrollingDeviceFrame({
   frameAspect = "9 / 19.5",
 }: Props) {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const tablistRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [pill, setPill] = useState<{
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  } | null>(null);
+  const reduceMotion = useReducedMotion();
+
+  // Position the sliding pill to cover the active button's full rect,
+  // measured relative to the tablist so the transform is a simple delta.
+  useIsoLayoutEffect(() => {
+    const measure = () => {
+      const tablist = tablistRef.current;
+      const tab = tabRefs.current[active];
+      if (!tablist || !tab) return;
+      const tablistRect = tablist.getBoundingClientRect();
+      const tabRect = tab.getBoundingClientRect();
+      setPill({
+        x: tabRect.left - tablistRect.left,
+        y: tabRect.top - tablistRect.top,
+        w: tabRect.width,
+        h: tabRect.height,
+      });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [active]);
 
   const handleScroll = () => {
     const el = scrollerRef.current;
@@ -59,28 +96,68 @@ export function ScrollingDeviceFrame({
     >
       <div className="relative flex w-full flex-col items-center rounded-[20px] bg-bg-elevated px-5 py-10 md:rounded-[28px] md:px-10 md:py-14">
         <div
+          ref={tablistRef}
           role="tablist"
           aria-label="Device mockup views"
-          className="flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="relative flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={TAB_CONTAINER_STYLE}
         >
-          {tabs.map((tab, i) => (
-            <button
-              key={tab.label}
-              type="button"
-              role="tab"
-              aria-selected={active === i}
-              aria-controls={`device-scroll-panel-${i}`}
-              onClick={() => setActive(i)}
-              className={
-                "relative shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-[13px] font-medium leading-none transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg-elevated md:py-1.5 " +
-                (active === i ? "text-white" : "text-ink-soft hover:text-ink")
+          {/* Sliding pink pill. Always-mounted, positioned by computed
+              rect so it animates left/top/width/height between tabs. */}
+          {pill && (
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute left-0 top-0 rounded-full"
+              style={ACTIVE_PILL_STYLE}
+              initial={false}
+              animate={{
+                x: pill.x,
+                y: pill.y,
+                width: pill.w,
+                height: pill.h,
+              }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : {
+                      type: "tween",
+                      duration: 0.34,
+                      ease: [0.32, 0.72, 0, 1],
+                    }
               }
-              style={active === i ? ACTIVE_PILL_STYLE : undefined}
-            >
-              {tab.label}
-            </button>
-          ))}
+            />
+          )}
+
+          {tabs.map((tab, i) => {
+            const isActive = active === i;
+            return (
+              <button
+                key={tab.label}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`device-scroll-panel-${i}`}
+                onClick={() => {
+                  if (i !== active) {
+                    play("tabSwitch");
+                    setActive(i);
+                  }
+                }}
+                className="relative z-10 shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-semibold leading-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg-elevated"
+              >
+                <span
+                  className={`transition-colors duration-200 ${
+                    isActive ? "text-black" : "text-ink-soft hover:text-ink"
+                  }`}
+                >
+                  {tab.label}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <div
@@ -146,7 +223,7 @@ export function ScrollingDeviceFrame({
           className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 text-[11px] uppercase tracking-[0.18em] text-muted md:right-6 md:inline-block"
           style={{ writingMode: "vertical-rl" }}
         >
-          Scroll to explore ↓
+          Scroll to explore
         </span>
       </div>
     </section>

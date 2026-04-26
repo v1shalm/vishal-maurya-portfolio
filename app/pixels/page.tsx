@@ -96,21 +96,28 @@ export default function PixelsPage() {
     <>
       <Nav />
       <main className="flex flex-1 flex-col">
-        <section className="pt-16 md:pt-24">
+        <section>
           <Container>
             <div className="max-w-[720px]">
-              <h1 className="text-[13px] text-muted">
-                Pixels
+              <h1 className="hero-y2k flex text-[clamp(2.75rem,7vw,5.25rem)] font-bold leading-[0.95] tracking-tight">
+                <span className="y-hl y-hl--magenta" data-text="Pixels">
+                  Pixels
+                </span>
               </h1>
 
-              <p className="mt-8 max-w-[54ch] text-pretty text-[17px] leading-[1.7] text-ink md:text-[18px]">
-                Interfaces without briefs. A sketchbook: some become
-                products, most stay themselves.
+              <p className="mt-10 max-w-[48ch] text-pretty text-[18px] font-bold leading-[1.5] text-ink md:text-[20px]">
+                Interfaces without briefs. A{" "}
+                <span className="hero-y2k">
+                  <span className="y-underline y-underline--yellow">
+                    sketchbook
+                  </span>
+                </span>
+                : some become products, most stay themselves.
               </p>
             </div>
 
             <section className="mt-20 md:mt-24">
-              <div className="flex items-baseline justify-between border-b border-line pb-5">
+              <div className="flex items-baseline justify-between">
                 <span className="text-[13px] text-muted">
                   All · {items.length}
                 </span>

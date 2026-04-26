@@ -28,6 +28,18 @@ export type Media =
       caption?: string;
     }
   | {
+      /**
+       * Draggable before/after reveal. Both images stack inside one frame;
+       * a vertical handle clips the top one to compare against the bottom.
+       */
+      kind: "slider";
+      before: MediaItem & { src: string };
+      after: MediaItem & { src: string };
+      /** Frame aspect ratio. Defaults to '16/10'. */
+      aspect?: string;
+      caption?: string;
+    }
+  | {
       kind: "triptych";
       items: [MediaItem, MediaItem, MediaItem];
       caption?: string;
@@ -79,6 +91,8 @@ export type CaseSection = {
   pullQuote?: PullQuote;
   /** 2×2 grid of numbered problem/label/body cells. Renders after pullQuote. */
   problems?: ProblemItem[];
+  /** Closing prose paragraphs that render after the problem grid and before media. */
+  bodyAfter?: string[];
   media?: Media;
   /** When true, section renders collapsed behind a drawer trigger. */
   collapsible?: boolean;
@@ -118,7 +132,7 @@ export const works: Work[] = [
     slug: "nexus-247",
     title: "Nexus 247",
     kind: "Quick-commerce product",
-    tagline: "Quick-commerce that browses like a mall.",
+    tagline: "Mall-style browsing, quick-commerce speed. Shipped across 17+ malls.",
     summary:
       "Balancing mall-style discovery with quick-commerce speed: a unified UI system across multiple brands.",
     status: "Live",
@@ -176,7 +190,7 @@ export const works: Work[] = [
           "A modular, content-driven system: quick-commerce efficiency with in-mall discovery richness.",
         body: [
           "Built a unified visual system that scales across multiple retailers, with shared patterns for browsing, merchandising, and checkout without flattening brand identity.",
-          "Introduced phygital touchpoints that connect in-mall experiences with digital interactions, letting brand discovery and campaign engagement continue beyond the physical space.",
+          "Introduced physical-to-digital touchpoints that connect in-mall experiences with digital interactions, letting brand discovery and campaign engagement continue beyond the physical space.",
         ],
         media: {
           kind: "triptych",
@@ -205,7 +219,7 @@ export const works: Work[] = [
         label: "Outcome",
         title: "A scalable digital product, now across 17+ malls.",
         body: [
-          "Translated a physical retail experience into a scalable digital product, extended across a network of 17+ malls.",
+          "Extended a unified digital experience across a network of 17+ physical locations.",
           "A unified UI system lets the retailer's identity carry across brands and categories in the digital surface, rather than fragmenting into separate apps, inconsistent flows, and separate campaigns.",
         ],
         media: {
@@ -213,10 +227,10 @@ export const works: Work[] = [
           fullBleed: true,
           item: {
             src: "/works/nexus-247/bag-coupon-tracking.png",
-            alt: "Bag, coupon, tracking: the phygital handoff in the cart and post-purchase",
+            alt: "Bag, coupon, tracking: the physical-to-digital handoff in the cart and post-purchase",
             aspect: "16/9",
           },
-          caption: "Bag · coupon · tracking: the phygital handoff.",
+          caption: "Bag · coupon · tracking: the physical-to-digital handoff.",
         },
       },
       {
@@ -224,7 +238,7 @@ export const works: Work[] = [
         label: "Full screens",
         title: "The full flow, end to end.",
         body: [
-          "A walk through the shipped surfaces. Scroll to follow each page in full, and switch between home, browse, and the phygital checkout.",
+          "A walk through the shipped surfaces. Scroll to follow each page in full, and switch between home, browse, and the physical-to-digital checkout.",
         ],
         media: {
           kind: "deviceScroll",
@@ -349,13 +363,13 @@ export const works: Work[] = [
     slug: "outcomes-ai",
     title: "OutcomesAI",
     kind: "Healthtech site",
-    tagline: "A dense clinical-AI platform, made legible.",
+    tagline: "A redesign that contributed to OutcomesAI's $10M seed round, by making a technically complex product legible to the people writing the cheques.",
     summary:
-      "Translating a dense clinical-AI platform into something a healthcare buyer understands in seconds.",
+      "A dense clinical-AI platform, translated into something a healthcare buyer understands in 30 seconds.",
     status: "Live",
     year: "2025",
     role: "UI Designer, Pineapple Design Studio",
-    timeline: "2025",
+    timeline: "3 months, 2025",
     team: "Studio team",
     liveUrl: "https://outcomes.ai/",
     thumbnail: "/works/outcomes/outcomes-thumbnail.mp4",
@@ -363,96 +377,137 @@ export const works: Work[] = [
       kind: "single",
       fullBleed: true,
       item: {
-        src: "/works/outcomes/c.jpg",
-        alt: "OutcomesAI homepage above the fold",
+        src: "/works/outcomes/Homepage walkthrough.mp4",
+        alt: "OutcomesAI cover: the redesigned homepage, scrolled in a browser",
         aspect: "16/10",
       },
-      caption: "Home. Motion-driven product explainer.",
+      caption: "Cover. The redesigned homepage, in motion.",
     },
     sections: [
       {
         kicker: "01",
         label: "Context",
-        title:
-          "The existing site struggled with clarity on a genuinely complex product.",
+        title: "What OutcomesAI actually is.",
         body: [
-          "OutcomesAI combines AI agents, clinical protocols, and nurse workflows, a category most visitors don't have a mental model for. The product was technically dense, and the site leaned on long paragraphs to explain it.",
-          "For healthcare buyers, a product also has to feel reliable, clinically credible, and enterprise-ready, not just interesting.",
+          "OutcomesAI is a US-based healthcare platform founded by Kuldeep Singh Rajput, the former CEO of Biofourmis. The core product is Glia, an AI engine that combines voice agents with licensed nurses to deliver patient care at scale. Glia handles routine interactions autonomously: triage calls, scheduling, discharge follow-ups, medication adherence. When clinical judgment is needed, it escalates to a licensed nurse, powered by AI-assisted scribing and decision support that makes each nurse 3–5× more productive.",
+          "The business case is clear: healthcare systems face a nursing shortage, sky-high triage costs, and 24/7 patient demand that no human team can sustainably meet. Glia is the answer. The problem when we came on board was that nobody could tell that from the website.",
         ],
-        media: {
-          kind: "pair",
-          items: [
-            {
-              src: "/works/outcomes/f.png",
-              alt: "Before: text-dense layout of the old outcomes.ai homepage",
-              aspect: "16/10",
-            },
-            {
-              src: "/works/outcomes/a.png",
-              alt: "After: the re-imagined surface, visual and credible",
-              aspect: "16/10",
-            },
-          ],
-          caption: "Before / after. The same story, told differently.",
-        },
       },
       {
         kicker: "02",
-        label: "Why it mattered",
-        title: "Healthcare decisions are slow and high-stakes.",
+        label: "Problem",
+        title: "The brand was hiding the product.",
         body: [
-          "If the product isn't understood quickly, visitors leave early, demos don't get booked, and trust decreases before anyone from the team has had a chance to talk.",
-          "The site had to do a first round of selling on its own.",
+          "The existing OutcomesAI digital presence had a fundamental mismatch: the product was sophisticated, clinically rigorous, and genuinely differentiated. The brand told none of that. It read like every other AI health-tech company: abstract claims, dense jargon, no clear explanation of what Glia actually did or why a healthcare system should trust it with patient calls.",
         ],
+        problems: [
+          {
+            kicker: "01",
+            label: "Glia was buried",
+            body: "The core product had no clear narrative. Visitors couldn't quickly understand what it did, who it was for, or why it was safer than alternatives.",
+          },
+          {
+            kicker: "02",
+            label: "Jargon over clarity",
+            body: "The site relied on text-heavy explanations of multi-agent AI systems. Healthcare buyers don't want to decode technology. They want to see outcomes.",
+          },
+          {
+            kicker: "03",
+            label: "Trust deficit",
+            body: "Clinical credibility signals (certifications, protocols, nurse testimony) were either absent or deprioritised.",
+          },
+          {
+            kicker: "04",
+            label: "Brand felt temporary",
+            body: "The visual identity was inconsistent and couldn't scale. No messaging system, no pattern language.",
+          },
+        ],
+        bodyAfter: [
+          "The site needed to function as a sales tool for enterprise healthcare buyers, CMOs and COOs who typically take 6–18 months to evaluate a vendor. If they couldn't understand the product in 30 seconds, they wouldn't schedule a demo.",
+        ],
+        media: {
+          kind: "slider",
+          before: {
+            src: "/works/outcomes/before-homepage.png",
+            alt: "Before: the original outcomes.ai homepage with the headline 'Artificial Medical Intelligence'",
+          },
+          after: {
+            src: "/works/outcomes/after.avif",
+            alt: "After: the redesigned homepage shown in a browser mockup, headline 'AI-enabled Nursing. Human Care at Scale.'",
+          },
+          aspect: "16/9",
+          caption: "Drag to compare. Same story, told differently.",
+        },
       },
       {
         kicker: "03",
-        label: "Approach",
-        title:
-          "Three guiding principles: Clarity, Trust, and Visual Storytelling.",
+        label: "Narrative",
+        title: "Nurses first, AI second.",
         body: [
-          "Simplify how the product is understood while making it feel credible and enterprise-ready.",
-          "I used motion to make the AI-driven workflows easier to understand, turning complex system behavior into simple, visual explanations rather than paragraphs of copy.",
+          "The entire narrative was reframed. OutcomesAI isn't an AI company selling to healthcare; it's a nursing company using AI to give nurses their time back. The tagline that shipped, “AI-enabled Nursing. Human Care at Scale.”, puts nurses first deliberately, and that word order changed every headline downstream.",
+        ],
+      },
+      {
+        kicker: "04",
+        label: "Glia",
+        title: "Glia needed its own story.",
+        body: [
+          "Glia was the differentiator and it was invisible on the old site. We gave it its own section, a before-and-after workflow narrative, and a scalable pattern system, textured and pixelated, that could represent its presence across surfaces without falling back on generic AI visuals.",
+        ],
+      },
+      {
+        kicker: "05",
+        label: "Motion",
+        title: "Motion as explanation, not decoration.",
+        body: [
+          "Complex AI workflows don't survive being written as paragraphs. I used motion to show the Glia sequence: a call comes in, the AI triages, a nurse receives a clinical summary, the interaction closes, all in under ten seconds. The constraint: healthcare buyers read slow animation as precision. Every movement was deliberate.",
         ],
         media: {
           kind: "single",
           fullBleed: true,
           item: {
             src: "/works/outcomes/b.png",
-            alt: "Glia reliability: large multimodal model, reasoning engine, medical knowledge graph, visualised as a stacked isometric system",
+            alt: "The AI-driven care model, shown instead of described",
             aspect: "16/9",
           },
           caption: "The AI-driven care model, shown instead of described.",
         },
       },
       {
-        kicker: "04",
+        kicker: "06",
         label: "Outcome",
-        title: "Faster comprehension, stronger trust, and a $10M seed round.",
+        title: "Faster comprehension, stronger trust, $10M seed.",
         body: [
-          "Faster comprehension of the AI-driven care model: motion-based explanations instead of dense paragraphs.",
-          "A stronger perception of trust, reliability, and clinical readiness from prospective healthcare buyers.",
-          "The redesign contributed to OutcomesAI's positioning during its $10M seed funding round.",
+          "The redesign contributed to OutcomesAI's positioning when they raised a $10M seed round led by Sant Ventures in October 2025. The numbers the site needed to make credible: 50% cost reduction in triage operations, 70% of interactions resolved without human escalation, 3–5× nurse productivity with Glia.",
         ],
         media: {
           kind: "single",
           fullBleed: true,
           item: {
             src: "/works/outcomes/d.jpg",
-            alt: "Healthtech Innovation Summit 2025: OutcomesAI keynote, 'Can intelligence care for humans?'",
+            alt: "Healthtech Innovation Summit 2025: OutcomesAI keynote",
             aspect: "16/9",
           },
           caption: "Healthtech Innovation Summit 2025. The brand, at scale.",
         },
       },
       {
-        kicker: "05",
+        kicker: "07",
         label: "Reflection",
-        title:
-          "The job wasn't the interface. It was the translation.",
+        title: "The job wasn't the interface. It was the translation.",
         body: [
-          "The challenge wasn't just designing screens. It was translating a technically dense system into something intuitive and trustworthy for people making slow, serious decisions.",
+          "The challenge wasn't designing screens. It was making a technically dense system legible to people making slow, high-stakes decisions. Motion became the main tool, not for delight but because sequence is easier to follow than paragraphs. The bigger lesson: reframing the brand narrative from AI to nursing empowerment changed every visual hierarchy decision downstream. Strategy and design were the same thing on this project.",
         ],
+        media: {
+          kind: "single",
+          fullBleed: true,
+          item: {
+            src: "/works/outcomes/c.jpg",
+            alt: "Home. Motion-driven product explainer",
+            aspect: "16/10",
+          },
+          caption: "Home. Motion-driven product explainer.",
+        },
       },
     ],
   },
@@ -460,7 +515,7 @@ export const works: Work[] = [
     slug: "zilo",
     title: "Zilo",
     kind: "Fashion quick-commerce · 0→1",
-    tagline: "Quick-commerce that doesn't shop like quick-commerce.",
+    tagline: "Fashion quick-commerce, rebuilt from the return up. 0→1 in 8 weeks.",
     summary:
       "Not a catalogue with faster delivery. A different way to shop. Four category failures, four design responses, shipped in under 8 weeks.",
     status: "Live",
@@ -519,12 +574,12 @@ export const works: Work[] = [
         title: "Four problems, not a 1:1 response grid.",
         body: [
           "At Pineapple, I worked across the full 0→1 build: branding exploration, UX, UI, and dev-ready files. Agency work moves in phases: brand first, UX in parallel, then UI. I contributed across all three alongside a brand lead and a senior UX designer, and owned UI end-to-end. No prior system. Everything from scratch in 4–8 weeks, Android and iOS.",
-          "The four category problems don't map 1:1 to four features. Home Trials answers returns and try-before-buy in a single move. Scheduled delivery is absorbed into the 60-minute slot every order runs on. That left two bets the brief didn't ask for but the product needed: Ask Zilo, and a post-purchase surface that shipped with the MVP.",
+          "The four category problems don't map 1:1 to four features. Home Trials answers returns and try-before-buy in a single move. The anxiety that drives scheduled delivery is resolved by a reliable, guaranteed 60-minute window. That left two bets the brief didn't ask for but the product needed: Ask Zilo, and a post-purchase surface that shipped with the MVP.",
         ],
       },
       {
         kicker: "03",
-        label: "Design response · Returns",
+        label: "Returns",
         title: "Home Trials: design for the return before it happens.",
         body: [
           "High return rates in fashion aren't a logistics problem. They're a confidence problem. The standard response is better size guides or peer reviews. Home Trials goes further: shoppers order multiple sizes, try them at home, return the rest, all in the same 60-minute window. A style runner waits up to 30 minutes; the delivery only completes once the user confirms.",
@@ -542,11 +597,11 @@ export const works: Work[] = [
       },
       {
         kicker: "04",
-        label: "Design response · Discovery",
+        label: "Discovery",
         title: "Curated looks and trends, not a catalogue with better filters.",
         body: [
-          "Every major fashion app treats discovery as a filtering problem. But the way people shop (\u201cI need something for a rooftop dinner\u201d or \u201cwhat's everyone wearing this season\u201d) doesn't map to any filter combination.",
-          "We rebuilt discovery around editorial structures. The home has a Daily Planner that organises by occasion (Wellness & Yoga, Office Elegance, Party Ready, Luxury Loungewear), not by category. A Lookbook does the mix-and-match work. Trend Radar gives seasonal context to what's in stock. Discover became its own destination, not an alternative to search.",
+          "Every major fashion app treats discovery as a filtering problem, but the way people shop (\u201cI need something for a rooftop dinner\u201d) doesn't map to any filter combination. We rebuilt discovery around editorial structures.",
+          "The home has a Daily Planner that organises by occasion (Wellness & Yoga, Party Ready), not by category. A Lookbook does the mix-and-match work. Trend Radar gives seasonal context to what's in stock. Discover became its own destination, not an alternative to search.",
           "The bet: if the editorial layer is good enough, users will browse Zilo the way they browse a magazine, not the way they mine a catalogue.",
         ],
         media: {
@@ -561,16 +616,25 @@ export const works: Work[] = [
       },
       {
         kicker: "05",
-        label: "Design response · Confidence",
+        label: "Confidence",
         title: "Ask Zilo: conversational discovery in the core nav.",
         body: [
           "Even with curated surfaces, there are moments when a shopper knows what they want but can't describe it in filter terms. Ask Zilo lives in the tab bar, with equal weight to Home and Shop, not buried in a help menu.",
           "The design decision was placement and framing. A tab-bar slot with its own 60-min badge signals that AI-assisted discovery is a product pillar, not a chatbot. It doubles as an escape hatch from the PLP: \u201cDon't want to scroll 475 items? Ask Zilo.\u201d An honest acknowledgement of catalogue size, turned into a feature moment.",
         ],
+        media: {
+          kind: "single",
+          item: {
+            src: "/works/zilo/ask-zilo.mp4",
+            alt: "Ask Zilo conversational UI tab bar with 60 minute badge",
+            aspect: "4/3",
+          },
+          caption: "Ask Zilo. Conversational discovery elevated to a core tab.",
+        },
       },
       {
         kicker: "06",
-        label: "Design response · Retention",
+        label: "Retention",
         title: "Post-purchase at launch, not deferred to v2.",
         body: [
           "Building a 0→1 product means constant pressure to cut scope. Post-purchase flows don't drive acquisition; they're the first thing to defer. But in quick-commerce, the first order is rarely profitable. The business only works on the second purchase and the third.",
@@ -670,9 +734,9 @@ export const works: Work[] = [
       {
         kicker: "10",
         label: "Reflection",
-        title: "If I started Zilo tomorrow, I'd push the UI further.",
+        title: "What carries forward.",
         body: [
-          "The ideas are there. The category thesis, the four design responses, the identity built around a single mark: those carry. But the UI, in places, falls a little flat. I'd push the craft further: more depth in the surfaces, more places where the interface does the work instead of just presenting it. The difference between a product that reads well in a portfolio and one that feels inevitable in your hand.",
+          "Eight weeks teaches you to commit. Define a new category by what to leave out, anchor it with four design responses that frame the experience, then bind it under one identity. That isn't just a Zilo recipe. It's a way of working under pressure, and it's the part I take to every ambiguous brief now: the next fog feels less like fog and more like a sequence.",
         ],
       },
       {

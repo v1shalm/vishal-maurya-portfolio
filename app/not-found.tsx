@@ -17,7 +17,7 @@ export default function NotFound() {
     <>
       <Nav />
       <main className="flex flex-1 flex-col">
-        <section className="pt-24 md:pt-40">
+        <section>
           <Container>
             <div className="grid gap-12 md:grid-cols-[minmax(0,58ch)_1fr] md:items-start md:gap-16">
               <div>
@@ -25,8 +25,11 @@ export default function NotFound() {
                 404 · Not found
               </span>
 
-              <h1 className="mt-6 text-balance text-[clamp(2rem,5vw,3.5rem)] font-medium leading-[1.08] tracking-[-0.015em] text-ink">
-                This one got away.
+              <h1 className="hero-y2k mt-6 flex flex-wrap text-[clamp(2.25rem,5.5vw,4rem)] font-bold leading-[0.95] tracking-tight gap-x-[0.25em]">
+                <span>This one</span>
+                <span className="y-hl y-hl--magenta" data-text="got away.">
+                  got away.
+                </span>
               </h1>
 
               <p className="mt-8 text-pretty text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">
@@ -36,15 +39,15 @@ export default function NotFound() {
               </p>
 
               {/* Case studies: the most likely intent */}
-              <ul className="mt-12 flex flex-col divide-y divide-line border-y border-line">
+              <ul className="mt-12 flex flex-col gap-3">
                 {works.map((w) => (
                   <li key={w.slug}>
                     <Link
                       href={`/work/${w.slug}`}
                       data-cursor="view-case-study"
-                      className="row-link group flex items-center gap-5 py-5 md:gap-7"
+                      className="row-link group flex items-center gap-5 rounded-lg bg-bg-elevated p-4 md:gap-7 md:p-5"
                     >
-                      <div className="relative aspect-[3/2] w-[120px] shrink-0 overflow-hidden bg-bg-elevated md:w-[160px]">
+                      <div className="relative aspect-[3/2] w-[120px] shrink-0 overflow-hidden rounded-md bg-bg md:w-[160px]">
                         {w.thumbnail ? (
                           <WorkThumbnail
                             src={w.thumbnail}
@@ -62,7 +65,7 @@ export default function NotFound() {
                       </div>
 
                       <span className="flex min-w-0 flex-1 flex-col gap-1">
-                        <span className="row-title text-[18px] font-medium text-ink md:text-[20px]">
+                        <span className="row-title text-[18px] font-bold tracking-tight text-ink md:text-[20px]">
                           {w.title}
                         </span>
                         <span className="text-[13px] text-muted">
@@ -70,12 +73,6 @@ export default function NotFound() {
                         </span>
                       </span>
 
-                      <span
-                        aria-hidden
-                        className="row-arrow text-[18px] leading-none text-muted"
-                      >
-                        →
-                      </span>
                     </Link>
                   </li>
                 ))}

@@ -3,20 +3,28 @@
 import { useEffect, useState } from "react";
 import { useIsApplePlatform, useMediaQuery } from "@/lib/useMediaQuery";
 
+type Variant = "yellow" | "chrome";
+
 /**
  * Fixed bottom-center pill that signals the ⌘K palette exists.
  * Click dispatches a custom event that the CommandPalette listens for.
  * Hidden on touch-only devices (where ⌘K doesn't apply).
- * Fades in shortly after mount so it doesn't slam onto the page.
+ *
+ * Two visual variants: solid yellow (default) and Y2K chrome.
+ * Toggle via ?cmd=yellow or ?cmd=chrome on any URL.
  */
 export function CommandPaletteTrigger() {
   const hoverable = useMediaQuery("(hover: hover) and (pointer: fine)");
   const isMac = useIsApplePlatform();
   const modKey = isMac ? "⌘" : "Ctrl";
   const [visible, setVisible] = useState(false);
+  const [variant, setVariant] = useState<Variant>("yellow");
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 300);
+    const params = new URLSearchParams(window.location.search);
+    const v = params.get("cmd");
+    if (v === "chrome" || v === "yellow") setVariant(v);
     return () => clearTimeout(t);
   }, []);
 
@@ -26,6 +34,13 @@ export function CommandPaletteTrigger() {
 
   if (!hoverable) return null;
 
+  // Halo color matches each variant: yellow drops a yellow shadow,
+  // chrome keeps the existing pink halo for brand continuity.
+  const halo =
+    variant === "chrome"
+      ? "drop-shadow-[0_4px_12px_rgba(249,28,169,0.15)] hover:drop-shadow-[0_6px_16px_rgba(249,28,169,0.25)]"
+      : "drop-shadow-[0_4px_12px_rgba(219,208,9,0.20)] hover:drop-shadow-[0_6px_18px_rgba(219,208,9,0.40)]";
+
   return (
     <button
       type="button"
@@ -33,60 +48,82 @@ export function CommandPaletteTrigger() {
       aria-label={`Open command menu. Shortcut: ${modKey} K`}
       aria-haspopup="dialog"
       aria-keyshortcuts="Meta+K Control+K"
-      className="group fixed bottom-6 left-1/2 z-[80] -translate-x-1/2 select-none rounded-full transition-[scale] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-[0.96]"
+      className={`group fixed bottom-6 left-1/2 z-[80] select-none transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-[0.96] ${halo}`}
       style={{
         opacity: visible ? 1 : 0,
-        transform: `translate(-50%, ${visible ? "0" : "8px"})`,
+        translate: `-50% ${visible ? "0" : "8px"}`,
         transition:
-          "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1)",
+          "opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), translate 600ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease-out",
       }}
     >
-      {/*
-        Nested corner-radius formula: inner_radius + padding = outer_radius.
-        Outer is pill (rounded-full). With uniform p-1.5 (6px), the inner chip
-        is inset 6px on every side; giving the inner chip rounded-full makes
-        its ends into semicircles of half its height, which ends up equal to
-        (outer_radius - 6px) and reads concentric.
-      */}
+      {variant === "yellow" ? <YellowFace modKey={modKey} /> : <ChromeFace modKey={modKey} />}
+    </button>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Variant A: Solid yellow pill, darker-yellow inset kbd chip        */
+/* ------------------------------------------------------------------ */
+
+function YellowFace({ modKey }: { modKey: string }) {
+  return (
+    <span
+      className="inline-flex items-center rounded-full py-1 pl-4 pr-1"
+      style={{
+        backgroundColor: "var(--color-yellow)",
+        border: "1px solid var(--color-yellow-edge)",
+        boxShadow:
+          "inset 0 -3px 6px 0 rgba(0, 0, 0, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.45)",
+      }}
+    >
+      <span className="mr-2 text-[13px] font-bold tracking-tight text-ink">
+        Menu
+      </span>
       <span
-        className="flex items-center gap-2 rounded-full p-1.5 pl-3 transition-[box-shadow,transform] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[1px] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(0,0,0,0.14),0_1px_2px_rgba(199,58,3,0.2),0_14px_28px_-10px_rgba(255,74,5,0.6)]"
+        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11.5px] font-bold leading-none text-ink"
         style={{
-          background:
-            "linear-gradient(180deg, #ff7a3c 0%, #ff4a05 55%, #e8400a 100%)",
-          boxShadow: [
-            "inset 0 1px 0 rgba(255,255,255,0.38)",
-            "inset 0 -1px 0 rgba(0,0,0,0.14)",
-            "0 1px 2px rgba(199,58,3,0.18)",
-            "0 10px 22px -8px rgba(255,74,5,0.5)",
-          ].join(", "),
+          backgroundColor: "var(--color-yellow-edge)",
+          boxShadow:
+            "inset 0 2px 4px 0 rgba(0, 0, 0, 0.22), inset 0 0.5px 0 0 rgba(0, 0, 0, 0.18), inset 0 -1px 0 0 rgba(255, 255, 255, 0.55)",
         }}
       >
-        <span className="flex items-center gap-1.5">
-          <span
-            aria-hidden
-            className="inline-block h-[6px] w-[6px] rounded-full bg-white"
-            style={{
-              boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
-            }}
-          />
-          <span
-            className="text-[12.5px] font-medium text-white"
-            style={{ textShadow: "0 1px 1px rgba(0,0,0,0.14)" }}
-          >
-            Menu
-          </span>
-        </span>
-        <span
-          className="flex items-center gap-1 rounded-full bg-white px-2 py-0.5"
-          style={{
-            boxShadow:
-              "inset 0 -1px 0 rgba(12,12,16,0.06), 0 1px 1px rgba(12,12,16,0.08)",
-          }}
-        >
-          <kbd className="text-[10.5px] tabular-nums text-ink">{modKey}</kbd>
-          <kbd className="text-[10.5px] font-medium text-ink">K</kbd>
-        </span>
+        <kbd className="tabular-nums">{modKey}</kbd>
+        <span aria-hidden className="font-medium text-ink/55">+</span>
+        <kbd>K</kbd>
       </span>
-    </button>
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Variant B: Y2K chrome — silver gradient with hot-pink kbd chip    */
+/* ------------------------------------------------------------------ */
+
+function ChromeFace({ modKey }: { modKey: string }) {
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full pl-4 pr-1.5 py-2 text-[14px] font-bold tracking-tight text-ink"
+      style={{
+        background:
+          "linear-gradient(180deg, #ffffff 0%, #f4f4f6 38%, #d4d4d9 64%, #b9b9c0 100%)",
+        border: "1px solid rgba(0,0,0,0.18)",
+        boxShadow:
+          "inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.8)",
+      }}
+    >
+      <span>Menu</span>
+      <span
+        className="ml-1.5 flex items-center gap-2 rounded-full px-4 py-2 text-[12.5px] font-bold leading-none text-white"
+        style={{
+          backgroundColor: "var(--color-accent)",
+          boxShadow:
+            "inset 0 2px 4px rgba(0,0,0,0.32), inset 0 0.5px 0 rgba(0,0,0,0.25), inset 0 -1px 0 rgba(255,255,255,0.32)",
+        }}
+      >
+        <kbd className="tabular-nums">{modKey}</kbd>
+        <span aria-hidden className="font-medium text-white/65">+</span>
+        <kbd>K</kbd>
+      </span>
+    </span>
   );
 }

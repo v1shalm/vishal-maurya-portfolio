@@ -79,17 +79,20 @@ export function SmartCursor() {
       style={{ transform: "translate3d(-9999px, -9999px, 0)" }}
     >
       <div
-        className="inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full px-3.5 py-2 text-white shadow-[0_8px_24px_-12px_rgba(20,15,10,0.35)] transition-[opacity,scale] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
+        className="inline-flex -translate-x-1/2 -translate-y-[80%] items-center justify-center transition-[opacity,scale] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hero-y2k"
         style={{
-          backgroundColor: "var(--color-accent)",
           opacity: active ? 1 : 0,
           scale: active ? "1" : "0.8",
         }}
       >
-        {preset?.icon}
-        <span className="text-[12px] font-semibold leading-none whitespace-nowrap">
-          {state.label ?? preset?.label ?? ""}
-        </span>
+        {active && (
+          <span
+            className="y-hl y-hl--yellow text-[18px] font-bold tracking-tight whitespace-nowrap"
+            data-text={state.label ?? preset?.label ?? ""}
+          >
+            {state.label ?? preset?.label ?? ""}
+          </span>
+        )}
       </div>
     </div>
   );

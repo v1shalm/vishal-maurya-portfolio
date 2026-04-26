@@ -183,7 +183,7 @@ export function Carousel({
           tabIndex={0}
           onKeyDown={onKey}
           onMouseDown={onMouseDown}
-          className="no-scrollbar flex cursor-pointer snap-x snap-mandatory overflow-x-auto overscroll-x-contain bg-bg-elevated outline-none select-none"
+          className="no-scrollbar flex cursor-pointer snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl bg-bg-elevated outline-none select-none"
           style={{ aspectRatio: trackAspect, scrollBehavior: "smooth" }}
         >
           {images.map((img, i) => (

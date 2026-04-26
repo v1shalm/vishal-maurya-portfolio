@@ -37,22 +37,22 @@ export default async function Image({
           width: "100%",
           height: "100%",
           padding: "96px",
-          background: "#FF4A05",
+          background: "#f91ca9",
           fontFamily: "sans-serif",
           color: "#ffffff",
         }}
       >
-        {/* Top: byline + small white dot */}
+        {/* Top: byline + small yellow dot */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span style={{ fontSize: 24, letterSpacing: "-0.005em" }}>
             Vishal Maurya
           </span>
           <span
             style={{
-              width: 7,
-              height: 7,
+              width: 8,
+              height: 8,
               borderRadius: 999,
-              background: "#ffffff",
+              background: "#fdf004",
               marginTop: 4,
             }}
           />
@@ -60,7 +60,7 @@ export default async function Image({
             style={{
               marginLeft: 14,
               fontSize: 18,
-              color: "rgba(255,255,255,0.78)",
+              color: "rgba(255,255,255,0.82)",
             }}
           >
             Case study
@@ -75,7 +75,7 @@ export default async function Image({
               fontSize: 112,
               lineHeight: 1.02,
               letterSpacing: "-0.025em",
-              fontWeight: 600,
+              fontWeight: 700,
               maxWidth: 980,
             }}
           >
@@ -87,7 +87,7 @@ export default async function Image({
               fontSize: 34,
               lineHeight: 1.28,
               letterSpacing: "-0.01em",
-              color: "rgba(255,255,255,0.88)",
+              color: "rgba(255,255,255,0.92)",
               maxWidth: 920,
             }}
           >
@@ -95,24 +95,16 @@ export default async function Image({
           </div>
         </div>
 
-        {/* Bottom: meta */}
+        {/* Bottom: meta — dot separators only, no hairlines */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "14px",
             fontSize: 22,
-            color: "rgba(255, 255, 255, 0.85)",
+            color: "rgba(255, 255, 255, 0.88)",
           }}
         >
-          <span
-            style={{
-              width: 40,
-              height: 1,
-              background: "#ffffff",
-              opacity: 0.6,
-            }}
-          />
           <span>{kind}</span>
           <span style={{ opacity: 0.6 }}>·</span>
           <span>{status}</span>

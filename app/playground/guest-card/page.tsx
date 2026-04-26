@@ -16,16 +16,16 @@ export default function GuestCardPlaygroundPage() {
     <div className="flex min-h-[100dvh] flex-col">
       <Nav />
       <main className="flex flex-1 flex-col">
-        <section className="pt-16 md:pt-24">
+        <section>
           <Container>
             <Link
               href="/playground"
               className="inline-flex items-center gap-2 text-[12.5px] text-muted transition-colors hover:text-ink"
             >
-              <span aria-hidden>←</span> Playground
+              Back to Playground
             </Link>
             <div className="mt-6 flex flex-wrap items-baseline justify-between gap-3">
-              <h1 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-medium leading-[1.1] tracking-[-0.015em] text-ink">
+              <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.02em] text-ink">
                 Guest card
               </h1>
               <span className="text-[11px] uppercase tracking-[0.16em] text-muted">

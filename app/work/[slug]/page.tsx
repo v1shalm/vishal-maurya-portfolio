@@ -25,9 +25,13 @@ export async function generateMetadata({
   const work = getWork(slug);
   if (!work) return {};
 
-  // Note: no explicit `images` here. Next.js auto-attaches the dynamic OG
-  // card from ./opengraph-image.tsx, which renders the project title and
-  // tagline on the brand orange background.
+  const ogImage = {
+    url: "/og-image.png",
+    width: 1200,
+    height: 630,
+    alt: `${work.title} · Case study by Vishal Maurya`,
+  };
+
   return {
     title: work.title,
     description: work.summary,
@@ -37,11 +41,13 @@ export async function generateMetadata({
       title: `${work.title} · Case study by Vishal Maurya`,
       description: work.summary,
       url: `${siteUrl}/work/${slug}`,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: `${work.title} · Vishal Maurya`,
       description: work.summary,
+      images: [ogImage.url],
     },
   };
 }
@@ -59,34 +65,78 @@ export default async function WorkPage({
   const next = works[(index + 1) % works.length];
   const isLive = work.status === "Live";
 
+  const heroImage =
+    work.heroMedia?.kind === "single" ? work.heroMedia.item.src : undefined;
+  const posterImage = work.thumbnailPoster;
+  const staticThumb =
+    work.thumbnail && !work.thumbnail.endsWith(".mp4")
+      ? work.thumbnail
+      : undefined;
+  const ogImage = heroImage ?? posterImage ?? staticThumb;
+
+  const workSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: work.title,
+    headline: work.title,
+    description: work.summary,
+    abstract: work.tagline,
+    url: `${siteUrl}/work/${slug}`,
+    inLanguage: "en",
+    dateCreated: work.year,
+    datePublished: work.year,
+    genre: work.kind,
+    creator: {
+      "@type": "Person",
+      name: "Vishal Maurya",
+      url: siteUrl,
+    },
+    author: {
+      "@type": "Person",
+      name: "Vishal Maurya",
+      url: siteUrl,
+    },
+    ...(ogImage ? { image: `${siteUrl}${ogImage}` } : {}),
+    ...(work.liveUrl ? { sameAs: [work.liveUrl] } : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(workSchema) }}
+      />
       <ScrollProgress />
       <Nav />
       <main className="flex flex-1 flex-col">
         {/* === Hero === */}
-        <header className="pt-16 md:pt-20">
+        <header>
           <Container>
             <div className="max-w-[760px]">
-                <h1 className="text-balance text-[clamp(2rem,4.5vw,3rem)] font-medium leading-[1.1] tracking-[-0.012em] text-ink">
+                <h1 className="text-balance text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.0] tracking-[-0.02em] text-ink">
                   {work.title}
                 </h1>
 
-                <p className="mt-5 max-w-[54ch] text-pretty text-[17px] leading-[1.6] text-ink-soft md:text-[18px]">
+                <p className="mt-6 max-w-[54ch] text-pretty text-[17px] leading-[1.6] text-ink-soft md:text-[18px]">
                   {work.summary}
                 </p>
 
               </div>
 
-            <dl className="mt-14 grid grid-cols-1 gap-px overflow-hidden border-y border-line bg-line sm:grid-cols-2 md:mt-16 md:grid-cols-4">
+            <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-9 sm:grid-cols-4 md:mt-16 md:gap-x-12">
               <MetaItem label="Role" value={work.role} />
               <MetaItem label="Timeline" value={work.timeline} />
               <MetaItem label="Team" value={work.team} />
-              <div className="flex flex-col gap-1.5 bg-bg px-5 py-6 md:px-7 md:py-7">
-                <dt className="text-[12px] text-muted">
+              <div className="flex flex-col gap-2.5">
+                <dt className="flex items-center gap-2 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  <span
+                    aria-hidden
+                    className="h-[5px] w-[5px] rounded-[1px]"
+                    style={{ backgroundColor: "var(--color-accent)" }}
+                  />
                   Status
                 </dt>
-                <dd className="flex flex-col gap-1 text-[14.5px] leading-[1.45] text-ink">
+                <dd className="flex flex-col gap-1 text-[15.5px] font-medium leading-[1.4] text-ink">
                   <span>
                     <span
                       style={
@@ -140,13 +190,12 @@ export default async function WorkPage({
                         <span className="tabular-nums text-[12px] text-muted">
                           {section.kicker}
                         </span>
-                        <span aria-hidden className="block h-px w-8 bg-line" />
                         <span className="text-[12.5px] text-ink-soft">
                           {section.label}
                         </span>
                       </div>
 
-                      <h2 className="mt-5 text-balance text-[22px] font-medium leading-[1.3] tracking-[-0.005em] text-ink md:text-[26px]">
+                      <h2 className="mt-5 text-balance text-[24px] font-bold leading-[1.15] tracking-[-0.018em] text-ink md:text-[28px]">
                         {section.title}
                       </h2>
 
@@ -188,6 +237,14 @@ export default async function WorkPage({
                             <ProblemGrid items={section.problems} />
                           )}
 
+                          {section.bodyAfter && section.bodyAfter.length > 0 && (
+                            <div className="mt-10 flex max-w-[62ch] flex-col gap-4 text-pretty text-[16px] leading-[1.7] text-ink-soft md:text-[15.5px]">
+                              {section.bodyAfter.map((para, i) => (
+                                <p key={i}>{para}</p>
+                              ))}
+                            </div>
+                          )}
+
                           {section.media && (
                             <div className="mt-10">
                               <MediaBlock media={section.media} />
@@ -199,7 +256,7 @@ export default async function WorkPage({
                   ))}
                 </div>
 
-                <div className="mt-24 border-t border-line pt-10 pb-24">
+                <div className="mt-24 pt-10 pb-24">
                   <TransitionLink
                     href={`/work/${next.slug}`}
                     className="group flex flex-col gap-6"
@@ -209,11 +266,8 @@ export default async function WorkPage({
                       <span className="text-[13px] text-muted">
                         Next project
                       </span>
-                      <span
-                        aria-hidden
-                        className="text-[22px] leading-none text-muted transition-[transform,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:text-ink"
-                      >
-                        →
+                      <span className="text-[13px] text-muted transition-colors group-hover:text-ink">
+                        {next.title}
                       </span>
                     </div>
 
@@ -273,37 +327,53 @@ export default async function WorkPage({
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-1.5 bg-bg px-5 py-6 md:px-7 md:py-7">
-      <dt className="text-[12px] text-muted">
+    <div className="flex flex-col gap-2.5">
+      <dt className="flex items-center gap-2 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+        <span
+          aria-hidden
+          className="h-[5px] w-[5px] rounded-[1px]"
+          style={{ backgroundColor: "var(--color-accent)" }}
+        />
         {label}
       </dt>
-      <dd className="text-[14.5px] leading-[1.45] text-ink">{value}</dd>
+      <dd className="text-[15.5px] font-medium leading-[1.4] text-ink">{value}</dd>
     </div>
   );
 }
 
 function StatRow({ items }: { items: StatItem[] }) {
   return (
-    <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-y border-line py-8 md:grid-cols-4 md:gap-x-8 md:gap-y-8">
-      {items.map((item, i) => (
-        <div key={i} className="flex flex-col gap-2">
-          <dt className="text-[28px] font-medium leading-none tracking-[-0.02em] text-ink md:text-[32px]">
-            {item.value}
-          </dt>
-          <dd className="text-[12px] leading-[1.5] text-muted">{item.label}</dd>
-        </div>
-      ))}
+    <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 md:mt-14 md:grid-cols-4 md:gap-x-12">
+      {items.map((item, i) => {
+        const accent =
+          i % 2 === 0
+            ? "var(--color-accent)"
+            : "var(--color-yellow-edge)";
+        return (
+          <div key={i} className="flex flex-col gap-2.5">
+            <dt
+              className="text-[40px] font-bold leading-[0.9] tracking-[-0.025em] tabular-nums md:text-[52px]"
+              style={{ color: accent }}
+            >
+              {item.value}
+            </dt>
+            <dd className="max-w-[28ch] text-[12.5px] leading-[1.55] text-ink-soft md:text-[13px]">
+              {item.label}
+            </dd>
+          </div>
+        );
+      })}
     </dl>
   );
 }
 
 function PullQuoteBlock({ quote }: { quote: PullQuote }) {
   return (
-    <figure className="mt-10 border-l border-line pl-6 md:mt-12 md:pl-8">
-      <blockquote className="text-[22px] font-medium italic leading-[1.4] tracking-[-0.005em] text-ink md:text-[26px]">
+    <figure className="mt-12 md:mt-14">
+      <blockquote className="max-w-[24ch] text-balance text-[28px] font-bold leading-[1.2] tracking-[-0.018em] text-ink md:text-[36px]">
         <span
           aria-hidden
-          className="mr-1 font-normal not-italic"
+          className="mr-1.5 align-[-0.05em] text-[1.4em] leading-none"
           style={{ color: "var(--color-accent)" }}
         >
           &ldquo;
@@ -311,13 +381,13 @@ function PullQuoteBlock({ quote }: { quote: PullQuote }) {
         {quote.text}
         <span
           aria-hidden
-          className="ml-0.5 font-normal not-italic"
+          className="ml-0.5 align-[-0.4em] text-[1.4em] leading-none"
           style={{ color: "var(--color-accent)" }}
         >
           &rdquo;
         </span>
       </blockquote>
-      <figcaption className="mt-4 text-[12.5px] text-muted">
+      <figcaption className="mt-5 text-[12.5px] text-muted">
         {quote.attribution}
       </figcaption>
     </figure>
@@ -326,23 +396,29 @@ function PullQuoteBlock({ quote }: { quote: PullQuote }) {
 
 function ProblemGrid({ items }: { items: ProblemItem[] }) {
   return (
-    <ul className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-line bg-line sm:grid-cols-2">
-      {items.map((item, i) => (
-        <li
-          key={i}
-          className="flex flex-col gap-3 bg-bg p-6 md:p-7"
-        >
-          <span className="text-[12px] text-muted tabular-nums">
-            Problem {item.kicker}
-          </span>
-          <span className="text-[17px] font-medium leading-[1.3] tracking-[-0.005em] text-ink md:text-[18px]">
-            {item.label}
-          </span>
-          <span className="text-[14px] leading-[1.55] text-ink-soft">
-            {item.body}
-          </span>
-        </li>
-      ))}
+    <ul className="mt-12 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 md:mt-14 md:gap-x-14 md:gap-y-12">
+      {items.map((item, i) => {
+        const accent =
+          i % 2 === 0
+            ? "var(--color-accent)"
+            : "var(--color-yellow-edge)";
+        return (
+          <li key={i} className="flex flex-col">
+            <span
+              className="text-[48px] font-bold leading-[0.9] tracking-[-0.025em] tabular-nums md:text-[60px]"
+              style={{ color: accent }}
+            >
+              {item.kicker}
+            </span>
+            <span className="mt-4 text-[17px] font-bold leading-[1.25] tracking-[-0.012em] text-ink md:mt-5 md:text-[18px]">
+              {item.label}
+            </span>
+            <span className="mt-2 max-w-[34ch] text-[14px] leading-[1.6] text-ink-soft md:text-[15px]">
+              {item.body}
+            </span>
+          </li>
+        );
+      })}
     </ul>
   );
 }
@@ -366,15 +442,9 @@ function LiveLink({ href, label }: { href: string; label?: string }) {
       rel="noopener noreferrer"
       data-cursor="external"
       data-cursor-label={`Visit ${display}`}
-      className="row-link group inline-flex w-fit items-baseline gap-1.5 text-[13px] text-ink-soft transition-colors hover:text-ink"
+      className="row-link group inline-flex w-fit items-baseline text-[13px] text-ink-soft transition-colors hover:text-ink"
     >
       <span className="row-title">{display}</span>
-      <span
-        aria-hidden
-        className="row-arrow text-[11px] leading-none text-muted transition-colors group-hover:text-ink"
-      >
-        ↗
-      </span>
     </a>
   );
 }

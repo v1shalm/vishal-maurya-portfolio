@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { TransitionLink } from "@/components/TransitionLink";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { WorkCard } from "@/components/WorkCard";
@@ -8,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
 import { EmailLink } from "@/components/EmailLink";
+import { HeroY2K } from "@/components/HeroY2K";
 import { works } from "@/lib/works";
 
 const clients: {
@@ -128,48 +127,13 @@ const playground: PixelsItem[] = [
 export default function Home() {
   return (
     <>
-      <Nav />
       <main className="flex flex-1 flex-col">
-        {/* Intro */}
-        <section className="pt-24 md:pt-40">
+        <HeroY2K />
+
+        {/* Client strip: infinite marquee (stays within the global container) */}
+        <section className="pt-20 md:pt-28">
           <Container>
-            <div>
-              <p className="max-w-[30ch] text-balance text-[clamp(2rem,5vw,3.75rem)] font-medium leading-[1.1] tracking-[-0.02em] text-ink">
-                I&rsquo;m a product designer based in Mumbai. I design
-                consumer products. Lately:{" "}
-                <TransitionLink
-                  href="/work/zilo"
-                  className="underline decoration-line decoration-[1.5px] underline-offset-[0.14em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
-                >
-                  quick-commerce
-                </TransitionLink>
-                ,{" "}
-                <TransitionLink
-                  href="/work/outcomes-ai"
-                  className="underline decoration-line decoration-[1.5px] underline-offset-[0.14em] transition-[text-decoration-color] duration-200 hover:decoration-ink"
-                >
-                  healthtech
-                </TransitionLink>
-                , and interfaces that feel alive.
-              </p>
-
-              <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 md:mt-12">
-                <span className="inline-flex items-center gap-2.5 text-[17px] text-ink-soft md:text-[18px]">
-                  <span aria-hidden className="status-dot" />
-                  Open to product roles
-                </span>
-                <span
-                  aria-hidden
-                  className="hidden h-3 w-px bg-line sm:inline-block"
-                />
-                <span className="text-[17px] text-muted md:text-[18px]">
-                  Currently at Pineapple Design Studio
-                </span>
-              </div>
-            </div>
-
-            {/* Client strip: infinite marquee (stays within the global container) */}
-            <div className="mt-24 flex flex-col gap-7 md:mt-32 md:gap-8">
+            <div className="flex flex-col gap-7 md:gap-8">
               <span className="whitespace-nowrap text-[13px] text-muted">
                 Worked with
               </span>
@@ -183,16 +147,17 @@ export default function Home() {
           {/* Work section wrapper: single reveal for the heading + card grid */}
           <div id="work">
             <Container>
-              <div className="flex items-baseline justify-between border-b border-line pb-5">
-                <h2 className="text-[13px] text-muted">
-                  Selected Work
+              <div className="flex items-baseline justify-between">
+                <h2 className="hero-y2k text-[28px] font-bold tracking-tight flex gap-[0.25em]">
+                  <span className="y-hl y-hl--yellow" data-text="Selected">Selected</span>
+                  <span className="y-hl y-hl--magenta" data-text="Work">Work</span>
                 </h2>
                 <span className="text-[13px] text-muted">
                   2023–2025
                 </span>
               </div>
 
-              <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-28">
+              <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
                 {works.map((work, i) => (
                   <Reveal key={work.slug} delay={i * 80}>
                     <WorkCard work={work} />
@@ -206,22 +171,25 @@ export default function Home() {
         {/* Pixels */}
         <Reveal as="section" className="pt-36 md:pt-48">
           <Container>
-            <div className="flex items-baseline justify-between border-b border-line pb-5">
-              <h2 className="text-[13px] text-muted">
-                Pixels
+            <div className="flex items-baseline justify-between">
+              <h2 className="hero-y2k text-[28px] font-bold tracking-tight">
+                <span className="y-hl y-hl--magenta" data-text="Pixels">Pixels</span>
               </h2>
               <Link
                 href="/pixels"
                 className="text-[13px] text-muted transition-colors hover:text-ink"
               >
-                All →
+                All
               </Link>
             </div>
 
-            <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-28">
+            <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
               {playground.map((item, i) => (
                 <Reveal key={item.slug} delay={i * 80}>
-                  <PixelsTile item={item} />
+                  <PixelsTile
+                    item={item}
+                    priority={item.slug === "providence"}
+                  />
                 </Reveal>
               ))}
             </div>

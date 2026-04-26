@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { play } from "@/lib/sounds";
 
 type Group = "page" | "project" | "external" | "action";
 
@@ -17,6 +19,7 @@ const items: Item[] = [
   { label: "Home", group: "page", href: "/", hint: "Index" },
   { label: "Work", group: "page", href: "/#work", hint: "Selected work" },
   { label: "Pixels", group: "page", href: "/pixels", hint: "Personal UI" },
+  { label: "Playground", group: "page", href: "/playground", hint: "Experiments" },
   { label: "About", group: "page", href: "/about", hint: "Short bio" },
   {
     label: "Nexus 247",
@@ -85,13 +88,13 @@ const filters: Array<{ label: string; group: Group | "all" }> = [
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<Group | "all">("all");
   const [index, setIndex] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [modKey, setModKey] = useState("⌘");
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (typeof navigator === "undefined") return;
@@ -103,12 +106,14 @@ export function CommandPalette() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return items.filter((item) => {
-      if (filter !== "all" && item.group !== filter) return false;
+    const matches = items.filter((item) => {
       if (!q) return true;
       return (item.label + " " + (item.hint ?? "")).toLowerCase().includes(q);
     });
-  }, [query, filter]);
+    
+    const groupOrder = { page: 1, project: 2, action: 3, external: 4 };
+    return matches.sort((a, b) => groupOrder[a.group] - groupOrder[b.group]);
+  }, [query]);
 
   useEffect(() => {
     if (index >= filtered.length) setIndex(Math.max(0, filtered.length - 1));
@@ -134,8 +139,12 @@ export function CommandPalette() {
     };
   }, []);
 
+  // Track first render so we don't fire the close sound on initial mount
+  // (when `open` is already false but no real close happened).
+  const mountedRef = useRef(false);
   useEffect(() => {
     if (open) {
+      play("paletteOpen");
       setTimeout(() => inputRef.current?.focus(), 30);
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
@@ -143,8 +152,9 @@ export function CommandPalette() {
         document.body.style.overflow = prev;
       };
     }
+    if (mountedRef.current) play("paletteClose");
+    mountedRef.current = true;
     setQuery("");
-    setFilter("all");
     setIndex(0);
     setCopied(null);
   }, [open]);
@@ -152,58 +162,31 @@ export function CommandPalette() {
   useEffect(() => {
     const list = listRef.current;
     if (!list) return;
-    const el = list.children[index] as HTMLElement | undefined;
-    el?.scrollIntoView({ block: "nearest" });
+    // Account for group headers in the DOM tree if needed, 
+    // but since we render headers alongside items, indexing childNodes is tricky.
+    // Instead we use querySelectorAll to find the active option.
+    const options = list.querySelectorAll('[role="option"]');
+    const el = options[index] as HTMLElement | undefined;
+    if (el) {
+      el.scrollIntoView({ block: "nearest" });
+    }
   }, [index]);
-
-  // Focus trap: keep Tab/Shift+Tab cycling focus inside the palette
-  useEffect(() => {
-    if (!open) return;
-
-    const lastActive = document.activeElement as HTMLElement | null;
-
-    const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      const panel = document.querySelector<HTMLElement>(
-        '[aria-label="Command palette"]'
-      );
-      if (!panel) return;
-      const focusables = panel.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), input:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
-
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleTab);
-    return () => {
-      document.removeEventListener("keydown", handleTab);
-      // Return focus to the element that opened the palette
-      lastActive?.focus?.();
-    };
-  }, [open]);
 
   const run = async (item: Item) => {
     if (item.action) {
       await item.action();
       if (item.label === "Copy email") {
-        setCopied("Copied · vishalm.designs@gmail.com");
+        play("copy");
+        setCopied("Copied!");
         setTimeout(() => setCopied(null), 1600);
         return;
       }
+      play("paletteRun");
       setOpen(false);
       return;
     }
     if (!item.href) return;
+    play("paletteRun");
     if (item.href.startsWith("http") || item.href.startsWith("mailto:")) {
       window.open(item.href, "_blank", "noopener,noreferrer");
     } else {
@@ -224,178 +207,230 @@ export function CommandPalette() {
       if (filtered[index]) run(filtered[index]);
     } else if (e.key === "Tab") {
       e.preventDefault();
-      const order = filters.map((f) => f.group);
-      const currentIdx = order.indexOf(filter);
-      const nextIdx = e.shiftKey
-        ? (currentIdx - 1 + order.length) % order.length
-        : (currentIdx + 1) % order.length;
-      setFilter(order[nextIdx]);
     }
   };
 
-  if (!open) return null;
+  // Easing matches the rest of the site (ease-out-expo equivalent).
+  const enterEase = [0.16, 1, 0.3, 1] as const;
+  const exitEase = [0.4, 0, 1, 1] as const;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Command palette"
-      className="fixed inset-0 z-[110] flex items-start justify-center px-4 pt-[14vh]"
-    >
-      {/* Backdrop: dark tint + blur */}
-      <button
-        aria-label="Close"
-        onClick={() => setOpen(false)}
-        tabIndex={-1}
-        className="absolute inset-0 cursor-default bg-black/45 backdrop-blur-md"
-      />
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="cmdk-root"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Command palette"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.22,
+            ease: enterEase,
+          }}
+          className="fixed inset-0 z-[110] flex items-start justify-center px-4 pt-[14vh]"
+        >
+          <motion.button
+            aria-label="Close"
+            onClick={() => setOpen(false)}
+            tabIndex={-1}
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{
+              opacity: 1,
+              backdropFilter: reduceMotion ? "blur(0px)" : "blur(10px)",
+            }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: reduceMotion ? 0 : 0.28, ease: enterEase }}
+            className="absolute inset-0 cursor-default bg-black/40"
+          />
 
-      {/* Panel: softened shadow, single subtle lift */}
-      <div className="relative w-full max-w-[620px] overflow-hidden rounded-[24px] border border-line-soft bg-bg shadow-[0_20px_60px_-24px_rgba(20,15,10,0.18)]">
-        {/* Input: minimal 1px stroke, whisper-soft inner lift on focus */}
-        <div className="px-7 pt-7 pb-6">
-          <label
-            htmlFor="cmdk-input"
-            className="group flex items-center gap-3 rounded-xl border border-line-soft bg-bg px-4 py-3 shadow-[0_1px_0_rgba(0,0,0,0.015)] transition-[border,box-shadow] duration-200 focus-within:border-line focus-within:shadow-[0_1px_0_rgba(0,0,0,0.02),0_2px_8px_-4px_rgba(20,15,10,0.06)]"
+          <motion.div
+            initial={{
+              opacity: 0,
+              scale: reduceMotion ? 1 : 0.96,
+              y: reduceMotion ? 0 : -8,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              transition: {
+                duration: reduceMotion ? 0 : 0.36,
+                ease: enterEase,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: reduceMotion ? 1 : 0.97,
+              y: reduceMotion ? 0 : -4,
+              transition: {
+                duration: reduceMotion ? 0 : 0.18,
+                ease: exitEase,
+              },
+            }}
+            className="relative w-full max-w-[640px] overflow-hidden rounded-[16px] border border-line-soft bg-bg shadow-[0_30px_60px_-15px_rgba(12,12,16,0.28),0_8px_20px_-8px_rgba(249,28,169,0.12)]"
           >
-            <input
-              id="cmdk-input"
-              ref={inputRef}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={onKey}
-              placeholder="Search pages, projects, actions…"
-              className="flex-1 bg-transparent text-[15.5px] leading-none text-ink placeholder:text-muted"
-              style={{ outline: "none", boxShadow: "none" }}
-            />
-            <kbd className="shrink-0 rounded-md border border-line-soft bg-bg-elevated px-2 py-0.5 text-[10.5px] font-medium text-muted">
-              Esc
-            </kbd>
-          </label>
+        <div className="flex items-center gap-3 border-b border-line-soft px-4 py-4">
+          <svg className="h-5 w-5 text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+          </svg>
+          <input
+            id="cmdk-input"
+            ref={inputRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={onKey}
+            placeholder="Search pages, projects, actions…"
+            className="flex-1 border-0 bg-transparent text-[15.5px] leading-none text-ink placeholder:text-muted outline-none ring-0 focus:border-transparent focus:outline-none focus:ring-0"
+            style={{ outline: "none", boxShadow: "none" }}
+          />
         </div>
 
-        {/* Filter chips */}
-        <div className="px-7 pb-7">
-          <div className="-mx-1 flex items-center gap-2.5 overflow-x-auto px-1">
-            {filters.map((f) => {
-              const active = filter === f.group;
-              return (
-                <button
-                  key={f.label}
-                  onClick={() => {
-                    setFilter(f.group);
-                    setIndex(0);
-                  }}
-                  className={`shrink-0 rounded-full border px-4 py-2 text-[12.5px] transition-[background,border,color,scale] duration-200 ease-out active:scale-[0.96] ${
-                    active
-                      ? "border-transparent text-white"
-                      : "border-line-soft bg-bg-elevated text-muted hover:border-line hover:text-ink-soft"
-                  }`}
-                  style={
-                    active ? { backgroundColor: "var(--color-accent)" } : undefined
-                  }
-                >
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Hairline divider */}
-        <div className="mx-7 h-px bg-line-soft" />
-
-        {/* List */}
         <ul
           ref={listRef}
           data-lenis-prevent
-          className="max-h-[54vh] overflow-y-auto px-4 py-4"
+          className="max-h-[50vh] overflow-y-auto p-2"
           role="listbox"
         >
           {filtered.length === 0 ? (
-            <li className="px-5 py-10 text-center text-[13px] text-muted">
-              No matches.
+            <li className="px-5 py-10 text-center text-[14px] text-muted">
+              No results found.
             </li>
           ) : (
             filtered.map((item, i) => {
               const active = i === index;
+              const prev = filtered[i - 1];
+              const showGroup = !prev || prev.group !== item.group;
+              const groupLabels: Record<string, string> = {
+                page: "Pages",
+                project: "Projects",
+                action: "Actions",
+                external: "External",
+              };
+
               return (
-                <li
-                  key={item.label}
-                  role="option"
-                  aria-selected={active}
-                  onMouseEnter={() => setIndex(i)}
-                  onClick={() => run(item)}
-                  className={`group mb-0.5 flex cursor-pointer items-center justify-between gap-5 rounded-xl px-4 py-3 transition-colors ${
-                    active ? "bg-bg-elevated" : ""
-                  }`}
-                >
-                  <div className="flex min-w-0 items-center gap-5">
-                    <span
-                      className="w-16 shrink-0 text-[11px] transition-colors"
-                      style={{
-                        color: active
-                          ? "var(--color-accent)"
-                          : "var(--color-muted)",
-                      }}
-                    >
+                <div key={item.label}>
+                  {showGroup && (
+                    <div className="px-3 py-2 text-[12px] font-medium text-muted mt-1 first:mt-0">
+                      {groupLabels[item.group]}
+                    </div>
+                  )}
+                  <li
+                    role="option"
+                    aria-selected={active}
+                    onMouseEnter={() => setIndex(i)}
+                    onClick={() => run(item)}
+                    className="group relative flex cursor-pointer items-center justify-between gap-3 rounded-[8px] px-3 py-2.5"
+                  >
+                    {active && (
+                      <motion.div
+                        layoutId="cmdk-highlight"
+                        className="absolute inset-0 rounded-[8px]"
+                        style={{
+                          background: "var(--color-yellow)",
+                          boxShadow:
+                            "inset 0 -2px 4px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.45)",
+                        }}
+                        transition={
+                          reduceMotion
+                            ? { duration: 0 }
+                            : {
+                                type: "spring",
+                                stiffness: 480,
+                                damping: 36,
+                                mass: 0.6,
+                              }
+                        }
+                        initial={false}
+                      />
+                    )}
+
+                    <div className="relative z-10 flex items-center gap-3 min-w-0">
+                      <div className={`transition-colors duration-150 ${active ? "text-ink" : "text-muted"}`}>
+                        {item.group === "page" && <PageIcon />}
+                        {item.group === "project" && <ProjectIcon />}
+                        {item.group === "action" && <ActionIcon />}
+                        {item.group === "external" && <ExternalIcon />}
+                      </div>
+
+                      <span className={`truncate text-[14px] font-medium transition-colors duration-150 ${active ? "text-ink font-semibold" : "text-ink"}`}>
+                        {item.label}
+                      </span>
+                      {item.hint && (
+                        <span className={`truncate text-[14px] transition-colors duration-150 ${active ? "text-ink/70" : "text-muted"}`}>
+                          {item.hint}
+                        </span>
+                      )}
+                    </div>
+
+                    <span className={`relative z-10 shrink-0 text-[13px] capitalize hidden sm:block transition-colors duration-150 ${active ? "text-ink font-semibold" : "text-muted font-medium"}`}>
                       {item.group}
                     </span>
-                    <span className="truncate text-[14.5px] text-ink">
-                      {item.label}
-                    </span>
-                  </div>
-                  {item.hint && (
-                    <span className="truncate text-[12px] text-muted">
-                      {item.hint}
-                    </span>
-                  )}
-                </li>
+                  </li>
+                </div>
               );
             })
           )}
         </ul>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between gap-4 border-t border-line-soft bg-bg-elevated px-7 py-4 text-[11.5px] text-muted">
-          <div className="flex items-center gap-5">
-            <span className="flex items-center gap-2">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-muted">
-                ↑↓
-              </kbd>
-              Navigate
-            </span>
-            <span className="flex items-center gap-2">
-              <kbd
-                className="rounded-md border bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal"
-                style={{
-                  borderColor: "var(--color-accent)",
-                  color: "var(--color-accent)",
-                }}
-              >
+        <div className="flex items-center justify-end border-t border-line-soft px-4 py-3 text-[12px] text-muted bg-bg">
+          <div className="flex items-center gap-4">
+            {copied && <span className="text-accent">{copied}</span>}
+            <span className="flex items-center gap-1.5">
+              Open Command
+              <kbd className="rounded-[4px] bg-bg-elevated border border-line-soft px-1.5 py-0.5 text-[10px] tabular-nums leading-none">
                 ↵
               </kbd>
-              Open
             </span>
-            <span className="hidden items-center gap-2 md:flex">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums lowercase tracking-normal text-muted">
-                Tab
-              </kbd>
-              Move focus
-            </span>
-          </div>
-          {copied ? (
-            <span style={{ color: "var(--color-accent)" }}>{copied}</span>
-          ) : (
-            <span className="flex items-center gap-2">
-              <kbd className="rounded-md border border-line-soft bg-bg px-1.5 py-0.5 text-[10px] tabular-nums text-muted">
+            <span className="flex items-center gap-1.5 hidden sm:flex">
+              Toggle
+              <kbd className="rounded-[4px] bg-bg-elevated border border-line-soft px-1.5 py-0.5 text-[10px] tabular-nums leading-none">
                 {modKey} K
               </kbd>
-              Toggle
             </span>
-          )}
+          </div>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function PageIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+      <polyline points="14 2 14 8 20 8"></polyline>
+    </svg>
+  );
+}
+
+function ProjectIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+      <line x1="8" y1="21" x2="16" y2="21"></line>
+      <line x1="12" y1="17" x2="12" y2="21"></line>
+    </svg>
+  );
+}
+
+function ActionIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+    </svg>
+  );
+}
+
+function ExternalIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
   );
 }

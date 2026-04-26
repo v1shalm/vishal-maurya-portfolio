@@ -22,6 +22,12 @@ const geistMono = Geist_Mono({
 const siteTitle = "Vishal Maurya · Product Designer";
 const siteDescription =
   "Product designer in Mumbai. I design consumer products, lately in quick-commerce, healthtech, and interfaces that feel alive.";
+const ogImage = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+  alt: siteTitle,
+};
 
 export const metadata: Metadata = {
   title: {
@@ -33,22 +39,6 @@ export const metadata: Metadata = {
   authors: [{ name: "Vishal Maurya", url: siteUrl }],
   creator: "Vishal Maurya",
   publisher: "Vishal Maurya",
-  keywords: [
-    "Vishal Maurya",
-    "product designer",
-    "UI designer",
-    "UX designer",
-    "Mumbai",
-    "India",
-    "quick-commerce",
-    "healthtech",
-    "consumer products",
-    "portfolio",
-    "Pineapple Design Studio",
-    "Nexus 247",
-    "OutcomesAI",
-    "Zilo",
-  ],
   metadataBase: new URL(siteUrl),
   alternates: {
     canonical: "/",
@@ -60,12 +50,14 @@ export const metadata: Metadata = {
     siteName: "Vishal Maurya",
     title: siteTitle,
     description: siteDescription,
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    creator: "@vishalmaurya",
+    creator: "@v1shal0",
+    images: [ogImage.url],
   },
   robots: {
     index: true,
@@ -124,6 +116,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink font-sans">

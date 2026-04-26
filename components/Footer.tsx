@@ -11,7 +11,7 @@ export function Footer() {
   return (
     <footer className="mt-auto pb-14 pt-40 md:pb-20 md:pt-56">
       <Container>
-        <div className="flex flex-col gap-8 border-t border-line pt-12 md:flex-row md:items-baseline md:justify-between md:gap-10 md:pt-14">
+        <div className="flex flex-col gap-6 pt-12 md:flex-row md:items-baseline md:justify-between md:gap-10 md:pt-14">
           <div className="flex flex-col gap-2 text-[13.5px]">
             <EmailLink
               email={links.emailDisplay}

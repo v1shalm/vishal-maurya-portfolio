@@ -24,33 +24,47 @@ type Props = {
   item: PixelsItem;
   /** Forwarded to next/image for non-carousel tiles. */
   sizes?: string;
+  /** Mark the single-image tile as LCP-eligible: preloads and sets fetchPriority="high". */
+  priority?: boolean;
 };
 
 export function PixelsTile({
   item,
   sizes = "(min-width: 1024px) 700px, (min-width: 768px) 50vw, 100vw",
+  priority = false,
 }: Props) {
   return (
     <div className="group flex flex-col">
-      <TileMedia item={item} sizes={sizes} />
+      <TileMedia item={item} sizes={sizes} priority={priority} />
 
-      <div className="mt-5 flex items-baseline justify-between gap-5 md:mt-6 md:gap-8">
-        <p className="max-w-[40ch] text-pretty text-[16px] leading-[1.45] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[17px]">
-          {item.title}
+      {/* Three-line stack matching WorkCard / ExperimentCard:
+          title → kind (as subtext) → year. */}
+      <div className="mt-5 flex flex-col md:mt-7">
+        <p className="text-[18px] font-bold leading-[1.3] tracking-[-0.012em] text-ink md:text-[20px]">
+          {item.title}.
         </p>
-        <span className="shrink-0 text-[10.5px] uppercase tracking-[0.14em] text-muted tabular-nums">
-          <span className="text-ink-soft">{item.kind}</span>
-          <span aria-hidden className="mx-1.5 text-line">
-            ·
-          </span>
-          {item.year}
-        </span>
+
+        <p className="mt-1.5 max-w-[52ch] text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:text-[17px]">
+          {item.kind}.
+        </p>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted md:text-[14px]">
+          <span className="tabular-nums">{item.year}</span>
+        </div>
       </div>
     </div>
   );
 }
 
-function TileMedia({ item, sizes }: { item: PixelsItem; sizes: string }) {
+function TileMedia({
+  item,
+  sizes,
+  priority,
+}: {
+  item: PixelsItem;
+  sizes: string;
+  priority: boolean;
+}) {
   const { images } = item;
 
   if (images && images.length > 1) {
@@ -61,7 +75,7 @@ function TileMedia({ item, sizes }: { item: PixelsItem; sizes: string }) {
     const img = images[0];
     return (
       <div
-        className="relative w-full overflow-hidden bg-bg-elevated"
+        className="relative w-full overflow-hidden rounded-2xl bg-bg-elevated"
         style={{ aspectRatio: `${img.width} / ${img.height}` }}
       >
         <Image
@@ -69,6 +83,7 @@ function TileMedia({ item, sizes }: { item: PixelsItem; sizes: string }) {
           alt={img.alt}
           fill
           sizes={sizes}
+          priority={priority}
           className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
         />
       </div>
