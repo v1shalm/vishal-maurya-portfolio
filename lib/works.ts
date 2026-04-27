@@ -454,6 +454,16 @@ export const works: Work[] = [
         body: [
           "Glia was the differentiator and it was invisible on the old site. We gave it its own section, a before-and-after workflow narrative, and a scalable pattern system, textured and pixelated, that could represent its presence across surfaces without falling back on generic AI visuals.",
         ],
+        media: {
+          kind: "single",
+          fullBleed: true,
+          item: {
+            src: "/works/outcomes/Fold 5 - Glia.mp4",
+            alt: "Glia's anatomy: voice agents, clinical scribing, escalation protocols",
+            aspect: "16/9",
+          },
+          caption: "Glia's anatomy. AI as architecture, not a black box.",
+        },
       },
       {
         kicker: "05",
@@ -466,15 +476,69 @@ export const works: Work[] = [
           kind: "single",
           fullBleed: true,
           item: {
-            src: "/works/outcomes/b.png",
-            alt: "The AI-driven care model, shown instead of described",
+            src: "/works/outcomes/ai-agents-motion.mp4",
+            alt: "AI agents in motion: triage, scheduling, documentation, escalation, sequenced as workflow",
             aspect: "16/9",
           },
-          caption: "The AI-driven care model, shown instead of described.",
+          caption: "Agents at work, sequenced as workflow.",
         },
       },
       {
         kicker: "06",
+        label: "Solutions",
+        title: "Reframed for the buyer, not the technology.",
+        body: [
+          "Each solution leads with the use case (virtual care teams, in-clinic nurses, hospital systems), not the underlying capability. Buyers stopped having to translate technical features into deployment scenarios; the page does the translation for them.",
+        ],
+        media: {
+          kind: "single",
+          fullBleed: true,
+          item: {
+            src: "/works/outcomes/solutions.mp4",
+            alt: "Solutions section organised by who's deploying the product",
+            aspect: "16/9",
+          },
+          caption: "Solutions, sorted by who's using them.",
+        },
+      },
+      {
+        kicker: "07",
+        label: "Brand system",
+        title: "A system that scales from screen to stage.",
+        body: [
+          "Built as a system, not a logo lockup. The OutcomesAI team could carry it into investor decks, recruiting decks, and conference rigs without touching me again. The same identity holds up on a phone, in a deck, and on a keynote backdrop.",
+        ],
+        media: {
+          kind: "single",
+          fullBleed: true,
+          item: {
+            src: "/works/outcomes/Brand System.mp4",
+            alt: "Brand system: typography, motion, color, applied across surfaces",
+            aspect: "16/9",
+          },
+          caption: "Brand, end to end.",
+        },
+      },
+      {
+        kicker: "08",
+        label: "Mobile",
+        title: "Same story, on the phone.",
+        body: [
+          "Healthcare procurement still happens in email and browser tabs, and every link a CMO forwards has a 50/50 chance of opening on mobile first. The mobile surface had to land the same model in a smaller frame, with no sacrifice to clarity or trust.",
+        ],
+        media: {
+          kind: "single",
+          fullBleed: true,
+          item: {
+            src: "/works/outcomes/mobile-mockup.mp4",
+            alt: "OutcomesAI mobile experience, scrolled in a phone frame",
+            aspect: "16/9",
+          },
+          caption: "Mobile. Same trust signals, same story, smaller frame.",
+        },
+      },
+      {
+        kicker: "09",
         label: "Outcome",
         title: "Faster comprehension, stronger trust, $10M seed.",
         body: [
@@ -492,22 +556,12 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "07",
+        kicker: "10",
         label: "Reflection",
         title: "The job wasn't the interface. It was the translation.",
         body: [
           "The challenge wasn't designing screens. It was making a technically dense system legible to people making slow, high-stakes decisions. Motion became the main tool, not for delight but because sequence is easier to follow than paragraphs. The bigger lesson: reframing the brand narrative from AI to nursing empowerment changed every visual hierarchy decision downstream. Strategy and design were the same thing on this project.",
         ],
-        media: {
-          kind: "single",
-          fullBleed: true,
-          item: {
-            src: "/works/outcomes/c.jpg",
-            alt: "Home. Motion-driven product explainer",
-            aspect: "16/10",
-          },
-          caption: "Home. Motion-driven product explainer.",
-        },
       },
     ],
   },

@@ -24,9 +24,9 @@ const ZILO_IMAGES = [
   "/works/zilo/brands tall.png",
 ];
 const OUTCOMES_IMAGES = [
-  "/works/outcomes/a.png",
-  "/works/outcomes/b.png",
+  "/works/outcomes/homepage-mockup.jpg",
   "/works/outcomes/e.png",
+  "/works/outcomes/d.jpg",
 ];
 
 const STUDIO_PHOTOS = [
@@ -64,7 +64,7 @@ export default function AboutContent() {
                   />
                   , healthtech at OutcomesAI
                   <InlineProject
-                    src="/works/outcomes/a.png"
+                    src="/works/outcomes/homepage-mockup.jpg"
                     alt="OutcomesAI"
                     images={OUTCOMES_IMAGES}
                   />
