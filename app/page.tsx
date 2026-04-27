@@ -45,6 +45,94 @@ const clients: {
 
 const playground: PixelsItem[] = [
   {
+    slug: "dsp",
+    title: "DSP",
+    kind: "GIFT City landing page",
+    year: "2025",
+    images: [
+      {
+        src: "/Pixels/dsp%20-%20Homepage.png",
+        alt: "DSP Mutual Fund homepage: Invest in India's first retail offshore mutual fund from GIFT City",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp%20-%20into%20india.png",
+        alt: "DSP: Invest Into India, tap into India's booming economy",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp-%20Outside%20India.png",
+        alt: "DSP: Invest Globally, access global markets via the GIFT City platform",
+        width: 4320,
+        height: 2400,
+      },
+      {
+        src: "/Pixels/dsp-cards.png",
+        alt: "DSP: Invest into India vs. Invest Globally, the two value props side-by-side",
+        width: 3840,
+        height: 2160,
+      },
+    ],
+  },
+  {
+    slug: "vero-moda",
+    title: "Vero Moda",
+    kind: "Brand POC · Fashion AI",
+    year: "2025",
+    images: [
+      {
+        src: "/Pixels/vero%20moda/Outfit-Breakdown(1).mp4",
+        alt: "Outfit breakdown: tap a look to see the items that built it",
+        width: 1920,
+        height: 1072,
+      },
+      {
+        src: "/Pixels/vero%20moda/Virtual-Tryon.mp4",
+        alt: "Virtual try-on: see clothes on yourself before you order",
+        width: 1528,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Fabric%20Intelligence.mp4",
+        alt: "Fabric intelligence: AI surfaces the material composition story",
+        width: 1920,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Image-On-Hover.mp4",
+        alt: "Image-on-hover: a richer second-shot reveal on product cards",
+        width: 1920,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Influencer-Closet.mp4",
+        alt: "Influencer closet: shop the outfits from creators you follow",
+        width: 780,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Ai%20Assitant.mp4",
+        alt: "AI assistant: conversational discovery built into the nav",
+        width: 780,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Shuffle.mp4",
+        alt: "Shuffle: tinder-style outfit discovery",
+        width: 764,
+        height: 1080,
+      },
+      {
+        src: "/Pixels/vero%20moda/Hamburger-Menu-Gifs.mp4",
+        alt: "Hamburger menu: editorial reveal pattern with motion",
+        width: 780,
+        height: 1080,
+      },
+    ],
+  },
+  {
     slug: "lumen",
     title: "Lumen",
     kind: "Research synthesis",
@@ -73,38 +161,6 @@ const playground: PixelsItem[] = [
         alt: "Lumen: insight dossier modal, evidence registry and metadata",
         width: 3024,
         height: 1964,
-      },
-    ],
-  },
-  {
-    slug: "dsp",
-    title: "DSP",
-    kind: "Mutual fund landing",
-    year: "2025",
-    images: [
-      {
-        src: "/Pixels/dsp%20-%20Homepage.png",
-        alt: "DSP Mutual Fund homepage: Invest in India's first retail offshore mutual fund from GIFT City",
-        width: 4320,
-        height: 2400,
-      },
-      {
-        src: "/Pixels/dsp%20-%20into%20india.png",
-        alt: "DSP: Invest Into India, tap into India's booming economy",
-        width: 4320,
-        height: 2400,
-      },
-      {
-        src: "/Pixels/dsp-%20Outside%20India.png",
-        alt: "DSP: Invest Globally, access global markets via the GIFT City platform",
-        width: 4320,
-        height: 2400,
-      },
-      {
-        src: "/Pixels/dsp-cards.png",
-        alt: "DSP: Invest into India vs. Invest Globally, the two value props side-by-side",
-        width: 3840,
-        height: 2160,
       },
     ],
   },
@@ -188,7 +244,7 @@ export default function Home() {
                 <Reveal key={item.slug} delay={i * 80}>
                   <PixelsTile
                     item={item}
-                    priority={item.slug === "providence"}
+                    priority={item.slug === "dsp"}
                   />
                 </Reveal>
               ))}

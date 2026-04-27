@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { Media, MediaItem } from "@/lib/works";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
 import { ScrollingDeviceFrame } from "@/components/ScrollingDeviceFrame";
 import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
+import { LazyVideo, isVideoSrc } from "@/components/LazyVideo";
 
 export function MediaBlock({ media }: { media: Media }) {
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
@@ -125,12 +126,10 @@ function MediaFrame({
   onClick: (item: MediaItem) => void;
 }) {
   if (item.src) {
-    const isVideo = /\.(mp4|webm|mov)$/i.test(item.src);
-
     // Video: lazy-play. preload=none until the video lands near the viewport;
     // IntersectionObserver triggers .play() on enter and .pause() on exit so a
     // page with five inline videos doesn't run five decoders simultaneously.
-    if (isVideo) {
+    if (isVideoSrc(item.src)) {
       const aspect = item.aspect ?? defaultAspect;
       return (
         <div
@@ -185,62 +184,6 @@ function MediaFrame({
         )}
       </div>
     </div>
-  );
-}
-
-/**
- * Inline-playing video that defers loading until it's about to enter the
- * viewport, then plays/pauses based on visibility. Saves bandwidth and CPU
- * on case studies that stack multiple videos in a single column.
- */
-function LazyVideo({ src, alt }: { src: string; alt: string }) {
-  const ref = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    // Reduced motion: leave it paused on the first frame, never autoplay.
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReduced) {
-      el.preload = "metadata";
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // First time entering the viewport, swap preload up so bytes start
-          // arriving, then play. .play() returns a promise that can reject if
-          // the browser blocks autoplay; swallow it.
-          if (el.preload === "none") el.preload = "auto";
-          void el.play().catch(() => {});
-        } else {
-          el.pause();
-        }
-      },
-      { threshold: 0.2, rootMargin: "240px 0px" },
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  return (
-    <video
-      ref={ref}
-      src={src}
-      muted
-      loop
-      playsInline
-      disablePictureInPicture
-      controls={false}
-      preload="none"
-      aria-label={alt}
-      className="absolute inset-0 h-full w-full object-cover"
-    />
   );
 }
 

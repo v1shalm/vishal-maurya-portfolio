@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
+import { LazyVideo, isVideoSrc } from "@/components/LazyVideo";
 
 type CarouselImage = LightboxImage & {
   /** Intrinsic pixel width of the source image. Used to derive track aspect. */
@@ -186,29 +187,40 @@ export function Carousel({
           className="no-scrollbar flex cursor-pointer snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl bg-bg-elevated outline-none select-none"
           style={{ aspectRatio: trackAspect, scrollBehavior: "smooth" }}
         >
-          {images.map((img, i) => (
-            <button
-              key={img.src}
-              type="button"
-              data-slide
-              data-slide-idx={i}
-              aria-roledescription="slide"
-              aria-label={`${img.alt} (${i + 1} of ${images.length}), click to expand`}
-              onClick={() => onSlideClick(i)}
-              className="relative w-full flex-none cursor-pointer snap-start overflow-hidden"
-              style={{ aspectRatio: trackAspect }}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                sizes={sizes}
-                className="pointer-events-none object-contain"
-                priority={i === 0}
-                draggable={false}
-              />
-            </button>
-          ))}
+          {images.map((img, i) => {
+            const video = isVideoSrc(img.src);
+            return (
+              <button
+                key={img.src}
+                type="button"
+                data-slide
+                data-slide-idx={i}
+                aria-roledescription="slide"
+                aria-label={`${img.alt} (${i + 1} of ${images.length}), click to expand`}
+                onClick={() => onSlideClick(i)}
+                className="relative w-full flex-none cursor-pointer snap-start overflow-hidden"
+                style={{ aspectRatio: trackAspect }}
+              >
+                {video ? (
+                  <LazyVideo
+                    src={img.src}
+                    alt={img.alt}
+                    className="pointer-events-none absolute inset-0 h-full w-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes={sizes}
+                    className="pointer-events-none object-contain"
+                    priority={i === 0}
+                    draggable={false}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Prev arrow */}

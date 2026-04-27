@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { isVideoSrc } from "@/components/LazyVideo";
 
 export type LightboxImage = {
   src: string;
@@ -156,13 +157,29 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
             "opacity 280ms cubic-bezier(0.16,1,0.3,1), transform 280ms cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={current.src}
-          alt={current.alt}
-          className="max-h-[82vh] w-auto max-w-full rounded-sm object-contain shadow-2xl"
-          draggable={false}
-        />
+        {isVideoSrc(current.src) ? (
+          // Keyed on src so navigating to a different video remounts the
+          // element and restarts playback from the start.
+          <video
+            key={current.src}
+            src={current.src}
+            controls
+            autoPlay
+            loop
+            muted
+            playsInline
+            aria-label={current.alt}
+            className="max-h-[82vh] w-auto max-w-full rounded-sm object-contain shadow-2xl"
+          />
+        ) : (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={current.src}
+            alt={current.alt}
+            className="max-h-[82vh] w-auto max-w-full rounded-sm object-contain shadow-2xl"
+            draggable={false}
+          />
+        )}
 
         {images.length > 1 && (
           <div
