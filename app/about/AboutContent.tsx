@@ -322,14 +322,12 @@ function PhotoSidebar({
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Auto-cycle through photos every 4.5s. Pauses while hovered or
-  // when a dot is clicked (briefly, so manual nav doesn't immediately
-  // get overridden by the next tick).
+  // Auto-cycle through photos every 3s. Pauses while hovered.
   useEffect(() => {
     if (paused) return;
     const id = setInterval(() => {
       setIndex((i) => (i + 1) % photos.length);
-    }, 4500);
+    }, 3000);
     return () => clearInterval(id);
   }, [paused, photos.length]);
 
@@ -399,8 +397,6 @@ function PhotoSidebar({
         })}
       </div>
 
-      {/* Caption */}
-      <p className="text-center text-[12.5px] text-muted">{current.alt}</p>
     </div>
   );
 }

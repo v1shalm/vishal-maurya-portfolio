@@ -82,9 +82,17 @@ function YellowFace({ modKey }: { modKey: string }) {
       <span
         className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11.5px] font-bold leading-none text-ink"
         style={{
-          backgroundColor: "var(--color-yellow-edge)",
-          boxShadow:
-            "inset 0 2px 4px 0 rgba(0, 0, 0, 0.22), inset 0 0.5px 0 0 rgba(0, 0, 0, 0.18), inset 0 -1px 0 0 rgba(255, 255, 255, 0.55)",
+          // Very subtle gradient — same yellow-edge family, just a hint of
+          // top-darker / bottom-lighter to suggest a depressed surface.
+          backgroundImage:
+            "linear-gradient(180deg, #d0c007 0%, #dbd009 100%)",
+          // Soft inset shadow only at the top edge + a faint bounce on the
+          // bottom rim. Low opacity so the chip stays the same yellow family
+          // as the pill, not a darker patch sitting on it.
+          boxShadow: [
+            "inset 0 1px 1.5px rgba(0, 0, 0, 0.12)",
+            "inset 0 -0.5px 0 rgba(255, 255, 255, 0.35)",
+          ].join(", "),
         }}
       >
         <kbd className="tabular-nums">{modKey}</kbd>
