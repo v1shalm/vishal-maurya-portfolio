@@ -347,7 +347,7 @@ function StatRow({ items }: { items: StatItem[] }) {
         return (
           <div key={i} className="flex flex-col gap-2.5">
             <dt
-              className="text-[40px] font-bold leading-[0.9] tracking-[-0.025em] tabular-nums md:text-[52px]"
+              className="whitespace-nowrap text-[40px] font-bold leading-[0.9] tracking-[-0.025em] tabular-nums md:text-[52px]"
               style={{ color: accent }}
             >
               {item.value}

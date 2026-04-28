@@ -36,6 +36,7 @@ export function TransitionLink({ href, children, onClick, ...rest }: Props) {
         startViewTransition: (cb: () => void) => void;
       }
     ).startViewTransition(() => {
+      window.scrollTo(0, 0);
       router.push(href);
     });
   };

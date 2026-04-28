@@ -159,7 +159,7 @@ export default function PixelsPage() {
           <Container>
             <div className="max-w-[720px]">
               <h1 className="hero-y2k flex text-[clamp(2.75rem,7vw,5.25rem)] font-bold leading-[0.95] tracking-tight">
-                <span className="y-hl y-hl--magenta" data-text="Pixels">
+                <span className="y-hl y-hl--yellow" data-text="Pixels">
                   Pixels
                 </span>
               </h1>

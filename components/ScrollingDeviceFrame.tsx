@@ -17,12 +17,12 @@ type Props = {
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-// Pill-tab style: rounded-full track + a single sliding pink pill that
+// Pill-tab style: rounded-full track + a single sliding yellow pill that
 // jumps to the active button's rect. Track has subtle inset depth so it
 // reads as a chunky segmented control.
 const ACTIVE_PILL_STYLE: React.CSSProperties = {
-  background: "var(--color-accent)",
-  border: "1px solid var(--color-accent-ink)",
+  background: "var(--color-yellow)",
+  border: "1px solid var(--color-yellow-edge)",
   boxShadow: [
     "inset 0 1px 0 rgba(255,255,255,0.32)",
     "inset 0 -2px 4px rgba(0,0,0,0.14)",
@@ -102,7 +102,7 @@ export function ScrollingDeviceFrame({
           className="relative flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-line bg-bg p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={TAB_CONTAINER_STYLE}
         >
-          {/* Sliding pink pill. Always-mounted, positioned by computed
+          {/* Sliding yellow pill. Always-mounted, positioned by computed
               rect so it animates left/top/width/height between tabs. */}
           {pill && (
             <motion.div
@@ -220,7 +220,7 @@ export function ScrollingDeviceFrame({
 
         <span
           aria-hidden
-          className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 text-[11px] uppercase tracking-[0.18em] text-muted md:right-6 md:inline-block"
+          className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[11px] uppercase tracking-[0.18em] text-muted md:right-6"
           style={{ writingMode: "vertical-rl" }}
         >
           Scroll to explore
