@@ -24,14 +24,14 @@ export default function AboutContent() {
   return (
     <>
       <Nav />
-      <main className="flex flex-1 flex-col pb-20 md:pb-28">
+      <main className="flex flex-1 flex-col pb-4 md:pb-6">
         <Container>
-          <div className="max-w-[640px]">
+          <div className="max-w-[760px]">
 
             {/* Headline */}
             <h1 className="text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink">
-              I&rsquo;m a designer based in Mumbai, shipping products that
-              feel alive.
+              I&rsquo;m a product designer based in Mumbai, shipping
+              products that feel alive.
             </h1>
 
             {/* Intro */}
