@@ -3,6 +3,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { EmailLink } from "@/components/EmailLink";
+import { HaloTitle } from "@/components/HaloTitle";
 import { WorkThumbnail } from "@/components/WorkThumbnail";
 import { works } from "@/lib/works";
 import { links } from "@/lib/links";
@@ -27,9 +28,7 @@ export default function NotFound() {
 
               <h1 className="hero-y2k mt-6 flex flex-wrap text-[clamp(2.25rem,5.5vw,4rem)] font-bold leading-[0.95] tracking-tight gap-x-[0.25em]">
                 <span>This one</span>
-                <span className="y-hl y-hl--magenta" data-text="got away.">
-                  got away.
-                </span>
+                <HaloTitle text="got away." color="magenta" />
               </h1>
 
               <p className="mt-8 text-pretty text-[16px] leading-[1.75] text-ink-soft md:text-[18px]">

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "@/components/Nav";
 import { Container } from "@/components/Container";
+import { HaloTitle } from "@/components/HaloTitle";
 
 export const metadata: Metadata = {
   title: "Playground · Vishal Maurya",
@@ -77,9 +78,7 @@ export default function PlaygroundPage() {
           <Container>
             <div className="max-w-[720px]">
               <h1 className="hero-y2k flex text-[clamp(2.75rem,7vw,5.25rem)] font-bold leading-[0.95] tracking-tight">
-                <span className="y-hl y-hl--yellow" data-text="Playground">
-                  Playground
-                </span>
+                <HaloTitle text="Playground" color="yellow" />
               </h1>
 
               <p className="mt-10 max-w-[48ch] text-pretty text-[18px] font-bold leading-[1.5] text-ink md:text-[20px]">

@@ -20,7 +20,7 @@ export function HeroY2K() {
             </span>
           </h1>
 
-          <p className="mx-auto mt-10 max-w-[640px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
+          <p className="hero-blocks__sub mx-auto mt-10 max-w-[640px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
             I&rsquo;m Vishal, a product designer from Mumbai with 3+ years
             of experience shipping real products. Currently open to
             full-time roles.

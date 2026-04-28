@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { WorkCard } from "@/components/WorkCard";
 import { Reveal } from "@/components/Reveal";
+import { SectionHeader } from "@/components/SectionHeader";
 import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
 import { EmailLink } from "@/components/EmailLink";
@@ -190,7 +191,7 @@ export default function Home() {
         <section className="pt-20 md:pt-28">
           <Container>
             <div className="flex flex-col gap-7 md:gap-8">
-              <span className="whitespace-nowrap text-[13px] text-muted">
+              <span className="whitespace-nowrap text-center text-[13px] text-muted">
                 Worked with
               </span>
               <ClientMarquee clients={clients} />
@@ -203,14 +204,10 @@ export default function Home() {
           {/* Work section wrapper: single reveal for the heading + card grid */}
           <div id="work">
             <Container>
-              <div className="flex items-baseline justify-between">
-                <h2 className="text-[28px] font-bold tracking-tight text-ink">
-                  Selected Work
-                </h2>
-                <span className="text-[13px] text-muted">
-                  2023–2025
-                </span>
-              </div>
+              <SectionHeader
+                title="Selected Work"
+                meta={<span>2023–2025</span>}
+              />
 
               <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
                 {works.map((work, i) => (
@@ -226,17 +223,17 @@ export default function Home() {
         {/* Pixels */}
         <Reveal as="section" className="pt-36 md:pt-48">
           <Container>
-            <div className="flex items-baseline justify-between">
-              <h2 className="text-[28px] font-bold tracking-tight text-ink">
-                Pixels
-              </h2>
-              <Link
-                href="/pixels"
-                className="text-[13px] text-muted transition-colors hover:text-ink"
-              >
-                All
-              </Link>
-            </div>
+            <SectionHeader
+              title="Pixels"
+              meta={
+                <Link
+                  href="/pixels"
+                  className="text-[13px] text-muted transition-colors hover:text-ink"
+                >
+                  All
+                </Link>
+              }
+            />
 
             <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
               {playground.map((item, i) => (

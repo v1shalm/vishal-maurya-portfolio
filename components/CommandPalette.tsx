@@ -323,28 +323,16 @@ export function CommandPalette() {
                     onClick={() => run(item)}
                     className="group relative flex cursor-pointer items-center justify-between gap-3 rounded-[8px] px-3 py-2.5"
                   >
-                    {active && (
-                      <motion.div
-                        layoutId="cmdk-highlight"
-                        className="absolute inset-0 rounded-[8px]"
-                        style={{
-                          background: "var(--color-yellow)",
-                          boxShadow:
-                            "inset 0 -2px 4px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.45)",
-                        }}
-                        transition={
-                          reduceMotion
-                            ? { duration: 0 }
-                            : {
-                                type: "spring",
-                                stiffness: 480,
-                                damping: 36,
-                                mass: 0.6,
-                              }
-                        }
-                        initial={false}
-                      />
-                    )}
+                    <span
+                      aria-hidden
+                      className="cmdk-row-highlight pointer-events-none absolute inset-0 rounded-[8px]"
+                      data-active={active}
+                      style={{
+                        background: "var(--color-yellow)",
+                        boxShadow:
+                          "inset 0 -2px 4px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.45)",
+                      }}
+                    />
 
                     <div className="relative z-10 flex items-center gap-3 min-w-0">
                       <div className={`transition-colors duration-150 ${active ? "text-ink" : "text-muted"}`}>

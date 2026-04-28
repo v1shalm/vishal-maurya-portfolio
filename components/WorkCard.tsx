@@ -9,10 +9,7 @@ export function WorkCard({ work }: { work: Work }) {
       className="group flex flex-col"
       data-cursor="view-case-study"
     >
-      <div
-        className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1"
-        style={{ viewTransitionName: `work-hero-${work.slug}` }}
-      >
+      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1">
         {work.thumbnail ? (
           <WorkThumbnail
             src={work.thumbnail}

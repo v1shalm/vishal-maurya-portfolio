@@ -158,10 +158,7 @@ export default async function WorkPage({
             </dl>
 
             {work.heroMedia && (
-              <div
-                className="mt-14"
-                style={{ viewTransitionName: `work-hero-${slug}` }}
-              >
+              <div className="mt-14">
                 <MediaBlock media={work.heroMedia} />
               </div>
             )}
@@ -266,10 +263,7 @@ export default async function WorkPage({
                       </span>
                     </div>
 
-                    <div
-                      className="relative aspect-[3/2] w-full overflow-hidden bg-bg-elevated"
-                      style={{ viewTransitionName: `work-hero-${next.slug}` }}
-                    >
+                    <div className="relative aspect-[3/2] w-full overflow-hidden bg-bg-elevated">
                       {next.thumbnail ? (
                         <WorkThumbnail
                           src={next.thumbnail}
