@@ -3,13 +3,12 @@
 import { useEffect, useState } from "react";
 import type { CaseSection } from "@/lib/works";
 
-type NavItem = { id: string; label: string; kicker: string };
+type NavItem = { id: string; label: string };
 
 export function CaseStudyNav({ sections }: { sections: CaseSection[] }) {
-  const items: NavItem[] = sections.map((s) => ({
-    id: `section-${s.kicker}`,
+  const items: NavItem[] = sections.map((s, i) => ({
+    id: `section-${i}`,
     label: s.label,
-    kicker: s.kicker,
   }));
 
   const [active, setActive] = useState<string>(items[0]?.id ?? "");

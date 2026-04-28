@@ -82,10 +82,8 @@ export function BeforeAfterSlider({
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
-        className="relative w-full select-none overflow-hidden bg-bg-elevated"
+        className="relative w-full select-none overflow-hidden bg-bg-elevated cursor-grab active:cursor-grabbing"
         style={{ aspectRatio: aspect, touchAction: "none" }}
-        data-cursor="drag"
-        data-cursor-label="Drag to compare"
       >
         {/* After (bottom layer, always fully visible) */}
         <Image

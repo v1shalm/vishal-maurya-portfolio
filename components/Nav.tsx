@@ -53,7 +53,6 @@ export function Nav() {
           <Button
             variant="yellow"
             href="mailto:vishalm.designs@gmail.com"
-            data-cursor="email"
           >
             Let&rsquo;s Connect
           </Button>

@@ -81,7 +81,6 @@ export type PullQuote = {
 };
 
 export type CaseSection = {
-  kicker: string;
   label: string;
   title: string;
   body: string[];
@@ -154,7 +153,6 @@ export const works: Work[] = [
     },
     sections: [
       {
-        kicker: "01",
         label: "Context",
         title:
           "Design a digital commerce experience that balances the speed of quick-commerce with the exploratory nature of mall shopping.",
@@ -164,7 +162,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "02",
         label: "Principles",
         title:
           "Three guiding principles: Familiarity, Discovery, Speed.",
@@ -184,7 +181,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "03",
         label: "Approach",
         title:
           "A modular, content-driven system: quick-commerce efficiency with in-mall discovery richness.",
@@ -215,7 +211,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "04",
         label: "Outcome",
         title: "A scalable digital product, now across 17+ malls.",
         body: [
@@ -234,7 +229,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "05",
         label: "Full screens",
         title: "The full flow, end to end.",
         body: [
@@ -265,7 +259,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "06",
         label: "Checkout flow",
         title: "The phygital handoff, in full.",
         body: [
@@ -296,7 +289,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "07",
         label: "Craft details",
         title: "The small surfaces do a lot of the work.",
         body: [
@@ -330,7 +322,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "08",
         label: "Reflection",
         title:
           "Digital can extend the physical world without replacing it.",
@@ -339,7 +330,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "09",
         label: "Throwaways",
         title: "Explorations that didn't ship.",
         collapsible: true,
@@ -385,7 +375,6 @@ export const works: Work[] = [
     },
     sections: [
       {
-        kicker: "01",
         label: "Context",
         title: "What OutcomesAI actually is.",
         body: [
@@ -394,7 +383,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "02",
         label: "Problem",
         title: "The brand was hiding the product.",
         body: [
@@ -440,7 +428,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "03",
         label: "Narrative",
         title: "Nurses first, AI second.",
         body: [
@@ -448,7 +435,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "04",
         label: "Glia",
         title: "Glia needed its own story.",
         body: [
@@ -466,7 +452,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "05",
         label: "Motion",
         title: "Motion as explanation, not decoration.",
         body: [
@@ -484,7 +469,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "06",
         label: "Solutions",
         title: "Reframed for the buyer, not the technology.",
         body: [
@@ -502,7 +486,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "07",
         label: "Brand system",
         title: "A system that scales from screen to stage.",
         body: [
@@ -520,7 +503,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "08",
         label: "Mobile",
         title: "Same story, on the phone.",
         body: [
@@ -538,7 +520,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "09",
         label: "Outcome",
         title: "Faster comprehension, stronger trust, $10M seed.",
         body: [
@@ -556,7 +537,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "10",
         label: "Reflection",
         title: "The job wasn't the interface. It was the translation.",
         body: [
@@ -592,7 +572,6 @@ export const works: Work[] = [
     },
     sections: [
       {
-        kicker: "01",
         label: "Context",
         title: "The category hadn't kept up with its own promise.",
         body: [
@@ -623,7 +602,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "02",
         label: "Brief & approach",
         title: "Four problems, not a 1:1 response grid.",
         body: [
@@ -632,7 +610,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "03",
         label: "Returns",
         title: "Home Trials: design for the return before it happens.",
         body: [
@@ -650,7 +627,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "04",
         label: "Discovery",
         title: "Curated looks and trends, not a catalogue with better filters.",
         body: [
@@ -669,7 +645,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "05",
         label: "Confidence",
         title: "Ask Zilo: conversational discovery in the core nav.",
         body: [
@@ -687,7 +662,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "06",
         label: "Retention",
         title: "Post-purchase at launch, not deferred to v2.",
         body: [
@@ -706,7 +680,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "07",
         label: "Full screens",
         title: "The editorial surface, end to end.",
         body: [
@@ -749,7 +722,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "08",
         label: "Craft",
         title: "The hardest problem was making it feel different. The answer was one mark.",
         body: [
@@ -767,7 +739,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "09",
         label: "Outcome",
         title: "Shipped fast. Found product-market fit. Raised $19.9M.",
         body: [
@@ -786,7 +757,6 @@ export const works: Work[] = [
         },
       },
       {
-        kicker: "10",
         label: "Reflection",
         title: "What carries forward.",
         body: [
@@ -794,7 +764,6 @@ export const works: Work[] = [
         ],
       },
       {
-        kicker: "11",
         label: "Throwaways",
         title: "Explorations that didn't ship.",
         collapsible: true,

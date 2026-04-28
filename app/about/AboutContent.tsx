@@ -78,43 +78,57 @@ export default function AboutContent() {
               <div className="max-w-[640px] py-10 md:py-14">
                 <SectionLabel color="yellow">What I Believe</SectionLabel>
                 <p className="mt-6 text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-[1.2] tracking-[-0.012em] text-ink">
-                  Design moves faster when you{" "}
-                  <MarkerUnderline color="yellow">think</MarkerUnderline>{" "}
-                  before you open Figma.
+                  Good design starts{" "}
+                  <MarkerUnderline color="yellow">
+                    before the first frame
+                  </MarkerUnderline>
+                  .
                 </p>
                 <p className="mt-6 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
-                  I don&rsquo;t use AI to bypass the work; I use it to
-                  front-load the thinking. By stress-testing assumptions and
-                  drafting problem frames early, I ensure the design phase
-                  is spent on decisions that actually require a human
-                  designer. My best moves usually involve{" "}
+                  I use AI to work through the messy part: the
+                  assumptions that haven&rsquo;t been questioned, the
+                  flows that seem obvious but fall apart under pressure.
+                  That way, when I do sit down to design, I&rsquo;m not
+                  figuring out what to build. I already know. And more
+                  often than not, the best call I make on a project
+                  isn&rsquo;t adding something. It&rsquo;s{" "}
                   <MarkerUnderline color="magenta">
-                    removing steps
+                    cutting it
                   </MarkerUnderline>
-                  , not adding features.
+                  .
                 </p>
               </div>
 
               {/* AI-First Workflow */}
               <div className="max-w-[640px] py-10 md:py-14">
                 <SectionLabel color="magenta">AI-First Workflow</SectionLabel>
-                <ol className="mt-8 flex flex-col gap-4">
-                  <Step
-                    title="Pressure-Testing"
-                    body="Using LLMs to poke holes in the initial brief and find edge cases before a single pixel is moved."
-                  />
-                  <Step
-                    title="Logic-First Prototyping"
-                    body={`Validating user flows through rapid AI-generated logic loops to see if the ‘math’ of the product checks out.`}
-                  />
-                  <Step
-                    title="High-Fidelity Craft"
-                    body={`Moving to Figma only once the direction is defended. This is where I focus on the system, the scale, and the ‘soul’ of the UI.`}
-                  />
-                </ol>
+                <p className="mt-8 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
+                  Most design mistakes happen before Figma is even opened,
+                  when the brief sounds right but hasn&rsquo;t been
+                  properly stress-tested.
+                </p>
+                <p className="mt-5 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
+                  So I start by poking holes in it. I use AI to{" "}
+                  <MarkerUnderline color="magenta">
+                    pressure-test assumptions
+                  </MarkerUnderline>
+                  , surface edge cases, and figure out where the logic
+                  breaks down. Only once I&rsquo;m confident the thinking
+                  holds up do I move into prototyping: validating flows
+                  quickly, checking if the product actually makes sense to
+                  use before I&rsquo;ve invested hours in the craft.
+                </p>
+                <p className="mt-5 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
+                  High-fidelity work comes last, and that&rsquo;s
+                  intentional. By the time I&rsquo;m in Figma, I&rsquo;m
+                  not second-guessing the direction. I&rsquo;m focused on
+                  the system, the detail, and making it{" "}
+                  <MarkerUnderline color="yellow">feel right</MarkerUnderline>
+                  .
+                </p>
                 <p className="mt-8 text-[18px] font-bold leading-[1.35] tracking-[-0.012em] text-ink md:text-[20px]">
-                  Less time on the wrong thing. More time on the craft that
-                  matters.
+                  Less time building the wrong thing. More time on the
+                  work that actually matters.
                 </p>
               </div>
 
@@ -223,15 +237,6 @@ function SectionLabel({
         </span>
       ))}
     </h2>
-  );
-}
-
-function Step({ title, body }: { title: string; body: string }) {
-  return (
-    <li className="text-[16px] leading-[1.55] md:text-[17px]">
-      <span className="font-bold text-ink">{title}.</span>{" "}
-      <span className="text-ink-soft">{body}</span>
-    </li>
   );
 }
 

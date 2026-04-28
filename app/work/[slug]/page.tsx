@@ -180,22 +180,17 @@ export default async function WorkPage({
 
               <div className="w-full min-w-0 max-w-[720px]">
                 <div className="flex flex-col gap-20 md:gap-24">
-                  {work.sections.map((section) => (
+                  {work.sections.map((section, i) => (
                     <section
-                      key={section.kicker}
-                      id={`section-${section.kicker}`}
+                      key={i}
+                      id={`section-${i}`}
                       className="scroll-mt-28 md:scroll-mt-24"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="tabular-nums text-[12px] text-muted">
-                          {section.kicker}
-                        </span>
-                        <span className="text-[12.5px] text-ink-soft">
-                          {section.label}
-                        </span>
-                      </div>
+                      <span className="text-[13px] font-medium text-[color:var(--color-accent)] md:text-[14px]">
+                        {section.label}
+                      </span>
 
-                      <h2 className="mt-5 text-balance text-[24px] font-bold leading-[1.15] tracking-[-0.018em] text-ink md:text-[28px]">
+                      <h2 className="mt-3 text-balance text-[24px] font-bold leading-[1.15] tracking-[-0.018em] text-ink md:mt-4 md:text-[28px]">
                         {section.title}
                       </h2>
 

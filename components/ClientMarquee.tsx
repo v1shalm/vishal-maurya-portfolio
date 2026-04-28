@@ -30,7 +30,7 @@ export function ClientMarquee({ clients }: Props) {
           <li
             key={i}
             aria-hidden={i >= clients.length}
-            className="flex shrink-0 items-center pr-8 md:pr-10"
+            className="flex shrink-0 items-center pr-12 md:pr-16"
           >
             {client.logo ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -40,11 +40,11 @@ export function ClientMarquee({ clients }: Props) {
                 loading="lazy"
                 decoding="async"
                 className={`${
-                  client.heightClass ?? "h-10 md:h-14"
+                  client.heightClass ?? "h-14 md:h-20"
                 } w-auto select-none opacity-60 grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0`}
               />
             ) : (
-              <span className="whitespace-nowrap text-[15px] text-muted transition-colors duration-200 hover:text-ink md:text-[16px]">
+              <span className="whitespace-nowrap text-[18px] text-muted transition-colors duration-200 hover:text-ink md:text-[22px]">
                 {client.name}
               </span>
             )}

@@ -17,29 +17,29 @@ const clients: {
   {
     name: "Nexus 247",
     logo: "/logos/nexus-247.png",
-    heightClass: "h-12 md:h-16",
+    heightClass: "h-16 md:h-24",
   },
   {
     name: "OutcomesAI",
     logo: "/logos/outcomes-ai.png",
-    heightClass: "h-12 md:h-16",
+    heightClass: "h-16 md:h-24",
   },
   { name: "Zilo", logo: "/logos/zilo.png" },
   { name: "DSP Mutual Fund", logo: "/logos/dsp.png" },
   {
     name: "Alegra",
     logo: "/logos/alegra.png",
-    heightClass: "h-8 md:h-11",
+    heightClass: "h-11 md:h-16",
   },
   {
     name: "Briskpe",
     logo: "/logos/briskpe.png",
-    heightClass: "h-8 md:h-11",
+    heightClass: "h-11 md:h-16",
   },
   {
     name: "Inato",
     logo: "/logos/inato.png",
-    heightClass: "h-8 md:h-11",
+    heightClass: "h-11 md:h-16",
   },
 ];
 

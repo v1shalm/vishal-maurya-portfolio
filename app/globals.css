@@ -47,9 +47,9 @@
   /* Global container / page rhythm: single source of truth for margins.
      Every section flows through <Container /> → .page-container, so changing
      these tokens shifts the whole site's gutter in one place. */
-  --page-width: 1440px;
-  --page-px: 1.5rem; /* 24px, mobile */
-  --page-px-md: 2rem; /* 32px, desktop (was 64px) */
+  --page-width: 1100px;
+  --page-px: 1.25rem; /* 20px, mobile */
+  --page-px-md: 3rem; /* 48px, desktop */
 }
 
 html {
@@ -281,7 +281,7 @@ body {
 
 .marquee-track {
   width: max-content;
-  animation: marquee-x 16s linear infinite;
+  animation: marquee-x 40s linear infinite;
   will-change: transform;
 }
 
@@ -341,27 +341,6 @@ body {
   color: var(--color-y-ink);
 }
 
-.hero-y2k .y-display {
-  font-weight: 700;
-  font-size: clamp(3rem, 8vw, 110px);
-  line-height: 0.929;
-  letter-spacing: -0.02em;
-  color: var(--color-y-ink);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.hero-y2k .y-line {
-  display: block;
-}
-
-/* Breathing room between the yellow block and the pink block so the
-   halos don't blob into each other across the colour change. */
-.hero-y2k .y-line:nth-child(2) {
-  margin-bottom: 0.138em;
-}
-
 .hero-y2k .y-hl {
   display: inline-block;
   color: transparent;
@@ -403,6 +382,62 @@ body {
 }
 .hero-y2k .y-underline--magenta {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'><path d='M2 5 C 18 8, 32 3, 50 6 C 68 9, 82 4, 98 6' stroke='%23f91ca9' stroke-width='5' fill='none' stroke-linecap='round'/></svg>");
+}
+
+/* === Hero blocks (Figma-spec: solid-fill highlights) ===
+   Each phrase sits inside a rounded solid-color block. Distinct from the
+   .y-hl halo (used by SectionLabel and smaller heading bits) — solid
+   fill, no text-shadow ring. Used by the homepage <HeroY2K />. */
+.hero-blocks {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  /* Fluid scale: 30px floor (mobile S) → 80px ceiling (≥1142px viewport).
+     Slope of 7vw lets mid-range tablet sizes feel chunky without
+     overshooting the desktop cap. */
+  font-size: clamp(1.875rem, 7vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.07em;
+}
+.hero-blocks__row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.06em;
+}
+/* Small-mobile safety: at <360px viewports row 1 ([I craft][experiences])
+   wraps. flex-wrap handles it; we just need a touch more vertical breathing
+   room between the two so the wrap reads intentional, not collapsed. */
+@media (max-width: 380px) {
+  .hero-blocks__row {
+    row-gap: 0.1em;
+  }
+}
+.hero-block {
+  display: inline-block;
+  padding: 0.06em 0.22em 0.14em;
+  border-radius: 0.14em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.hero-block--purple {
+  background: #8E45FF;
+  color: #ffffff;
+}
+.hero-block--orange {
+  background: #ED3D14;
+  color: #ffffff;
+}
+.hero-block--yellow {
+  background: var(--color-yellow);
+  color: var(--color-y-ink);
+}
+.hero-block--pink {
+  background: #FFB3D9;
+  color: var(--color-y-ink);
 }
 
 /* === Button primitive === */

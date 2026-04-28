@@ -68,35 +68,43 @@ export function CommandPaletteTrigger() {
 function YellowFace({ modKey }: { modKey: string }) {
   return (
     <span
-      className="inline-flex items-center rounded-full py-1 pl-4 pr-1"
+      className="inline-flex items-center rounded-full py-1.5 pl-5 pr-1.5"
       style={{
         backgroundColor: "var(--color-yellow)",
         border: "1px solid var(--color-yellow-edge)",
-        boxShadow:
-          "inset 0 -3px 6px 0 rgba(0, 0, 0, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.45)",
+        // Soft 3D pill: bright highlight along the top rim, gentle shadow
+        // pooling at the bottom-inside. Reads as a chunky chiclet, not flat.
+        boxShadow: [
+          "inset 0 1.5px 0 rgba(255, 255, 255, 0.55)",
+          "inset 0 -3px 6px rgba(0, 0, 0, 0.14)",
+        ].join(", "),
       }}
     >
-      <span className="mr-2 text-[13px] font-bold tracking-tight text-ink">
+      <span className="mr-3 text-[15px] font-bold tracking-tight text-ink">
         Menu
       </span>
       <span
-        className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[11.5px] font-bold leading-none text-ink"
+        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 leading-none text-ink"
         style={{
-          // Very subtle gradient — same yellow-edge family, just a hint of
-          // top-darker / bottom-lighter to suggest a depressed surface.
+          fontFamily: "var(--font-mono)",
+          fontSize: "12px",
+          fontWeight: 600,
+          // Stays in the yellow family, just a touch deeper than the pill so
+          // the recess reads as depth rather than a different colour patch.
           backgroundImage:
-            "linear-gradient(180deg, #d0c007 0%, #dbd009 100%)",
-          // Soft inset shadow only at the top edge + a faint bounce on the
-          // bottom rim. Low opacity so the chip stays the same yellow family
-          // as the pill, not a darker patch sitting on it.
+            "linear-gradient(180deg, #d4c308 0%, #dfd008 100%)",
+          // Pronounced top inset + faint bottom highlight = the chip sits
+          // inside the surface, not on top of it.
           boxShadow: [
-            "inset 0 1px 1.5px rgba(0, 0, 0, 0.12)",
-            "inset 0 -0.5px 0 rgba(255, 255, 255, 0.35)",
+            "inset 0 2px 3px rgba(0, 0, 0, 0.22)",
+            "inset 0 -0.5px 0 rgba(255, 255, 255, 0.32)",
           ].join(", "),
         }}
       >
         <kbd className="tabular-nums">{modKey}</kbd>
-        <span aria-hidden className="font-medium text-ink/55">+</span>
+        <span aria-hidden style={{ opacity: 0.55 }}>
+          +
+        </span>
         <kbd>K</kbd>
       </span>
     </span>
