@@ -374,10 +374,13 @@ body {
 .hero-blocks {
   font-family: var(--font-sans);
   font-weight: 700;
-  /* Fluid scale: 30px floor (mobile S) → 80px ceiling (≥1142px viewport).
-     Slope of 7vw lets mid-range tablet sizes feel chunky without
-     overshooting the desktop cap. */
-  font-size: clamp(1.875rem, 7vw, 80px);
+  /* Fluid scale: 48px floor (small phones) -> 80px cap (kicks in at
+     ~571px viewport). 14vw slope makes the blocks fill ~80% of mobile
+     viewport width, which is the visual weight we want. Row 1
+     ([I design][products]) wraps to two stacked blocks below ~571px,
+     then snaps back side-by-side on tablet/desktop where the cap
+     holds. */
+  font-size: clamp(3rem, 14vw, 80px);
   line-height: 1;
   letter-spacing: -0.025em;
   display: flex;
