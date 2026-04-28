@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Nav } from "@/components/Nav";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
@@ -76,13 +76,9 @@ export default function AboutContent() {
 
               {/* What I Believe */}
               <div className="max-w-[640px] py-10 md:py-14">
-                <SectionLabel color="yellow">What I Believe</SectionLabel>
+                <SectionLabel>What I Believe</SectionLabel>
                 <p className="mt-6 text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-[1.2] tracking-[-0.012em] text-ink">
-                  Good design starts{" "}
-                  <MarkerUnderline color="yellow">
-                    before the first frame
-                  </MarkerUnderline>
-                  .
+                  Good design starts before the first frame.
                 </p>
                 <p className="mt-6 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
                   I use AI to work through the messy part: the
@@ -91,28 +87,22 @@ export default function AboutContent() {
                   That way, when I do sit down to design, I&rsquo;m not
                   figuring out what to build. I already know. And more
                   often than not, the best call I make on a project
-                  isn&rsquo;t adding something. It&rsquo;s{" "}
-                  <MarkerUnderline color="magenta">
-                    cutting it
-                  </MarkerUnderline>
-                  .
+                  isn&rsquo;t adding something. It&rsquo;s cutting it.
                 </p>
               </div>
 
               {/* AI-First Workflow */}
               <div className="max-w-[640px] py-10 md:py-14">
-                <SectionLabel color="magenta">AI-First Workflow</SectionLabel>
+                <SectionLabel>AI-First Workflow</SectionLabel>
                 <p className="mt-8 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
                   Most design mistakes happen before Figma is even opened,
                   when the brief sounds right but hasn&rsquo;t been
                   properly stress-tested.
                 </p>
                 <p className="mt-5 text-[17px] leading-[1.65] text-ink-soft md:text-[18px]">
-                  So I start by poking holes in it. I use AI to{" "}
-                  <MarkerUnderline color="magenta">
-                    pressure-test assumptions
-                  </MarkerUnderline>
-                  , surface edge cases, and figure out where the logic
+                  So I start by poking holes in it. I use AI to
+                  pressure-test assumptions, surface edge cases, and
+                  figure out where the logic
                   breaks down. Only once I&rsquo;m confident the thinking
                   holds up do I move into prototyping: validating flows
                   quickly, checking if the product actually makes sense to
@@ -122,9 +112,7 @@ export default function AboutContent() {
                   High-fidelity work comes last, and that&rsquo;s
                   intentional. By the time I&rsquo;m in Figma, I&rsquo;m
                   not second-guessing the direction. I&rsquo;m focused on
-                  the system, the detail, and making it{" "}
-                  <MarkerUnderline color="yellow">feel right</MarkerUnderline>
-                  .
+                  the system, the detail, and making it feel right.
                 </p>
                 <p className="mt-8 text-[18px] font-bold leading-[1.35] tracking-[-0.012em] text-ink md:text-[20px]">
                   Less time building the wrong thing. More time on the
@@ -134,7 +122,7 @@ export default function AboutContent() {
 
               {/* Lately */}
               <div className="max-w-[640px] py-10 md:py-14">
-                <SectionLabel color="yellow">Lately</SectionLabel>
+                <SectionLabel>Lately</SectionLabel>
                 <ul className="mt-8 flex flex-col gap-3 text-[17px] leading-[1.55] text-ink md:text-[18px]">
                   <Bullet color="pink">
                     Designing at Pineapple Design Studio
@@ -155,7 +143,7 @@ export default function AboutContent() {
               {/* Camera Roll: photo stack inline (mobile) — desktop has the
                   sticky sidebar instead so we hide this on md+. */}
               <div className="max-w-[640px] py-10 md:hidden">
-                <SectionLabel color="magenta">Camera Roll</SectionLabel>
+                <SectionLabel>Camera Roll</SectionLabel>
                 <div className="mt-10 flex justify-center">
                   <PhotoStack photos={STUDIO_PHOTOS} />
                 </div>
@@ -163,14 +151,11 @@ export default function AboutContent() {
 
               {/* Open To + CTA + signature */}
               <div className="max-w-[640px] pt-10 md:pt-14">
-                <SectionLabel color="yellow">Open To</SectionLabel>
+                <SectionLabel>Open To</SectionLabel>
                 <p className="mt-6 text-[clamp(1.25rem,2.4vw,1.625rem)] font-bold leading-[1.3] tracking-[-0.012em] text-ink">
                   In-house product design roles, ideally consumer-facing,
-                  in fintech, healthtech, or commerce, building for{" "}
-                  <MarkerUnderline color="yellow">
-                    Indian users
-                  </MarkerUnderline>
-                  .
+                  in fintech, healthtech, or commerce, building for
+                  Indian users.
                 </p>
                 <div className="mt-8">
                   <Button
@@ -217,25 +202,10 @@ export default function AboutContent() {
  * "Selected Work" with yellow+magenta), wire the JSX directly —
  * that's a different rhetorical move than this component.
  */
-function SectionLabel({
-  children,
-  color = "yellow",
-}: {
-  children: string;
-  color?: "yellow" | "magenta";
-}) {
-  const words = children.split(" ");
+function SectionLabel({ children }: { children: string }) {
   return (
-    <h2 className="hero-y2k flex flex-wrap items-center gap-[0.3em] text-[28px] font-bold leading-[1.1] tracking-tight">
-      {words.map((word, i) => (
-        <span
-          key={`${word}-${i}`}
-          className={`y-hl y-hl--${color}`}
-          data-text={word}
-        >
-          {word}
-        </span>
-      ))}
+    <h2 className="text-[28px] font-bold leading-[1.1] tracking-tight text-ink">
+      {children}
     </h2>
   );
 }
@@ -263,54 +233,6 @@ function Bullet({
       />
       <span>{children}</span>
     </li>
-  );
-}
-
-/* ---------- Animated marker underline ----------
-   Replaces the static y-underline CSS background with an inline SVG
-   whose stroke is drawn-in with motion's pathLength when the wrapper
-   first scrolls into view. Matches the v3 hand-drawn feel. */
-
-const MARKER_PATHS = {
-  yellow: "M2 6 C 20 3, 35 9, 50 5 C 65 1, 80 8, 98 5",
-  magenta: "M2 5 C 18 8, 32 3, 50 6 C 68 9, 82 4, 98 6",
-} as const;
-
-function MarkerUnderline({
-  children,
-  color = "yellow",
-}: {
-  children: React.ReactNode;
-  color?: "yellow" | "magenta";
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15%" });
-  const stroke = color === "yellow" ? "#fdf004" : "#f91ca9";
-
-  return (
-    <span
-      ref={ref}
-      className="relative inline-block pb-[0.18em]"
-    >
-      <span className="relative z-10">{children}</span>
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[0.32em] w-full"
-        viewBox="0 0 100 10"
-        preserveAspectRatio="none"
-      >
-        <motion.path
-          d={MARKER_PATHS[color]}
-          stroke={stroke}
-          strokeWidth={5}
-          strokeLinecap="round"
-          fill="none"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: inView ? 1 : 0 }}
-          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </svg>
-    </span>
   );
 }
 

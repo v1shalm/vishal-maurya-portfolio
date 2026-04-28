@@ -204,9 +204,8 @@ export default function Home() {
           <div id="work">
             <Container>
               <div className="flex items-baseline justify-between">
-                <h2 className="hero-y2k text-[28px] font-bold tracking-tight flex gap-[0.25em]">
-                  <span className="y-hl y-hl--yellow" data-text="Selected">Selected</span>
-                  <span className="y-hl y-hl--magenta" data-text="Work">Work</span>
+                <h2 className="text-[28px] font-bold tracking-tight text-ink">
+                  Selected Work
                 </h2>
                 <span className="text-[13px] text-muted">
                   2023–2025
@@ -228,8 +227,8 @@ export default function Home() {
         <Reveal as="section" className="pt-36 md:pt-48">
           <Container>
             <div className="flex items-baseline justify-between">
-              <h2 className="hero-y2k text-[28px] font-bold tracking-tight">
-                <span className="y-hl y-hl--magenta" data-text="Pixels">Pixels</span>
+              <h2 className="text-[28px] font-bold tracking-tight text-ink">
+                Pixels
               </h2>
               <Link
                 href="/pixels"

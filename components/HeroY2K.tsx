@@ -1,4 +1,3 @@
-import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Nav } from "@/components/Nav";
 
@@ -26,12 +25,6 @@ export function HeroY2K() {
             of experience shipping real products. Currently open to
             full-time roles.
           </p>
-
-          <div className="mt-10 md:mt-12">
-            <Button variant="yellow" href="#work" data-cursor="work">
-              View my work
-            </Button>
-          </div>
         </div>
       </Container>
     </section>

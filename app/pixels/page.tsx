@@ -165,13 +165,8 @@ export default function PixelsPage() {
               </h1>
 
               <p className="mt-10 max-w-[48ch] text-pretty text-[18px] font-bold leading-[1.5] text-ink md:text-[20px]">
-                Interfaces without briefs. A{" "}
-                <span className="hero-y2k">
-                  <span className="y-underline y-underline--yellow">
-                    sketchbook
-                  </span>
-                </span>
-                : some become products, most stay themselves.
+                Interfaces without briefs. A sketchbook: some become
+                products, most stay themselves.
               </p>
             </div>
 

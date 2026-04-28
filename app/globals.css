@@ -368,26 +368,9 @@ body {
   text-shadow: 0.2091em 0.0000em 0 var(--shadow-color), 0.2079em 0.0219em 0 var(--shadow-color), 0.2045em 0.0435em 0 var(--shadow-color), 0.1989em 0.0646em 0 var(--shadow-color), 0.1910em 0.0850em 0 var(--shadow-color), 0.1811em 0.1045em 0 var(--shadow-color), 0.1692em 0.1229em 0 var(--shadow-color), 0.1554em 0.1399em 0 var(--shadow-color), 0.1399em 0.1554em 0 var(--shadow-color), 0.1229em 0.1692em 0 var(--shadow-color), 0.1045em 0.1811em 0 var(--shadow-color), 0.0850em 0.1910em 0 var(--shadow-color), 0.0646em 0.1989em 0 var(--shadow-color), 0.0435em 0.2045em 0 var(--shadow-color), 0.0219em 0.2079em 0 var(--shadow-color), 0.0000em 0.2091em 0 var(--shadow-color), -0.0219em 0.2079em 0 var(--shadow-color), -0.0435em 0.2045em 0 var(--shadow-color), -0.0646em 0.1989em 0 var(--shadow-color), -0.0850em 0.1910em 0 var(--shadow-color), -0.1045em 0.1811em 0 var(--shadow-color), -0.1229em 0.1692em 0 var(--shadow-color), -0.1399em 0.1554em 0 var(--shadow-color), -0.1554em 0.1399em 0 var(--shadow-color), -0.1692em 0.1229em 0 var(--shadow-color), -0.1811em 0.1045em 0 var(--shadow-color), -0.1910em 0.0850em 0 var(--shadow-color), -0.1989em 0.0646em 0 var(--shadow-color), -0.2045em 0.0435em 0 var(--shadow-color), -0.2079em 0.0219em 0 var(--shadow-color), -0.2091em 0.0000em 0 var(--shadow-color), -0.2079em -0.0219em 0 var(--shadow-color), -0.2045em -0.0435em 0 var(--shadow-color), -0.1989em -0.0646em 0 var(--shadow-color), -0.1910em -0.0850em 0 var(--shadow-color), -0.1811em -0.1045em 0 var(--shadow-color), -0.1692em -0.1229em 0 var(--shadow-color), -0.1554em -0.1399em 0 var(--shadow-color), -0.1399em -0.1554em 0 var(--shadow-color), -0.1229em -0.1692em 0 var(--shadow-color), -0.1045em -0.1811em 0 var(--shadow-color), -0.0850em -0.1910em 0 var(--shadow-color), -0.0646em -0.1989em 0 var(--shadow-color), -0.0435em -0.2045em 0 var(--shadow-color), -0.0219em -0.2079em 0 var(--shadow-color), -0.0000em -0.2091em 0 var(--shadow-color), 0.0219em -0.2079em 0 var(--shadow-color), 0.0435em -0.2045em 0 var(--shadow-color), 0.0646em -0.1989em 0 var(--shadow-color), 0.0850em -0.1910em 0 var(--shadow-color), 0.1045em -0.1811em 0 var(--shadow-color), 0.1229em -0.1692em 0 var(--shadow-color), 0.1399em -0.1554em 0 var(--shadow-color), 0.1554em -0.1399em 0 var(--shadow-color), 0.1692em -0.1229em 0 var(--shadow-color), 0.1811em -0.1045em 0 var(--shadow-color), 0.1910em -0.0850em 0 var(--shadow-color), 0.1989em -0.0646em 0 var(--shadow-color), 0.2045em -0.0435em 0 var(--shadow-color), 0.2079em -0.0219em 0 var(--shadow-color);
 }
 
-/* Hand-drawn underline accents — SVG wavy stroke painted at the baseline.
-   Two distinct paths per colour so yellow/magenta don't read as mirrored. */
-.hero-y2k .y-underline {
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 100% 0.32em;
-  padding-bottom: 0.18em;
-  text-decoration: none;
-}
-.hero-y2k .y-underline--yellow {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'><path d='M2 6 C 20 3, 35 9, 50 5 C 65 1, 80 8, 98 5' stroke='%23fdf004' stroke-width='5' fill='none' stroke-linecap='round'/></svg>");
-}
-.hero-y2k .y-underline--magenta {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'><path d='M2 5 C 18 8, 32 3, 50 6 C 68 9, 82 4, 98 6' stroke='%23f91ca9' stroke-width='5' fill='none' stroke-linecap='round'/></svg>");
-}
-
 /* === Hero blocks (Figma-spec: solid-fill highlights) ===
-   Each phrase sits inside a rounded solid-color block. Distinct from the
-   .y-hl halo (used by SectionLabel and smaller heading bits) — solid
-   fill, no text-shadow ring. Used by the homepage <HeroY2K />. */
+   Each phrase sits inside a rounded solid-color block. Used by the
+   homepage <HeroY2K />. */
 .hero-blocks {
   font-family: var(--font-sans);
   font-weight: 700;

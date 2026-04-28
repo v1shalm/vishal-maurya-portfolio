@@ -83,13 +83,8 @@ export default function PlaygroundPage() {
               </h1>
 
               <p className="mt-10 max-w-[48ch] text-pretty text-[18px] font-bold leading-[1.5] text-ink md:text-[20px]">
-                Ongoing experiments where art, code, and design{" "}
-                <span className="hero-y2k">
-                  <span className="y-underline y-underline--magenta">
-                    overlap
-                  </span>
-                </span>
-                . Kept in the open. Some ship, most stay here.
+                Ongoing experiments where art, code, and design overlap.
+                Kept in the open. Some ship, most stay here.
               </p>
             </div>
           </Container>
