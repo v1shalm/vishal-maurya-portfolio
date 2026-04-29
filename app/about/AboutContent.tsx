@@ -24,19 +24,19 @@ export default function AboutContent() {
   return (
     <>
       <Nav />
-      <main className="flex flex-1 flex-col pb-4 md:pb-6">
+      <main id="main-content" className="flex flex-1 flex-col pb-4 md:pb-6">
         <Container>
           <div className="max-w-[760px]">
 
             {/* Headline */}
-            <h1 className="text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink">
+            <h1 className="text-balance text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink">
               I&rsquo;m a product designer based in Mumbai, shipping
               products that feel alive.
             </h1>
 
             {/* Intro */}
             <p className="mt-8 text-[18px] leading-[1.8] text-ink-soft">
-              Currently at Pineapple Design Studio, where I&rsquo;ve shipped
+              Most recently at Pineapple Design Studio, where I shipped
               quick-commerce products (Nexus 247, Zilo) and healthtech
               (OutcomesAI). I work AI-first, pressure-testing the brief
               before opening Figma, so by the time I&rsquo;m designing, I
@@ -54,7 +54,7 @@ export default function AboutContent() {
             </p>
             <ul className="mt-4 flex flex-col gap-3">
               <BulletItem color="pink">
-                Designing at Pineapple Design Studio
+                Looking for full-time product design roles
               </BulletItem>
               <BulletItem color="yellow">
                 Turning &ldquo;what if&rdquo; into &ldquo;shipped&rdquo; with AI in the loop

@@ -47,7 +47,7 @@ export function SectionHeader({ title, meta, className = "" }: Props) {
       className={`flex items-baseline justify-between ${className}`}
     >
       <h2
-        className="section-header-h2 text-[28px] font-bold tracking-tight text-ink"
+        className="section-header-h2 text-balance text-[28px] font-bold tracking-tight text-ink"
         data-shown={shown}
       >
         {title}

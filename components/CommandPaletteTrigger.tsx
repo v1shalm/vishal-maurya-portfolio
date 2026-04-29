@@ -48,7 +48,7 @@ export function CommandPaletteTrigger() {
       aria-label={`Open command menu. Shortcut: ${modKey} K`}
       aria-haspopup="dialog"
       aria-keyshortcuts="Meta+K Control+K"
-      className={`group fixed bottom-6 left-1/2 z-[80] select-none transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-[0.96] ${halo}`}
+      className={`group fixed bottom-6 left-1/2 z-[80] select-none transition-[transform,filter,opacity] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-[0.96] ${halo}`}
       style={{
         opacity: visible ? 1 : 0,
         translate: `-50% ${visible ? "0" : "8px"}`,
@@ -80,32 +80,26 @@ function YellowFace({ modKey }: { modKey: string }) {
         ].join(", "),
       }}
     >
-      <span className="mr-3 text-[15px] font-bold tracking-tight text-ink">
+      <span className="mr-2.5 text-[15px] font-bold tracking-tight text-ink">
         Menu
       </span>
       <span
-        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 leading-none text-ink"
+        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12.5px] font-semibold leading-none tracking-tight text-ink [&_kbd]:font-sans"
         style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "12px",
-          fontWeight: 600,
-          // Stays in the yellow family, just a touch deeper than the pill so
-          // the recess reads as depth rather than a different colour patch.
-          backgroundImage:
-            "linear-gradient(180deg, #d4c308 0%, #dfd008 100%)",
-          // Pronounced top inset + faint bottom highlight = the chip sits
-          // inside the surface, not on top of it.
+          backgroundColor: "var(--color-yellow)",
+          // Recessed chiclet: a deep mustard inner shadow falls in from
+          // the top-edge wall, balanced by a bright lemon highlight on
+          // the bottom rim so the chip reads as carved in, not flat.
           boxShadow: [
-            "inset 0 2px 3px rgba(0, 0, 0, 0.22)",
-            "inset 0 -0.5px 0 rgba(255, 255, 255, 0.32)",
+            "inset 0 3px 6px rgba(132, 121, 4, 0.55)",
+            "inset 0 1px 0 rgba(150, 138, 0, 0.5)",
+            "inset 0 -1px 0 rgba(255, 250, 200, 0.6)",
           ].join(", "),
         }}
       >
-        <kbd className="tabular-nums">{modKey}</kbd>
-        <span aria-hidden style={{ opacity: 0.55 }}>
-          +
-        </span>
-        <kbd>K</kbd>
+        <kbd className="font-semibold tabular-nums">{modKey}</kbd>
+        <span aria-hidden className="text-ink/55">+</span>
+        <kbd className="font-semibold">K</kbd>
       </span>
     </span>
   );

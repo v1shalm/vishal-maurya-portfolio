@@ -108,7 +108,7 @@ export default async function WorkPage({
       />
       <ScrollProgress />
       <Nav />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         {/* === Hero === */}
         <header>
           <Container>

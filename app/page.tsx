@@ -184,7 +184,7 @@ const playground: PixelsItem[] = [
 export default function Home() {
   return (
     <>
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <HeroY2K />
 
         {/* Client strip: infinite marquee (stays within the global container) */}

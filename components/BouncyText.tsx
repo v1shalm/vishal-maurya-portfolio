@@ -15,7 +15,7 @@ export function BouncyText({
         <span
           key={i}
           aria-hidden
-          className="inline-block transition-transform duration-[260ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-[5px] group-focus-visible:-translate-y-[5px]"
+          className="inline-block transition-transform duration-[260ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[5px] group-focus-visible:-translate-y-[5px]"
           style={{ transitionDelay: `${i * staggerMs}ms` }}
         >
           {ch === " " ? "\u00A0" : ch}

@@ -17,7 +17,7 @@ export default function NotFound() {
   return (
     <>
       <Nav />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <section>
           <Container>
             <div className="grid gap-12 md:grid-cols-[minmax(0,58ch)_1fr] md:items-start md:gap-16">
@@ -27,7 +27,7 @@ export default function NotFound() {
               </span>
 
               <h1 className="hero-y2k mt-6 flex flex-wrap text-[clamp(2.25rem,5.5vw,4rem)] font-bold leading-[0.95] tracking-tight gap-x-[0.25em]">
-                <span>This one</span>
+                <span className="halo-title-prefix">This one</span>
                 <HaloTitle text="got away." color="magenta" />
               </h1>
 

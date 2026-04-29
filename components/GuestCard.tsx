@@ -1157,7 +1157,7 @@ function Field({
             aria-label={
               confirmed ? `Edit ${label.toLowerCase()}` : `Confirm ${label.toLowerCase()}`
             }
-            className="mb-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-current/40 transition-all disabled:cursor-not-allowed disabled:opacity-25 enabled:hover:scale-[1.08] enabled:hover:border-current"
+            className="mb-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-current/40 transition-[transform,border-color,opacity,background-color] duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-25 enabled:hover:scale-[1.08] enabled:hover:border-current"
             style={{
               backgroundColor: confirmed ? "currentColor" : "transparent",
             }}

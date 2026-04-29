@@ -47,7 +47,7 @@ export function Reveal({
           }
         }
       },
-      { threshold, rootMargin: "0px 0px -8% 0px" }
+      { threshold, rootMargin: "0px 0px -15% 0px" }
     );
 
     observer.observe(el);
@@ -61,7 +61,7 @@ export function Reveal({
         transform: visible
           ? "translate3d(0, 0, 0)"
           : `translate3d(0, ${offset}px, 0)`,
-        transition: `opacity 800ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 800ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+        transition: `opacity 540ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 540ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
         willChange: visible ? "auto" : "opacity, transform",
       };
 

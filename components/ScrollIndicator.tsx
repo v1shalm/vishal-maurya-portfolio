@@ -32,11 +32,11 @@ export function ScrollIndicator({
         style={{ backgroundColor: track }}
       >
         <div
-          className="absolute inset-x-0 top-0 rounded-full"
+          className="absolute inset-0 origin-top rounded-full will-change-transform"
           style={{
-            height: `${clamped * 100}%`,
             backgroundColor: color,
-            transition: "height 80ms linear",
+            transform: `scaleY(${clamped})`,
+            transition: "transform 80ms linear",
           }}
         />
       </div>
@@ -50,11 +50,11 @@ export function ScrollIndicator({
       style={{ backgroundColor: track }}
     >
       <div
-        className="absolute inset-y-0 left-0 rounded-full"
+        className="absolute inset-0 origin-left rounded-full will-change-transform"
         style={{
-          width: `${clamped * 100}%`,
           backgroundColor: color,
-          transition: "width 80ms linear",
+          transform: `scaleX(${clamped})`,
+          transition: "transform 80ms linear",
         }}
       />
     </div>

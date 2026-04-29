@@ -112,10 +112,10 @@ export function BeforeAfterSlider({
         </div>
 
         {/* Corner labels */}
-        <span className="pointer-events-none absolute left-3 top-3 inline-flex items-center rounded-full bg-black/70 px-2.5 py-[3px] text-[10.5px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm md:left-4 md:top-4">
+        <span className="pointer-events-none absolute left-3 top-3 inline-flex items-center rounded-full bg-y-ink/70 px-2.5 py-[3px] text-[10.5px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm md:left-4 md:top-4">
           Before
         </span>
-        <span className="pointer-events-none absolute right-3 top-3 inline-flex items-center rounded-full bg-black/70 px-2.5 py-[3px] text-[10.5px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm md:right-4 md:top-4">
+        <span className="pointer-events-none absolute right-3 top-3 inline-flex items-center rounded-full bg-y-ink/70 px-2.5 py-[3px] text-[10.5px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur-sm md:right-4 md:top-4">
           After
         </span>
 
