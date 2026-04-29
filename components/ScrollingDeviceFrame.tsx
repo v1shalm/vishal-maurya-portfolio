@@ -52,25 +52,39 @@ export function ScrollingDeviceFrame({
   } | null>(null);
   const reduceMotion = useReducedMotion();
 
-  // Position the sliding pill to cover the active button's full rect,
-  // measured relative to the tablist so the transform is a simple delta.
+  // Position the sliding pill to cover the active button's full rect.
+  // Use offsetLeft/offsetTop (scroll-independent) so the pill stays aligned
+  // when the tablist itself is horizontally scrolled on narrow viewports.
   useIsoLayoutEffect(() => {
     const measure = () => {
-      const tablist = tablistRef.current;
       const tab = tabRefs.current[active];
-      if (!tablist || !tab) return;
-      const tablistRect = tablist.getBoundingClientRect();
-      const tabRect = tab.getBoundingClientRect();
+      if (!tab) return;
       setPill({
-        x: tabRect.left - tablistRect.left,
-        y: tabRect.top - tablistRect.top,
-        w: tabRect.width,
-        h: tabRect.height,
+        x: tab.offsetLeft,
+        y: tab.offsetTop,
+        w: tab.offsetWidth,
+        h: tab.offsetHeight,
       });
     };
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
+  }, [active]);
+
+  // When the active tab changes, bring it into view inside the horizontally
+  // scrolling tablist on mobile. We scroll only the tablist (not the page)
+  // so tapping a tab doesn't jolt the document vertically.
+  useEffect(() => {
+    const tab = tabRefs.current[active];
+    const tablist = tablistRef.current;
+    if (!tab || !tablist) return;
+    const target =
+      tab.offsetLeft - (tablist.clientWidth - tab.offsetWidth) / 2;
+    const max = tablist.scrollWidth - tablist.clientWidth;
+    tablist.scrollTo({
+      left: Math.max(0, Math.min(max, target)),
+      behavior: "smooth",
+    });
   }, [active]);
 
   const handleScroll = () => {

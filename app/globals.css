@@ -258,6 +258,56 @@ body {
   }
 }
 
+/* === Mobile nav dropdown ===
+   The panel unfolds out of the trigger button: anchored top-right via
+   `origin-top-right`, the clip-path inset shrinks from the bottom so
+   the panel appears to pour downward out of where the button ends.
+   A small scale on top sells the "popping out" feel. Items fade in
+   on a quick stagger as the clip passes them. */
+.mobile-nav-panel {
+  animation: mobile-nav-in 260ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.mobile-nav-item {
+  animation: mobile-nav-item-in 180ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.mobile-nav-panel li:nth-child(1) .mobile-nav-item { animation-delay: 80ms; }
+.mobile-nav-panel li:nth-child(2) .mobile-nav-item { animation-delay: 110ms; }
+.mobile-nav-panel li:nth-child(3) .mobile-nav-item { animation-delay: 140ms; }
+.mobile-nav-panel li:nth-child(4) .mobile-nav-item { animation-delay: 170ms; }
+.mobile-nav-panel li:nth-child(5) .mobile-nav-item { animation-delay: 200ms; }
+.mobile-nav-panel li:nth-child(6) .mobile-nav-item { animation-delay: 230ms; }
+.mobile-nav-panel li:nth-child(7) .mobile-nav-item { animation-delay: 260ms; }
+
+@keyframes mobile-nav-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    clip-path: inset(0 0 100% 0 round 16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+}
+
+@keyframes mobile-nav-item-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-panel,
+  .mobile-nav-item {
+    animation: none;
+  }
+}
+
 /* === Section headers ===
    Home-page h2 reveals on scroll-in via a left→right clip-path wipe +
    tiny y-shift. The right-side meta fades up just behind it. Trigger

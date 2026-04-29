@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
+import { MobileNav } from "@/components/MobileNav";
 
 /**
  * Site-wide top bar: wordmark, primary nav (About / Pixels / Playground),
- * yellow Let's Connect CTA. Same composition on every page (home
- * included). Nav links are hidden on mobile to keep the bar clean —
- * ⌘K palette covers discovery there.
+ * yellow Let's Connect CTA on desktop. On mobile the inline links + CTA
+ * collapse into a single Menu pill (<MobileNav />) that opens an ink
+ * dropdown with all destinations.
  */
 export function Nav() {
   return (
@@ -50,12 +51,16 @@ export function Nav() {
             </Link>
           </nav>
 
-          <Button
-            variant="yellow"
-            href="mailto:vishalm.designs@gmail.com"
-          >
-            Let&rsquo;s Connect
-          </Button>
+          <div className="hidden md:inline-flex">
+            <Button
+              variant="yellow"
+              href="mailto:vishalm.designs@gmail.com"
+            >
+              Let&rsquo;s Connect
+            </Button>
+          </div>
+
+          <MobileNav />
         </div>
       </Container>
     </header>
