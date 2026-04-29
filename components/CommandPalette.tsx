@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { play } from "@/lib/sounds";
+import { links } from "@/lib/links";
 
 type Group = "page" | "project" | "external" | "action";
 
@@ -42,7 +43,7 @@ const items: Item[] = [
   {
     label: "Email",
     group: "action",
-    href: "mailto:vishalm.designs@gmail.com",
+    href: links.email,
     hint: "Open a message",
   },
   {
@@ -50,29 +51,29 @@ const items: Item[] = [
     group: "action",
     action: async () => {
       try {
-        await navigator.clipboard.writeText("vishalm.designs@gmail.com");
+        await navigator.clipboard.writeText(links.emailDisplay);
       } catch {
         /* silent */
       }
     },
-    hint: "vishalm.designs@gmail.com",
+    hint: links.emailDisplay,
   },
   {
     label: "Download resume",
     group: "action",
-    href: "https://drive.google.com/file/d/1H9CUwS7UnFzxy1oD_wa5A7KJ4P_i45ch/view?usp=drive_link",
+    href: links.resume,
     hint: "PDF · Google Drive",
   },
   {
     label: "LinkedIn",
     group: "external",
-    href: "https://www.linkedin.com/in/v1shalm/",
+    href: links.linkedin,
     hint: "Profile",
   },
   {
     label: "Dribbble",
     group: "external",
-    href: "https://dribbble.com/V1shal",
+    href: links.dribbble,
     hint: "Shots",
   },
 ];

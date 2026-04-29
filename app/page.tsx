@@ -9,6 +9,7 @@ import { ClientMarquee } from "@/components/ClientMarquee";
 import { EmailLink } from "@/components/EmailLink";
 import { HeroY2K } from "@/components/HeroY2K";
 import { works } from "@/lib/works";
+import { links } from "@/lib/links";
 
 const clients: {
   name: string;
@@ -266,7 +267,7 @@ export default function Home() {
               <p className="mt-10 max-w-[58ch] text-pretty text-[16px] leading-[1.7] text-ink-soft md:mt-12 md:text-[17px]">
                 Or grab the{" "}
                 <a
-                  href="https://drive.google.com/file/d/1H9CUwS7UnFzxy1oD_wa5A7KJ4P_i45ch/view?usp=drive_link"
+                  href={links.resume}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="external"
