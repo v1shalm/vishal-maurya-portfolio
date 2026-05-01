@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useIsApplePlatform, useMediaQuery } from "@/lib/useMediaQuery";
 
 type Variant = "yellow" | "chrome";
@@ -14,6 +15,7 @@ type Variant = "yellow" | "chrome";
  * Toggle via ?cmd=yellow or ?cmd=chrome on any URL.
  */
 export function CommandPaletteTrigger() {
+  const pathname = usePathname();
   const hoverable = useMediaQuery("(hover: hover) and (pointer: fine)");
   const isMac = useIsApplePlatform();
   const modKey = isMac ? "⌘" : "Ctrl";
@@ -33,6 +35,7 @@ export function CommandPaletteTrigger() {
   };
 
   if (!hoverable) return null;
+  if (pathname?.startsWith("/playground/guest-card")) return null;
 
   // Halo color matches each variant: yellow drops a yellow shadow,
   // chrome keeps the existing pink halo for brand continuity.
