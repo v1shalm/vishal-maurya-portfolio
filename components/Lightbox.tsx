@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { isVideoSrc } from "@/components/LazyVideo";
+import { play } from "@/lib/sounds";
 
 export type LightboxImage = {
   src: string;
@@ -22,9 +23,13 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
 
   useEffect(() => {
     setMounted(true);
+    play("lightboxOpen");
     // Defer visibility one frame so the fade-in transition runs
     const raf = requestAnimationFrame(() => setVisible(true));
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      play("lightboxClose");
+    };
   }, []);
 
   useEffect(() => {

@@ -3,7 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { play } from "@/lib/sounds";
+import {
+  play,
+  playForce,
+  isSoundEnabled,
+  setSoundEnabled,
+} from "@/lib/sounds";
 import { links } from "@/lib/links";
 
 type Group = "page" | "project" | "external" | "action";
@@ -92,6 +97,7 @@ export function CommandPalette() {
   const [index, setIndex] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [modKey, setModKey] = useState("⌘");
+  const [soundsOn, setSoundsOn] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
@@ -105,16 +111,44 @@ export function CommandPalette() {
     setModKey(isMac ? "⌘" : "Ctrl");
   }, []);
 
+  // Hydrate the sound toggle from localStorage and stay in sync across tabs.
+  useEffect(() => {
+    setSoundsOn(isSoundEnabled());
+    const onChange = (e: Event) => {
+      const detail = (e as CustomEvent<boolean>).detail;
+      setSoundsOn(typeof detail === "boolean" ? detail : isSoundEnabled());
+    };
+    window.addEventListener("sound:toggled", onChange);
+    return () => window.removeEventListener("sound:toggled", onChange);
+  }, []);
+
+  const allItems = useMemo<Item[]>(
+    () => [
+      ...items,
+      {
+        label: soundsOn ? "Sounds: On" : "Sounds: Off",
+        group: "action",
+        action: () => {
+          const next = !soundsOn;
+          setSoundEnabled(next);
+          if (next) playForce("success");
+        },
+        hint: soundsOn ? "Click to mute" : "Click to enable",
+      },
+    ],
+    [soundsOn],
+  );
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const matches = items.filter((item) => {
+    const matches = allItems.filter((item) => {
       if (!q) return true;
       return (item.label + " " + (item.hint ?? "")).toLowerCase().includes(q);
     });
-    
+
     const groupOrder = { page: 1, project: 2, action: 3, external: 4 };
     return matches.sort((a, b) => groupOrder[a.group] - groupOrder[b.group]);
-  }, [query]);
+  }, [query, allItems]);
 
   useEffect(() => {
     if (index >= filtered.length) setIndex(Math.max(0, filtered.length - 1));

@@ -114,13 +114,14 @@ export default function AboutContent() {
                 const h = photo.aspect === "3/2" ? { mobile: 120, desktop: 160 } : { mobile: 160, desktop: 210 };
                 const [w, ht] = photo.aspect.split("/").map(Number);
                 return (
-                  <div
+                  <motion.div
                     key={i}
                     className="flex-none bg-white p-2.5 pb-7 shadow-[0_8px_30px_-6px_rgba(0,0,0,0.18),0_2px_8px_-2px_rgba(0,0,0,0.10)] ring-1 ring-black/5 md:p-3 md:pb-9"
-                    style={{
-                      transform: `rotate(${tilt}deg)`,
-                      transformOrigin: "center bottom",
-                    }}
+                    style={{ transformOrigin: "center bottom" }}
+                    initial={false}
+                    animate={{ rotate: tilt, scale: 1 }}
+                    whileHover={{ rotate: 0, scale: 1.05 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <div
                       className="relative overflow-hidden bg-bg-elevated"
@@ -140,7 +141,7 @@ export default function AboutContent() {
                         />
                       )}
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

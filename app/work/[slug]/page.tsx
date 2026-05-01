@@ -11,6 +11,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 import { Drawer } from "@/components/Drawer";
 import { WorkThumbnail } from "@/components/WorkThumbnail";
 import { TransitionLink } from "@/components/TransitionLink";
+import { Button } from "@/components/Button";
 
 export function generateStaticParams() {
   return works.map((w) => ({ slug: w.slug }));
@@ -120,6 +121,21 @@ export default async function WorkPage({
                 <p className="mt-6 max-w-[54ch] text-pretty text-[17px] leading-[1.6] text-ink-soft md:text-[18px]">
                   {work.summary}
                 </p>
+
+                {work.liveUrl && (
+                  <div className="mt-8">
+                    <Button
+                      variant="yellow"
+                      href={work.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cursor="external"
+                      data-cursor-label={`Visit ${work.liveLabel ?? new URL(work.liveUrl).hostname.replace(/^www\./, "")}`}
+                    >
+                      Try it live
+                    </Button>
+                  </div>
+                )}
 
               </div>
 

@@ -57,9 +57,9 @@ const confettiBurst: SoundDefinition = {
 /**
  * Site-wide sound surface. Maps semantic names to the Playful patch from
  * the @web-kits/audio registry. Intentionally narrow — sounds only fire
- * at moments where audio rewards an action (palette open/close/run, case
- * study tab switch, copy confirmation). No hover sounds, no per-keystroke
- * feedback. Restraint is the design.
+ * at moments where audio rewards an action (palette, lightbox, transitions,
+ * copy, easter egg). No hover sounds, no per-keystroke feedback. Sounds
+ * are off by default; users opt in from the command palette.
  */
 type SoundKey =
   | "paletteOpen" // command palette opens (⌘K or click)
@@ -68,7 +68,10 @@ type SoundKey =
   | "tabSwitch" // case study device tab change
   | "copy" // copy email confirmation
   | "success" // ascending chime for milestones
-  | "confetti"; // pop + arpeggio + sparkle (easter egg)
+  | "confetti" // pop + arpeggio + sparkle (easter egg)
+  | "lightboxOpen" // image lightbox opens
+  | "lightboxClose" // image lightbox closes
+  | "pageTransition"; // case study / page enter via TransitionLink
 
 let cache: Partial<Record<SoundKey, () => void>> | null = null;
 let primed = false;
@@ -83,12 +86,39 @@ function init() {
     copy: defineSound(playful.copy),
     success: defineSound(playful.success),
     confetti: defineSound(confettiBurst),
+    lightboxOpen: defineSound(playful.pop),
+    lightboxClose: defineSound(playful.collapse),
+    pageTransition: defineSound(playful.swoosh),
   };
   primed = true;
 }
 
+const SOUND_FLAG = "sound-enabled";
+
+/** Returns true if the user has opted in to UI sounds. Defaults to false. */
+export function isSoundEnabled() {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(SOUND_FLAG) === "1";
+  } catch {
+    return false;
+  }
+}
+
+/** Persist the user's sound preference. */
+export function setSoundEnabled(enabled: boolean) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(SOUND_FLAG, enabled ? "1" : "0");
+    window.dispatchEvent(new CustomEvent("sound:toggled", { detail: enabled }));
+  } catch {
+    // localStorage can be unavailable in private mode / iframes.
+  }
+}
+
 function shouldPlay() {
   if (typeof window === "undefined") return false;
+  if (!isSoundEnabled()) return false;
   if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
     return false;
   }
@@ -96,9 +126,9 @@ function shouldPlay() {
 }
 
 /**
- * Play a named sound. No-ops on the server, when audio is blocked, or
- * when the user prefers reduced motion. Lazy-creates the audio context
- * on first call so it's bound to a real user gesture.
+ * Play a named sound. No-ops on the server, when sounds are off, when audio
+ * is blocked, or when the user prefers reduced motion. Lazy-creates the
+ * audio context on first call so it's bound to a real user gesture.
  */
 export function play(name: SoundKey) {
   if (!shouldPlay()) return;
@@ -108,5 +138,20 @@ export function play(name: SoundKey) {
   } catch {
     // AudioContext can refuse to start in some embedded contexts —
     // failing silently here is preferable to crashing the UI.
+  }
+}
+
+/**
+ * Force-play a sound regardless of the global toggle. Used for the toggle's
+ * own confirmation chime so the user hears feedback when they enable sounds.
+ */
+export function playForce(name: SoundKey) {
+  if (typeof window === "undefined") return;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+  try {
+    if (!primed) init();
+    cache?.[name]?.();
+  } catch {
+    /* silent */
   }
 }

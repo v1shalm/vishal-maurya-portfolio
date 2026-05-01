@@ -74,6 +74,56 @@ export function BeforeAfterSlider({
     };
   }, [dragging]);
 
+  // Auto-hint: when the slider first enters the viewport, dip the handle
+  // ~20% to the left and snap back. Discoverability for the drag affordance.
+  // Bails on prefers-reduced-motion, on touch (no mouse to follow up), and
+  // if the user has already started dragging.
+  const hintRef = useRef(false);
+  useEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let rafId = 0;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting || hintRef.current) continue;
+          hintRef.current = true;
+          obs.disconnect();
+
+          const start = initial;
+          const dip = Math.max(8, initial - 20);
+          const total = 1100;
+          const t0 = performance.now();
+          const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+          const step = (now: number) => {
+            const p = Math.min(1, (now - t0) / total);
+            let value: number;
+            if (p < 0.5) {
+              const t = easeOut(p / 0.5);
+              value = start - (start - dip) * t;
+            } else {
+              const t = easeOut((p - 0.5) / 0.5);
+              value = dip + (start - dip) * t;
+            }
+            setPos(value);
+            if (p < 1) rafId = requestAnimationFrame(step);
+          };
+          rafId = requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.5 },
+    );
+    obs.observe(el);
+
+    return () => {
+      obs.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [initial]);
+
   return (
     <figure>
       <div

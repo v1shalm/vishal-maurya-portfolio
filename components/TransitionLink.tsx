@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ComponentProps, MouseEvent, ReactNode } from "react";
+import { play } from "@/lib/sounds";
 
 type Props = Omit<ComponentProps<typeof Link>, "href" | "children"> & {
   href: string;
@@ -31,6 +32,7 @@ export function TransitionLink({ href, children, onClick, ...rest }: Props) {
       return;
 
     e.preventDefault();
+    play("pageTransition");
     (
       document as unknown as {
         startViewTransition: (cb: () => void) => void;
