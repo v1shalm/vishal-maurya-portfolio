@@ -89,11 +89,11 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
             <li
               key={`${item.slug}-${i}`}
               aria-hidden={i >= tiles.length}
-              className="shrink-0 px-3 md:px-4"
+              className="shrink-0 px-2 md:px-4"
             >
               <Link
                 href="/pixels"
-                className="group block h-[260px] md:h-[360px]"
+                className="group block h-[240px] md:h-[360px]"
                 aria-label={`${item.title}: ${item.kind}`}
               >
                 <div

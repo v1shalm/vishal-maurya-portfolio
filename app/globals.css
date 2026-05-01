@@ -462,21 +462,23 @@ body {
 /* Pixels marquee uses a pixel-fixed fade so the edge softness reads
    the same thickness on a phone and on a desktop. The 120px ramp
    covers roughly half a tile width, which is what feels intentional. */
-.pixels-marquee-mask {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black 120px,
-    black calc(100% - 120px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    black 120px,
-    black calc(100% - 120px),
-    transparent 100%
-  );
+@media (min-width: 768px) {
+  .pixels-marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 120px,
+      black calc(100% - 120px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 120px,
+      black calc(100% - 120px),
+      transparent 100%
+    );
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
