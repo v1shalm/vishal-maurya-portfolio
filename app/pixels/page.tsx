@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
-import { Reveal } from "@/components/Reveal";
 import { HaloTitle } from "@/components/HaloTitle";
-import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
+import { PixelsMasonry } from "@/components/PixelsMasonry";
+import { type PixelsItem } from "@/components/PixelsTile";
 
 export const metadata: Metadata = {
   title: "Pixels · Vishal Maurya",
@@ -174,17 +174,11 @@ export default function PixelsPage() {
                 <span className="text-[13px] text-muted">
                   All · {items.length}
                 </span>
-                <span className="text-[13px] text-muted">
-                  2025
-                </span>
+                <span className="text-[13px] text-muted">2025</span>
               </div>
 
-              <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-28">
-                {items.map((item, i) => (
-                  <Reveal key={item.slug} delay={i * 80}>
-                    <PixelsTile item={item} />
-                  </Reveal>
-                ))}
+              <div className="mt-12 md:mt-16">
+                <PixelsMasonry items={items} />
               </div>
             </section>
           </Container>
