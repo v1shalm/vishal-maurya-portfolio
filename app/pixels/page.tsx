@@ -30,12 +30,6 @@ const items: PixelsItem[] = [
         height: 2400,
       },
       {
-        src: "/Pixels/dsp-%20Outside%20India.png",
-        alt: "DSP: Invest Globally",
-        width: 4320,
-        height: 2400,
-      },
-      {
         src: "/Pixels/dsp-cards.png",
         alt: "DSP: Invest into India vs. Invest Globally",
         width: 3840,
@@ -65,18 +59,6 @@ const items: PixelsItem[] = [
         height: 1080,
       },
       {
-        src: "/Pixels/vero%20moda/Fabric%20Intelligence.mp4",
-        alt: "Fabric intelligence: AI surfaces the material composition story",
-        width: 1920,
-        height: 1080,
-      },
-      {
-        src: "/Pixels/vero%20moda/Image-On-Hover.mp4",
-        alt: "Image-on-hover: a richer second-shot reveal on product cards",
-        width: 1920,
-        height: 1080,
-      },
-      {
         src: "/Pixels/vero%20moda/Influencer-Closet.mp4",
         alt: "Influencer closet: shop the outfits from creators you follow",
         width: 780,
@@ -94,12 +76,6 @@ const items: PixelsItem[] = [
         width: 764,
         height: 1080,
       },
-      {
-        src: "/Pixels/vero%20moda/Hamburger-Menu-Gifs.mp4",
-        alt: "Hamburger menu: editorial reveal pattern with motion",
-        width: 780,
-        height: 1080,
-      },
     ],
   },
   {
@@ -109,12 +85,6 @@ const items: PixelsItem[] = [
     year: "2025",
     images: [
       {
-        src: "/Pixels/lumen%20command%20center.png",
-        alt: "Lumen: command center",
-        width: 3024,
-        height: 1964,
-      },
-      {
         src: "/Pixels/lumen%20ingestion%20hub.png",
         alt: "Lumen: ingestion hub",
         width: 3024,
@@ -123,12 +93,6 @@ const items: PixelsItem[] = [
       {
         src: "/Pixels/lumen%20verified%20insights.png",
         alt: "Lumen: verified insights",
-        width: 3024,
-        height: 1964,
-      },
-      {
-        src: "/Pixels/lumen%20verified%20insights%20modal.png",
-        alt: "Lumen: insight dossier modal",
         width: 3024,
         height: 1964,
       },

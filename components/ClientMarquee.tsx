@@ -40,7 +40,7 @@ export function ClientMarquee({ clients }: Props) {
                 loading="lazy"
                 decoding="async"
                 className={`${
-                  client.heightClass ?? "h-14 md:h-20"
+                  client.heightClass ?? "h-12 md:h-16"
                 } w-auto select-none opacity-60 grayscale transition-[filter,opacity] duration-300 ease-out hover:opacity-100 hover:grayscale-0`}
               />
             ) : (

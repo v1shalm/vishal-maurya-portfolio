@@ -18,29 +18,29 @@ const clients: {
   {
     name: "Nexus 247",
     logo: "/logos/nexus-247.png",
-    heightClass: "h-16 md:h-24",
+    heightClass: "h-14 md:h-20",
   },
   {
     name: "OutcomesAI",
     logo: "/logos/outcomes-ai.png",
-    heightClass: "h-16 md:h-24",
+    heightClass: "h-14 md:h-20",
   },
   { name: "Zilo", logo: "/logos/zilo.png" },
   { name: "DSP Mutual Fund", logo: "/logos/dsp.png" },
   {
     name: "Alegra",
     logo: "/logos/alegra.png",
-    heightClass: "h-11 md:h-16",
+    heightClass: "h-10 md:h-14",
   },
   {
     name: "Briskpe",
     logo: "/logos/briskpe.png",
-    heightClass: "h-11 md:h-16",
+    heightClass: "h-10 md:h-14",
   },
   {
     name: "Inato",
     logo: "/logos/inato.png",
-    heightClass: "h-11 md:h-16",
+    heightClass: "h-10 md:h-14",
   },
 ];
 
@@ -60,12 +60,6 @@ const playground: PixelsItem[] = [
       {
         src: "/Pixels/dsp%20-%20into%20india.png",
         alt: "DSP: Invest Into India, tap into India's booming economy",
-        width: 4320,
-        height: 2400,
-      },
-      {
-        src: "/Pixels/dsp-%20Outside%20India.png",
-        alt: "DSP: Invest Globally, access global markets via the GIFT City platform",
         width: 4320,
         height: 2400,
       },
@@ -96,18 +90,6 @@ const playground: PixelsItem[] = [
         height: 1080,
       },
       {
-        src: "/Pixels/vero%20moda/Fabric%20Intelligence.mp4",
-        alt: "Fabric intelligence: AI surfaces the material composition story",
-        width: 1920,
-        height: 1080,
-      },
-      {
-        src: "/Pixels/vero%20moda/Image-On-Hover.mp4",
-        alt: "Image-on-hover: a richer second-shot reveal on product cards",
-        width: 1920,
-        height: 1080,
-      },
-      {
         src: "/Pixels/vero%20moda/Influencer-Closet.mp4",
         alt: "Influencer closet: shop the outfits from creators you follow",
         width: 780,
@@ -125,12 +107,6 @@ const playground: PixelsItem[] = [
         width: 764,
         height: 1080,
       },
-      {
-        src: "/Pixels/vero%20moda/Hamburger-Menu-Gifs.mp4",
-        alt: "Hamburger menu: editorial reveal pattern with motion",
-        width: 780,
-        height: 1080,
-      },
     ],
   },
   {
@@ -140,12 +116,6 @@ const playground: PixelsItem[] = [
     year: "2025",
     images: [
       {
-        src: "/Pixels/lumen%20command%20center.png",
-        alt: "Lumen: command center, workspace chat with synthesis agent",
-        width: 3024,
-        height: 1964,
-      },
-      {
         src: "/Pixels/lumen%20ingestion%20hub.png",
         alt: "Lumen: ingestion hub, source input and knowledge base",
         width: 3024,
@@ -154,12 +124,6 @@ const playground: PixelsItem[] = [
       {
         src: "/Pixels/lumen%20verified%20insights.png",
         alt: "Lumen: verified insights, synthesized findings with confidence scores",
-        width: 3024,
-        height: 1964,
-      },
-      {
-        src: "/Pixels/lumen%20verified%20insights%20modal.png",
-        alt: "Lumen: insight dossier modal, evidence registry and metadata",
         width: 3024,
         height: 1964,
       },
