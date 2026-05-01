@@ -280,21 +280,21 @@ export default async function WorkPage({
                       )}
                     </div>
 
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] text-muted">
-                        {next.kind}
-                        {" · "}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] md:text-[14px]">
                         <span
-                          style={
-                            next.status === "Live"
-                              ? { color: "var(--color-accent)" }
-                              : undefined
-                          }
+                          className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight text-white"
+                          style={{ background: "var(--color-block-purple)" }}
                         >
-                          {next.status}
-                        </span>{" "}
-                        {next.year}
-                      </span>
+                          {next.kind}
+                        </span>
+                        <span
+                          className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight tabular-nums text-white"
+                          style={{ background: "var(--color-block-orange)" }}
+                        >
+                          {next.year}
+                        </span>
+                      </div>
                       <span className="text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[34px]">
                         {next.title}
                       </span>
