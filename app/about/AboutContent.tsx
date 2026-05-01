@@ -44,8 +44,7 @@ export default function AboutContent() {
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
-              More often than not, the best call isn&rsquo;t adding something.
-              It&rsquo;s cutting it.
+              Most of the work is subtraction.
             </p>
 
             {/* Lately */}

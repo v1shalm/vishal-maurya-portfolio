@@ -212,9 +212,9 @@ export const works: Work[] = [
       },
       {
         label: "Process",
-        title: "What I considered before opening Figma.",
+        title: "Before opening Figma.",
         body: [
-          "Building quick-commerce for a mall isn't the same problem as standalone quick-commerce. It's a hybrid. The mall already carries decades of trust, of routine, of a physical place people visit on weekends; the app's job is to bring that mall online without losing the part that makes a mall feel like a mall.",
+          "Building quick-commerce for a mall is a hybrid problem, different from standalone quick-commerce. The mall already carries decades of trust, of routine, of a physical place people visit on weekends; the app's job is to bring that mall online without losing the part that makes a mall feel like a mall.",
           "I started by mapping the two patterns I was trying to fuse. Quick-commerce apps, like Blinkit and Instamart, optimise for the transaction: a search bar, a category strip, and a fast checkout. Mall apps optimise for the visit: wayfinding, curated displays, loyalty cards. Neither tries to do both.",
           "The unlock for me was treating the home surface as a wayfinding moment, not a search bar with a horizontal scroll of categories. Each retailer needed space to surface what's new, the same way a window display does in a mall. From there the rest of the flow could stay quick, so the daily-habit feeling held: a scenic home paired with a fast checkout.",
           "I also pulled references outside the category. Editorial homepages from fashion publications, museum wayfinding, even mall directories. The look I was after was closer to a magazine cover than a category grid.",
@@ -336,7 +336,7 @@ export const works: Work[] = [
         title:
           "Digital can extend the physical world without replacing it.",
         body: [
-          "The takeaway for me was that designing for the seam between physical and digital is often more valuable than perfecting either side in isolation. Speed, discovery, and brand consistency aren't opposites; they just need a system holding them together.",
+          "The takeaway for me: designing for the seam between physical and digital is often more valuable than perfecting either side in isolation. Speed, discovery, and brand consistency aren't opposites; they need a system holding them together.",
         ],
       },
       {
@@ -345,7 +345,7 @@ export const works: Work[] = [
         collapsible: true,
         drawerHint: "Iterations",
         body: [
-          "Not every idea landed. The throwaways below are loyalty and rewards explorations that didn't ship, kept as a record of what the surface wanted to be, and what it shouldn't.",
+          "Some ideas didn't land. The throwaways below are loyalty and rewards explorations that didn't ship, kept as a record of where the surface could go, and where it shouldn't.",
         ],
         media: {
           kind: "single",
@@ -386,23 +386,23 @@ export const works: Work[] = [
     sections: [
       {
         label: "Context",
-        title: "What OutcomesAI actually is.",
+        title: "The product, in plain terms.",
         body: [
-          "OutcomesAI is a US-based healthcare platform founded by Kuldeep Singh Rajput, the former CEO of Biofourmis. The core product is Glia, an AI engine that combines voice agents with licensed nurses to deliver patient care at scale. Glia handles routine interactions autonomously: triage calls, scheduling, discharge follow-ups, medication adherence. When clinical judgment is needed, it escalates to a licensed nurse, powered by AI-assisted scribing and decision support that makes each nurse 3–5× more productive.",
-          "The business case is clear: healthcare systems face a nursing shortage, sky-high triage costs, and 24/7 patient demand that no human team can sustainably meet. Glia is the answer. The problem when we came on board was that nobody could tell that from the website.",
+          "OutcomesAI is a US-based healthcare platform founded by Kuldeep Singh Rajput, the former CEO of Biofourmis. The core product is Glia, an AI engine that pairs voice agents with licensed nurses to deliver patient care at scale. Glia handles routine interactions on its own: triage calls, scheduling, discharge follow-ups, medication adherence. When the case needs clinical judgment, Glia escalates to a licensed nurse, supported by AI-assisted scribing and decision support that makes each nurse 3–5× more productive.",
+          "The business case: healthcare systems face a nursing shortage, sky-high triage costs, and 24/7 patient demand no human team can keep up with. Glia is the answer. The problem when we came on board: the website didn't say any of that.",
         ],
       },
       {
         label: "Problem",
         title: "The brand was hiding the product.",
         body: [
-          "The existing OutcomesAI digital presence had a fundamental mismatch: the product was sophisticated, clinically rigorous, and genuinely differentiated. The brand told none of that. It read like every other AI health-tech company: abstract claims, dense jargon, no clear explanation of what Glia actually did or why a healthcare system should trust it with patient calls.",
+          "The existing OutcomesAI site had a mismatch: the product was sophisticated, clinically rigorous, and differentiated. The brand told none of that. It read like the rest of the AI health-tech category: abstract claims, dense jargon, no clear explanation of what Glia did or why a healthcare system should trust it with patient calls.",
         ],
         problems: [
           {
             kicker: "01",
             label: "Glia was buried",
-            body: "The core product had no clear narrative. Visitors couldn't quickly understand what it did, who it was for, or why it was safer than alternatives.",
+            body: "The core product had no clear narrative. Visitors couldn't tell what it did, who it was for, or why it was safer than alternatives.",
           },
           {
             kicker: "02",
@@ -412,7 +412,7 @@ export const works: Work[] = [
           {
             kicker: "03",
             label: "Trust deficit",
-            body: "Clinical credibility signals (certifications, protocols, nurse testimony) were either absent or deprioritised.",
+            body: "Clinical credibility signals (certifications, protocols, nurse testimony) were missing or buried.",
           },
           {
             kicker: "04",
@@ -421,7 +421,7 @@ export const works: Work[] = [
           },
         ],
         bodyAfter: [
-          "The site needed to function as a sales tool for enterprise healthcare buyers, CMOs and COOs who typically take 6–18 months to evaluate a vendor. If they couldn't understand the product in 30 seconds, they wouldn't schedule a demo.",
+          "The site needed to work as a sales tool for enterprise healthcare buyers, CMOs and COOs who take 6–18 months to evaluate a vendor. If they couldn't understand the product in 30 seconds, they wouldn't schedule a demo.",
         ],
         media: {
           kind: "slider",
@@ -434,22 +434,22 @@ export const works: Work[] = [
             alt: "After: the redesigned homepage shown in a browser mockup, headline 'AI-enabled Nursing. Human Care at Scale.'",
           },
           aspect: "16/9",
-          caption: "Drag to compare. Same story, told differently.",
+          caption: "Drag to compare. Same story, retold.",
         },
       },
       {
         label: "Research",
-        title: "What the category was already doing.",
+        title: "The category pattern.",
         body: [
-          "Before reframing anything, we audited how other clinical-AI companies were positioning themselves. The pattern was identical across the category: hero metrics, AI-first language, abstract multi-agent diagrams, generic nurse stock photos. None of them led with the people actually doing the work.",
-          "That gap was the opening. If every competitor was selling “AI for healthcare,” OutcomesAI could win the buyer in 30 seconds by selling “nurses with their time back.” Same product, opposite shelf.",
+          "Before reframing anything, we audited how other clinical-AI companies were positioning themselves. The pattern was identical across the category: hero metrics, AI-first language, abstract multi-agent diagrams, generic nurse stock photos. None led with the people doing the work.",
+          "That gap was the opening. If competitors sold “AI for healthcare,” OutcomesAI could win the buyer in 30 seconds by selling “nurses with their time back.” Same product, opposite shelf.",
         ],
       },
       {
         label: "Narrative",
         title: "Nurses first, AI second.",
         body: [
-          "We reframed the entire narrative. OutcomesAI isn't an AI company selling to healthcare; it's a nursing company using AI to give nurses their time back. The tagline that shipped, “AI-enabled Nursing. Human Care at Scale,” puts nurses first deliberately, and that word order changed every headline downstream.",
+          "We reframed the narrative. OutcomesAI is a nursing company using AI to give nurses their time back, sold to healthcare. The tagline that shipped, “AI-enabled Nursing. Human Care at Scale,” leads with nurses, and that word order shaped the headlines downstream.",
         ],
       },
       {
@@ -473,7 +473,7 @@ export const works: Work[] = [
         label: "Motion",
         title: "Motion as explanation, not decoration.",
         body: [
-          "Complex AI workflows don't survive being written as paragraphs. I used motion to show the Glia sequence: a call comes in, the AI triages, a nurse receives a clinical summary, the interaction closes, all in under ten seconds. The constraint: healthcare buyers read slow animation as precision. Every movement was deliberate.",
+          "Complex AI workflows don't survive being written as paragraphs. I used motion to show the Glia sequence: a call comes in, the AI triages, a nurse receives a clinical summary, the interaction closes, all in under ten seconds. The constraint: healthcare buyers read slow animation as precision. Each movement carried weight.",
         ],
         media: {
           kind: "single",
@@ -490,7 +490,7 @@ export const works: Work[] = [
         label: "Solutions",
         title: "Reframed for the buyer, not the technology.",
         body: [
-          "Each solution leads with the use case (virtual care teams, in-clinic nurses, hospital systems), not the underlying capability. Buyers stopped having to translate technical features into deployment scenarios; the page does the translation for them.",
+          "Each solution leads with the use case: virtual care teams, in-clinic nurses, hospital systems. The underlying capability follows. Buyers stopped having to translate technical features into deployment scenarios; the page does the translation for them.",
         ],
         media: {
           kind: "single",
@@ -507,7 +507,7 @@ export const works: Work[] = [
         label: "Brand system",
         title: "A system that scales from screen to stage.",
         body: [
-          "Built as a system, not a logo lockup. The OutcomesAI team could carry it into investor decks, recruiting decks, and conference rigs without touching me again. The same identity holds up on a phone, in a deck, and on a keynote backdrop.",
+          "Built as a system. The OutcomesAI team could carry it into investor decks, recruiting decks, and conference rigs without coming back to me. The same identity holds up on a phone, in a deck, and on a keynote backdrop.",
         ],
         media: {
           kind: "single",
@@ -524,7 +524,7 @@ export const works: Work[] = [
         label: "Mobile",
         title: "Same story, on the phone.",
         body: [
-          "Healthcare procurement still happens in email and browser tabs, and every link a CMO forwards has a 50/50 chance of opening on mobile first. The mobile surface had to land the same model in a smaller frame, with no sacrifice to clarity or trust.",
+          "Healthcare procurement still happens in email and browser tabs, and a link a CMO forwards has a 50/50 chance of opening on mobile first. The mobile surface had to land the same model in a smaller frame, with no sacrifice to clarity or trust.",
         ],
         media: {
           kind: "single",
@@ -556,9 +556,9 @@ export const works: Work[] = [
       },
       {
         label: "Reflection",
-        title: "The job wasn't the interface. It was the translation.",
+        title: "The job was translation.",
         body: [
-          "The challenge wasn't designing screens. It was making a technically dense system legible to people making slow, high-stakes decisions. Motion became the main tool, not for delight but because sequence is easier to follow than paragraphs. The bigger lesson: reframing the brand narrative from AI to nursing empowerment changed every visual hierarchy decision downstream. Strategy and design were the same thing on this project.",
+          "The challenge was making a clinically dense system legible to people making slow, high-stakes decisions. Motion became the main tool: sequence is easier to follow than paragraphs. The bigger lesson: reframing the brand narrative from AI to nursing empowerment shaped the visual hierarchy decisions downstream. Strategy and design were the same thing on this project.",
         ],
       },
     ],
@@ -569,7 +569,7 @@ export const works: Work[] = [
     kind: "Fashion quick-commerce · 0→1",
     tagline: "Fashion quick-commerce, rebuilt from the return up. 0→1 in 8 weeks.",
     summary:
-      "Not a catalogue with faster delivery. A different way to shop. Four category failures, four design responses, shipped in under 8 weeks.",
+      "A different way to shop fashion. Four category failures, four design responses, shipped in under 8 weeks.",
     status: "Live",
     year: "2025",
     role: "Product designer, Pineapple Design Studio",
@@ -594,7 +594,7 @@ export const works: Work[] = [
         title: "The category hadn't kept up with its own promise.",
         body: [
           "Zilo's founders, ex-Flipkart and Myntra, had a clear thesis: quick-commerce applied to fashion. Curated styles from top brands, delivered in under 60 minutes. The opportunity wasn't logistics. Faster delivery had arrived; the shopping experience hadn't.",
-          "Myntra, Ajio, and their peers share the same assumptions: surface everything, let filters do the work, accept high returns as the cost of doing business. Four structural failures, and no major player had solved any.",
+          "Myntra, Ajio, and peers share the same assumptions: surface the catalogue, let filters do the work, accept high returns as the cost of doing business. Four structural failures, and no major player had solved any.",
         ],
         problems: [
           {
@@ -615,32 +615,32 @@ export const works: Work[] = [
           {
             kicker: "04",
             label: "No curated discovery",
-            body: "Catalogue browsing, not looks or trend-led shopping.",
+            body: "Catalogue browsing. No looks or trend-led shopping.",
           },
         ],
       },
       {
         label: "Research",
-        title: "What the category was assuming.",
+        title: "Category assumptions.",
         body: [
-          "Before designing anything, the team audited Myntra, Ajio, Nykaa Fashion, and Tata CLiQ. The assumption baked into every one of them was the same: more SKUs, better filters, returns are an unavoidable cost. The way Indian shoppers actually browse, by occasion, by mood, by trend, wasn't reflected anywhere in the tab bar.",
-          "We also pulled references from outside the category: editorial magazines (Vogue, GQ India), Nordstrom's curated lookbooks, the way Pinterest treats outfits. The pattern across all of them was the same: people browse fashion like inspiration, not inventory.",
+          "Before designing anything, the team audited Myntra, Ajio, Nykaa Fashion, and Tata CLiQ. The assumption baked into the category was the same: more SKUs, better filters, returns are an unavoidable cost. The way Indian shoppers browse, by occasion, by mood, by trend, didn't show up in the tab bar.",
+          "We also pulled references from outside the category: editorial magazines (Vogue, GQ India), Nordstrom's curated lookbooks, the way Pinterest treats outfits. People browse fashion the way they browse a magazine.",
         ],
       },
       {
         label: "Brief & approach",
-        title: "Four problems, not a 1:1 response grid.",
+        title: "Four problems, four bets.",
         body: [
           "At Pineapple, I worked across the full 0→1 build: branding exploration, UX, UI, and dev-ready files. Agency work moves in phases: brand first, UX in parallel, then UI. I contributed across all three alongside a brand lead and a senior UX designer, and owned UI end-to-end. No prior system. Everything from scratch in 4–8 weeks, Android and iOS.",
-          "The four category problems don't map 1:1 to four features. Home Trials answers returns and try-before-buy in a single move. The anxiety that drives scheduled delivery is resolved by a reliable, guaranteed 60-minute window. That left two bets the brief didn't ask for but the product needed: Ask Zilo, and a post-purchase surface that shipped with the MVP.",
+          "The four category problems don't map 1:1 to four features. Home Trials answers returns and try-before-buy in a single move. A reliable, guaranteed 60-minute window resolves the anxiety that drives scheduled delivery. That left two bets the brief didn't ask for but the product needed: Ask Zilo, and a post-purchase surface that shipped with the MVP.",
         ],
       },
       {
         label: "Returns",
         title: "Home Trials: design for the return before it happens.",
         body: [
-          "High return rates in fashion aren't a logistics problem. They're a confidence problem. The standard response is better size guides or peer reviews. Home Trials goes further: shoppers order multiple sizes, try them at home, return the rest, all in the same 60-minute window. A style runner waits up to 30 minutes; the delivery only completes once the user confirms.",
-          "This required a new decision layer on the product page. The size selector surfaces a Home Trial affordance with its own framing (\u201cIntroducing home trials\u201d) that attacks the anxiety at exactly the moment it exists, before the user abandons. The cart distinguishes trial and standard shipments. The post-purchase surface handles the return without friction.",
+          "High return rates in fashion are a confidence problem. The standard response is better size guides or peer reviews. Home Trials goes further: shoppers order multiple sizes, try them at home, return the rest, all in the same 60-minute window. A style runner waits up to 30 minutes; the delivery completes once the user confirms.",
+          "This required a new decision layer on the product page. The size selector surfaces a Home Trial affordance with its own framing (\u201cIntroducing home trials\u201d) that meets the anxiety at the moment it exists, before the user abandons. The cart distinguishes trial and standard shipments. The post-purchase surface handles the return without friction.",
         ],
         media: {
           kind: "single",
@@ -654,11 +654,11 @@ export const works: Work[] = [
       },
       {
         label: "Discovery",
-        title: "Curated looks and trends, not a catalogue with better filters.",
+        title: "Curated looks and trends, beyond filtered catalogues.",
         body: [
-          "Every major fashion app treats discovery as a filtering problem, but the way people shop (\u201cI need something for a rooftop dinner\u201d) doesn't map to any filter combination. We rebuilt discovery around editorial structures.",
-          "The home has a Daily Planner that organises by occasion (Wellness & Yoga, Party Ready), not by category. A Lookbook does the mix-and-match work. Trend Radar gives seasonal context to what's in stock. Discover became its own destination, not an alternative to search.",
-          "The bet: if the editorial layer is good enough, users will browse Zilo the way they browse a magazine, not the way they mine a catalogue.",
+          "Major fashion apps treat discovery as a filtering problem, but the way people shop (\u201cI need something for a rooftop dinner\u201d) doesn't map to any filter combination. We rebuilt discovery around editorial structures.",
+          "The home has a Daily Planner that organises by occasion: Wellness & Yoga, Party Ready. A Lookbook does the mix-and-match work. Trend Radar gives seasonal context to what's in stock. Discover became its own destination.",
+          "The bet: if the editorial layer is good enough, users will browse Zilo the way they browse a magazine.",
         ],
         media: {
           kind: "single",
@@ -667,15 +667,15 @@ export const works: Work[] = [
             alt: "Discover Looks and Trend Radar: editorial structures for curated browsing",
             aspect: "16/10",
           },
-          caption: "Discover. Lookbook and Trend Radar, not search-by-filter.",
+          caption: "Discover. Lookbook and Trend Radar.",
         },
       },
       {
         label: "Confidence",
         title: "Ask Zilo: conversational discovery in the core nav.",
         body: [
-          "Even with curated surfaces, there are moments when a shopper knows what they want but can't describe it in filter terms. Ask Zilo lives in the tab bar, with equal weight to Home and Shop, not buried in a help menu.",
-          "The design decision was placement and framing. A tab-bar slot with its own 60-min badge signals that AI-assisted discovery is a product pillar, not a chatbot. It doubles as an escape hatch from the PLP: \u201cDon't want to scroll 475 items? Ask Zilo.\u201d An honest acknowledgement of catalogue size, turned into a feature moment.",
+          "Even with curated surfaces, there are moments when a shopper knows what they want but can't describe it in filter terms. Ask Zilo lives in the tab bar, with equal weight to Home and Shop.",
+          "The design decision was placement and framing. A tab-bar slot with its own 60-min badge signals that AI-assisted discovery is a product pillar. It doubles as an escape hatch from the PLP: \u201cDon't want to scroll 475 items? Ask Zilo.\u201d An acknowledgement of catalogue size, turned into a feature moment.",
         ],
         media: {
           kind: "single",
@@ -689,10 +689,10 @@ export const works: Work[] = [
       },
       {
         label: "Retention",
-        title: "Post-purchase at launch, not deferred to v2.",
+        title: "Post-purchase at launch.",
         body: [
-          "Building a 0→1 product means constant pressure to cut scope. Post-purchase flows don't drive acquisition; they're the first thing to defer. But in quick-commerce, the first order is rarely profitable. The business only works on the second purchase and the third.",
-          "We treated the post-buy surface as a retention product. The bag distinguishes Home Trial and standard shipments. Live tracking surfaces ETA in minutes, not date ranges. Order history is searchable by status. It shipped at launch because the quick-commerce argument depended on it.",
+          "Building a 0→1 product means constant pressure to cut scope. Post-purchase flows don't drive acquisition; they're the first thing to defer. But in quick-commerce, the first order doesn't pay back. The business works on the second purchase and the third.",
+          "We treated the post-buy surface as a retention product. The bag distinguishes Home Trial and standard shipments. Live tracking surfaces ETA in minutes. Order history is searchable by status. It shipped at launch because the quick-commerce argument depended on it.",
         ],
         media: {
           kind: "single",
@@ -728,7 +728,7 @@ export const works: Work[] = [
             },
             {
               label: "Looks",
-              caption: "Lookbook: mix-and-match, not filter-and-scroll.",
+              caption: "Lookbook: mix-and-match browsing.",
               src: "/works/zilo/looks%20tall.png",
               alt: "Zilo looks surface, full-page walkthrough",
             },
@@ -751,8 +751,8 @@ export const works: Work[] = [
         label: "Craft",
         title: "The hardest problem was making it feel different. The answer was one mark.",
         body: [
-          "Four design responses will only carry a product so far. The challenge was making a fashion-commerce app feel different from everything else in the category, and that answer wasn't one breakthrough. It came from one consistent mark.",
-          "The slash starts in the wordmark (Z/LO) and carries through as a typographic voice (/Ask Zilo, /store, /door), and as a separator in feature strips. A two-accent palette (deep plum, acid lime, with hot pink reserved for urgency) reads as editorial rather than transactional. Photography is campaign-quality, not catalogue grids. Illustration is warmer, flat-with-shadow, used only on soft moments (empty states, confirmations) to keep the editorial register undiluted.",
+          "Four design responses carry a product so far. The challenge was making a fashion-commerce app feel different from the rest of the category, and the answer came from one consistent mark.",
+          "The slash starts in the wordmark (Z/LO) and carries through as a typographic voice (/Ask Zilo, /store, /door), and as a separator in feature strips. A two-accent palette (deep plum, acid lime, with hot pink reserved for urgency) reads as editorial rather than transactional. Photography is campaign-quality. Illustration is warmer, flat-with-shadow, reserved for soft moments (empty states, confirmations) to keep the editorial register undiluted.",
         ],
         media: {
           kind: "single",
@@ -768,8 +768,8 @@ export const works: Work[] = [
         label: "Outcome",
         title: "Shipped fast. Found product-market fit. Raised $19.9M.",
         body: [
-          "The MVP shipped in under 8 weeks on Android and iOS: branding, all core flows, dev-ready files, from a blank canvas. Zilo launched and found product-market fit. A $4.5M seed co-led by Info Edge Ventures and Chiratae Ventures closed shortly after; a $15.3M Series A led by Peak XV Partners followed in 2026.",
-          "The design wasn't the reason investors backed Zilo, but it was the product they saw. We built the case that Zilo could fix what Chiratae themselves had named as broken.",
+          "The MVP shipped in under 8 weeks on Android and iOS: branding, the core flows, dev-ready files, from a blank canvas. Zilo launched and found product-market fit. A $4.5M seed co-led by Info Edge Ventures and Chiratae Ventures closed within weeks; a $15.3M Series A led by Peak XV Partners followed in 2026.",
+          "Investors backed Zilo for the thesis, and the design was the product they saw to evaluate it. We built the case that Zilo could fix what Chiratae had named as broken.",
         ],
         stats: [
           { value: "0\u21921", label: "Full product: brand to dev-ready files" },
@@ -784,9 +784,9 @@ export const works: Work[] = [
       },
       {
         label: "Reflection",
-        title: "What carries forward.",
+        title: "The part that carries forward.",
         body: [
-          "Eight weeks teaches you to commit. Define a new category by what to leave out, anchor it with four design responses that frame the experience, then bind it under one identity. That isn't just a Zilo recipe. It's a way of working under pressure, and it's the part I take to every ambiguous brief now: the next fog feels less like fog and more like a sequence.",
+          "Eight weeks teaches you to commit. Define a new category by what to leave out, anchor it with four design responses that frame the experience, then bind it under one identity. That recipe extends past Zilo. It's a way of working under pressure, and it's the part I take to ambiguous briefs now: the next fog feels less like fog and more like a sequence.",
         ],
       },
       {
@@ -795,7 +795,7 @@ export const works: Work[] = [
         collapsible: true,
         drawerHint: "Explorations",
         body: [
-          "We explored AI-based clothes try-on during 0→1 and parked it for Q2. Home Trials answered the confidence problem more cleanly for launch, and the try-on would have added complexity the MVP didn't need.",
+          "We explored AI-based clothes try-on during 0→1 and parked it for Q2. Home Trials answered the confidence problem better for launch, and the try-on would have added complexity the MVP didn't need.",
         ],
       },
     ],
