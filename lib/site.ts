@@ -3,7 +3,7 @@
  *
  * Resolution order:
  *   1. NEXT_PUBLIC_SITE_URL: explicit override (set this in Vercel when a
- *      custom domain is attached, e.g. "https://vishalmaurya.design").
+ *      custom domain is attached, e.g. "https://vishalmaurya.work").
  *   2. VERCEL_PROJECT_PRODUCTION_URL: Vercel sets this on production builds
  *      to the canonical project URL (e.g. "vishal-maurya-portfolio.vercel.app").
  *   3. VERCEL_URL: Vercel sets this on preview builds to the per-deploy URL.
