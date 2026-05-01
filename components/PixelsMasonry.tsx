@@ -29,7 +29,7 @@ export function PixelsMasonry({ items }: { items: PixelsItem[] }) {
 
   return (
     <>
-      <div className="columns-1 gap-4 sm:columns-2 xl:columns-3">
+      <div className="columns-1 gap-4 sm:columns-2">
         {tiles.map((tile) => {
           const img = tile.item.images![tile.imageIndex];
           const isVideo = isVideoSrc(img.src);
@@ -62,7 +62,7 @@ export function PixelsMasonry({ items }: { items: PixelsItem[] }) {
                       src={img.src}
                       alt={img.alt}
                       fill
-                      sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      sizes="(min-width: 1024px) 540px, (min-width: 640px) 50vw, 100vw"
                       quality={92}
                       className="object-contain transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
                     />

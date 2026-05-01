@@ -57,10 +57,9 @@
   /* Global container / page rhythm: single source of truth for margins.
      Every section flows through <Container /> → .page-container, so changing
      these tokens shifts the whole site's gutter in one place. */
+  --page-width: 1100px;
   --page-px: 1.25rem; /* 20px, mobile */
-  --page-px-md: 3rem; /* 48px, tablet */
-  --page-px-lg: 5rem; /* 80px, desktop */
-  --page-px-xl: 10rem; /* 160px, large desktop */
+  --page-px-md: 3rem; /* 48px, desktop */
 }
 
 html {
@@ -188,6 +187,7 @@ body {
 /* Container primitive: applied via <Container /> */
 .page-container {
   width: 100%;
+  max-width: var(--page-width);
   margin-inline: auto;
   padding-inline: var(--page-px);
 }
@@ -195,18 +195,6 @@ body {
 @media (min-width: 768px) {
   .page-container {
     padding-inline: var(--page-px-md);
-  }
-}
-
-@media (min-width: 1024px) {
-  .page-container {
-    padding-inline: var(--page-px-lg);
-  }
-}
-
-@media (min-width: 1280px) {
-  .page-container {
-    padding-inline: var(--page-px-xl);
   }
 }
 
