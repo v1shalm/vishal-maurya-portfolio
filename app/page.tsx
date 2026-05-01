@@ -165,20 +165,6 @@ const playground: PixelsItem[] = [
       },
     ],
   },
-  {
-    slug: "providence",
-    title: "Providence",
-    kind: "Concept UI",
-    year: "2025",
-    images: [
-      {
-        src: "/works/providence.png",
-        alt: "Providence concept UI",
-        width: 2880,
-        height: 1400,
-      },
-    ],
-  },
 ];
 
 export default function Home() {
