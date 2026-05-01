@@ -37,18 +37,16 @@ export function PixelsTile({
     <div className="group flex flex-col">
       <TileMedia item={item} sizes={sizes} priority={priority} />
 
-      {/* Three-line stack matching WorkCard / ExperimentCard:
-          title → kind (as subtext) → year. */}
       <div className="mt-5 flex flex-col md:mt-7">
         <p className="text-[18px] font-bold leading-[1.3] tracking-[-0.012em] text-ink md:text-[20px]">
           {item.title}.
         </p>
 
-        <p className="mt-1.5 max-w-[52ch] text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:text-[17px]">
+        <p className="mt-2 max-w-[52ch] text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:mt-2.5 md:text-[17px]">
           {item.kind}.
         </p>
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-muted md:text-[14px]">
+        <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:text-[14px]">
           <span className="tabular-nums">{item.year}</span>
         </div>
       </div>
@@ -75,7 +73,7 @@ function TileMedia({
     const img = images[0];
     return (
       <div
-        className="relative w-full overflow-hidden rounded-2xl bg-bg-elevated"
+        className="relative w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]"
         style={{ aspectRatio: `${img.width} / ${img.height}` }}
       >
         <Image
@@ -84,7 +82,7 @@ function TileMedia({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+          className="object-cover transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
         />
       </div>
     );

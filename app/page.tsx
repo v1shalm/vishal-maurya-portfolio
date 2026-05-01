@@ -190,12 +190,7 @@ export default function Home() {
         {/* Client strip: infinite marquee (stays within the global container) */}
         <section className="pt-20 md:pt-28">
           <Container>
-            <div className="flex flex-col gap-7 md:gap-8">
-              <span className="whitespace-nowrap text-center text-[13px] text-muted">
-                Worked with
-              </span>
-              <ClientMarquee clients={clients} />
-            </div>
+            <ClientMarquee clients={clients} />
           </Container>
         </section>
 

@@ -80,7 +80,7 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
           e.stopPropagation();
           onClose();
         }}
-        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-colors hover:bg-white/20 md:right-6 md:top-6 md:h-10 md:w-10"
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/20 active:scale-[0.96] md:right-6 md:top-6 md:h-10 md:w-10"
       >
         <svg
           width="14"
@@ -108,7 +108,7 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
             e.stopPropagation();
             if (hasPrev) setIdx((i) => i - 1);
           }}
-          className="absolute left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-opacity hover:bg-white/20 disabled:pointer-events-none disabled:opacity-30 md:left-6 md:flex md:h-12 md:w-12"
+          className="absolute left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-[opacity,background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/20 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30 md:left-6 md:flex md:h-12 md:w-12"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path
@@ -132,7 +132,7 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
             e.stopPropagation();
             if (hasNext) setIdx((i) => i + 1);
           }}
-          className="absolute right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-opacity hover:bg-white/20 disabled:pointer-events-none disabled:opacity-30 md:right-6 md:flex md:h-12 md:w-12"
+          className="absolute right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-[opacity,background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white/20 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-30 md:right-6 md:flex md:h-12 md:w-12"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path

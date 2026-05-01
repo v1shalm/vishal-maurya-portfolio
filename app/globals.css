@@ -204,12 +204,15 @@ body {
   text-decoration-line: underline;
   text-decoration-color: var(--color-line);
   text-underline-offset: 5px;
-  transition: color 200ms ease-out, text-decoration-color 200ms ease-out;
+  transition: color 200ms ease-out, text-decoration-color 200ms ease-out, opacity 120ms ease-out;
 }
 .link-accent:hover,
 .link-accent:focus-visible {
   color: var(--color-accent);
   text-decoration-color: var(--color-accent);
+}
+.link-accent:active {
+  opacity: 0.7;
 }
 
 /* Status dot: "available" signal next to the name */

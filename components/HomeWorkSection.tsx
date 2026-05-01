@@ -26,13 +26,13 @@ export function HomeWorkSection({ works }: Props) {
                   className="group flex flex-col"
                   data-cursor="view-case-study"
                 >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-bg-elevated transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0">
                     {work.thumbnail ? (
                       <WorkThumbnail
                         src={work.thumbnail}
                         poster={work.thumbnailPoster}
                         alt={`${work.title}: ${work.tagline}`}
-                        className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+                        className="transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-end p-10">
@@ -43,28 +43,16 @@ export function HomeWorkSection({ works }: Props) {
                     )}
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-3 md:mt-8 md:flex-row md:items-baseline md:justify-between md:gap-10">
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] md:order-last md:gap-x-4 md:text-[14px]">
-                      <span
-                        className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight text-white"
-                        style={{ background: "var(--color-block-purple)" }}
-                      >
-                        {work.kind}
-                      </span>
-                      <span
-                        className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight tabular-nums text-white"
-                        style={{ background: "var(--color-block-orange)" }}
-                      >
-                        {work.year}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-1.5 md:max-w-[58ch]">
-                      <p className="text-[22px] font-bold leading-[1.25] tracking-[-0.018em] text-ink md:text-[28px]">
-                        {work.title}.
-                      </p>
-                      <p className="text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:text-[18px]">
-                        {work.tagline}
-                      </p>
+                  <div className="mt-6 flex max-w-[58ch] flex-col md:mt-8">
+                    <p className="text-[22px] font-bold leading-[1.25] tracking-[-0.018em] text-ink md:text-[28px]">
+                      {work.title}.
+                    </p>
+                    <p className="mt-2 text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:mt-3 md:text-[18px]">
+                      {work.tagline}
+                    </p>
+                    <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:mt-6 md:text-[14px]">
+                      <span>{work.kind}</span>
+                      <span className="tabular-nums">{work.year}</span>
                     </div>
                   </div>
                 </TransitionLink>

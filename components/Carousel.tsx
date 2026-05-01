@@ -296,7 +296,7 @@ function NavArrow({
         e.stopPropagation();
         if (!disabled) onClick();
       }}
-      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-ink backdrop-blur-sm transition-[opacity,transform,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:shadow-[0_6px_18px_rgba(0,0,0,0.12)] disabled:pointer-events-none disabled:opacity-0 md:h-10 md:w-10 ${
+      className={`absolute top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-ink backdrop-blur-sm transition-[opacity,transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:shadow-[0_6px_18px_rgba(0,0,0,0.12)] active:scale-[0.96] disabled:pointer-events-none disabled:opacity-0 md:h-10 md:w-10 ${
         isPrev ? "left-3 md:left-4" : "right-3 md:right-4"
       }`}
       style={{

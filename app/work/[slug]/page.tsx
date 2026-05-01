@@ -263,13 +263,13 @@ export default async function WorkPage({
                       </span>
                     </div>
 
-                    <div className="relative aspect-[3/2] w-full overflow-hidden bg-bg-elevated">
+                    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
                       {next.thumbnail ? (
                         <WorkThumbnail
                           src={next.thumbnail}
                           poster={next.thumbnailPoster}
                           alt={`${next.title}: ${next.tagline}`}
-                          className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+                          className="transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
                         />
                       ) : (
                         <div className="absolute inset-0 flex items-end p-8">
@@ -280,27 +280,17 @@ export default async function WorkPage({
                       )}
                     </div>
 
-                    <div className="flex flex-col gap-3">
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] md:text-[14px]">
-                        <span
-                          className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight text-white"
-                          style={{ background: "var(--color-block-purple)" }}
-                        >
-                          {next.kind}
-                        </span>
-                        <span
-                          className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight tabular-nums text-white"
-                          style={{ background: "var(--color-block-orange)" }}
-                        >
-                          {next.year}
-                        </span>
-                      </div>
+                    <div className="flex flex-col">
                       <span className="text-[28px] font-medium leading-[1.15] tracking-[-0.01em] text-ink transition-colors duration-300 ease-out group-hover:text-ink-soft md:text-[34px]">
                         {next.title}
                       </span>
-                      <p className="mt-1 max-w-[52ch] text-pretty text-[15.5px] leading-[1.55] text-ink-soft">
+                      <p className="mt-2 max-w-[52ch] text-pretty text-[15.5px] leading-[1.55] text-ink-soft md:mt-3">
                         {next.tagline}
                       </p>
+                      <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:mt-6 md:text-[14px]">
+                        <span>{next.kind}</span>
+                        <span className="tabular-nums">{next.year}</span>
+                      </div>
                     </div>
                   </TransitionLink>
                 </div>

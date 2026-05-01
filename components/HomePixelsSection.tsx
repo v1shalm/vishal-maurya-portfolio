@@ -97,7 +97,7 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
                 aria-label={`${item.title}: ${item.kind}`}
               >
                 <div
-                  className="relative h-full overflow-hidden rounded-2xl bg-bg-elevated transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1"
+                  className="relative h-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0"
                   style={{ aspectRatio: aspect }}
                 >
                   {isVideo ? (
