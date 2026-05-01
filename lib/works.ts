@@ -214,6 +214,7 @@ export const works: Work[] = [
         label: "Process",
         title: "What I considered before opening Figma.",
         body: [
+          "Building quick-commerce for a mall isn't the same problem as standalone quick-commerce. It's a hybrid. The mall already carries decades of trust, of routine, of a physical place people visit on weekends; the app's job is to bring that mall online without losing the part that makes a mall feel like a mall.",
           "I started by mapping the two patterns I was trying to fuse. Quick-commerce apps, like Blinkit and Instamart, optimise for the transaction: a search bar, a category strip, and a fast checkout. Mall apps optimise for the visit: wayfinding, curated displays, loyalty cards. Neither tries to do both.",
           "The unlock for me was treating the home surface as a wayfinding moment, not a search bar with a horizontal scroll of categories. Each retailer needed space to surface what's new, the same way a window display does in a mall. From there the rest of the flow could stay quick, so the daily-habit feeling held: a scenic home paired with a fast checkout.",
           "I also pulled references outside the category. Editorial homepages from fashion publications, museum wayfinding, even mall directories. The look I was after was closer to a magazine cover than a category grid.",
