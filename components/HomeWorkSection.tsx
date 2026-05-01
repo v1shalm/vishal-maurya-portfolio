@@ -26,7 +26,7 @@ export function HomeWorkSection({ works }: Props) {
                   className="group flex flex-col"
                   data-cursor="view-case-study"
                 >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0">
+                  <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0 md:aspect-[16/10]">
                     {work.thumbnail ? (
                       <WorkThumbnail
                         src={work.thumbnail}
