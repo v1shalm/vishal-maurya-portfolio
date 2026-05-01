@@ -43,16 +43,8 @@ export function HomeWorkSection({ works }: Props) {
                     )}
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-1.5 md:mt-8 md:flex-row md:items-baseline md:justify-between md:gap-10">
-                    <div className="flex flex-col gap-1.5 md:max-w-[58ch]">
-                      <p className="text-[22px] font-bold leading-[1.25] tracking-[-0.018em] text-ink md:text-[28px]">
-                        {work.title}.
-                      </p>
-                      <p className="text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:text-[18px]">
-                        {work.tagline}
-                      </p>
-                    </div>
-                    <div className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 text-[13px] md:text-[14px]">
+                  <div className="mt-6 flex flex-col gap-3 md:mt-8 md:flex-row md:items-baseline md:justify-between md:gap-10">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] md:order-last md:gap-x-4 md:text-[14px]">
                       <span
                         className="inline-flex items-center rounded-md px-2.5 py-1 font-bold tracking-tight text-white"
                         style={{ background: "var(--color-block-purple)" }}
@@ -65,6 +57,14 @@ export function HomeWorkSection({ works }: Props) {
                       >
                         {work.year}
                       </span>
+                    </div>
+                    <div className="flex flex-col gap-1.5 md:max-w-[58ch]">
+                      <p className="text-[22px] font-bold leading-[1.25] tracking-[-0.018em] text-ink md:text-[28px]">
+                        {work.title}.
+                      </p>
+                      <p className="text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:text-[18px]">
+                        {work.tagline}
+                      </p>
                     </div>
                   </div>
                 </TransitionLink>
