@@ -1,0 +1,126 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { Container } from "@/components/Container";
+import { Reveal } from "@/components/Reveal";
+import { SectionHeader } from "@/components/SectionHeader";
+import { Button } from "@/components/Button";
+import {
+  type PixelsImage,
+  type PixelsItem,
+} from "@/components/PixelsTile";
+import { isVideoSrc, LazyVideo } from "@/components/LazyVideo";
+
+type Props = { items: PixelsItem[] };
+
+/**
+ * Pixels section on the home page: an auto-scrolling marquee that
+ * flattens every image of every pixels item into its own tile. Pauses
+ * on hover. Section header carries the chunky yellow All button that
+ * deep-links to the curated /pixels page.
+ */
+export function HomePixelsSection({ items }: Props) {
+  return (
+    <Reveal as="section" className="pt-36 md:pt-48">
+      <Container>
+        <SectionHeader
+          title="Pixels"
+          meta={
+            <Button
+              variant="yellow"
+              href="/pixels"
+              className="btn--sm group gap-2.5"
+            >
+              All
+              <AllArrow />
+            </Button>
+          }
+        />
+      </Container>
+
+      <PixelsMarquee items={items} />
+    </Reveal>
+  );
+}
+
+function AllArrow() {
+  return (
+    <svg
+      width="32"
+      height="12"
+      viewBox="0 0 32 12"
+      aria-hidden
+      className="shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-active:translate-x-0"
+    >
+      <path
+        d="M2 6 H24 M20 1.5 L24.5 6 L20 10.5"
+        stroke="var(--color-y-ink)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </svg>
+  );
+}
+
+type MarqueeTile = { item: PixelsItem; image: PixelsImage };
+
+function PixelsMarquee({ items }: { items: PixelsItem[] }) {
+  // Flatten every image of every item into its own tile so the marquee
+  // shows the full sketchbook, not just one cover per project. Doubled
+  // once so the -50% translate keyframe loops without a visible seam.
+  const tiles: MarqueeTile[] = items.flatMap((item) =>
+    (item.images ?? []).map((image) => ({ item, image })),
+  );
+  const doubled = [...tiles, ...tiles];
+
+  return (
+    <div className="pixels-marquee-mask mt-12 overflow-hidden md:mt-20">
+      <ul
+        className="pixels-marquee-track flex items-stretch"
+        aria-label="Pixels showcase"
+      >
+        {doubled.map(({ item, image }, i) => {
+          const aspect = `${image.width} / ${image.height}`;
+          const isVideo = isVideoSrc(image.src);
+          return (
+            <li
+              key={`${item.slug}-${i}`}
+              aria-hidden={i >= tiles.length}
+              className="shrink-0 px-3 md:px-4"
+            >
+              <Link
+                href="/pixels"
+                className="group block h-[260px] md:h-[360px]"
+                aria-label={`${item.title}: ${item.kind}`}
+              >
+                <div
+                  className="relative h-full overflow-hidden rounded-2xl bg-bg-elevated transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1"
+                  style={{ aspectRatio: aspect }}
+                >
+                  {isVideo ? (
+                    <LazyVideo
+                      src={image.src}
+                      alt={image.alt}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      sizes="(min-width: 768px) 480px, 70vw"
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}

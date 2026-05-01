@@ -1,13 +1,12 @@
-import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
-import { WorkCard } from "@/components/WorkCard";
 import { Reveal } from "@/components/Reveal";
-import { SectionHeader } from "@/components/SectionHeader";
-import { PixelsTile, type PixelsItem } from "@/components/PixelsTile";
+import { type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
 import { EmailLink } from "@/components/EmailLink";
 import { HeroY2K } from "@/components/HeroY2K";
+import { HomeWorkSection } from "@/components/HomeWorkSection";
+import { HomePixelsSection } from "@/components/HomePixelsSection";
 import { works } from "@/lib/works";
 import { links } from "@/lib/links";
 
@@ -201,53 +200,10 @@ export default function Home() {
         </section>
 
         {/* Work */}
-        <Reveal as="section" className="pt-36 md:pt-48">
-          {/* Work section wrapper: single reveal for the heading + card grid */}
-          <div id="work">
-            <Container>
-              <SectionHeader
-                title="Selected Work"
-                meta={<span>2023–2025</span>}
-              />
-
-              <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
-                {works.map((work, i) => (
-                  <Reveal key={work.slug} delay={i * 80}>
-                    <WorkCard work={work} />
-                  </Reveal>
-                ))}
-              </div>
-            </Container>
-          </div>
-        </Reveal>
+        <HomeWorkSection works={works} />
 
         {/* Pixels */}
-        <Reveal as="section" className="pt-36 md:pt-48">
-          <Container>
-            <SectionHeader
-              title="Pixels"
-              meta={
-                <Link
-                  href="/pixels"
-                  className="text-[13px] text-muted transition-colors hover:text-ink"
-                >
-                  All
-                </Link>
-              }
-            />
-
-            <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-16 md:mt-20 md:grid-cols-2 md:gap-y-24">
-              {playground.map((item, i) => (
-                <Reveal key={item.slug} delay={i * 80}>
-                  <PixelsTile
-                    item={item}
-                    priority={item.slug === "dsp"}
-                  />
-                </Reveal>
-              ))}
-            </div>
-          </Container>
-        </Reveal>
+        <HomePixelsSection items={playground} />
 
         {/* Contact */}
         <Reveal as="section" className="pt-36 md:pt-48">
