@@ -437,10 +437,18 @@ export const works: Work[] = [
         },
       },
       {
+        label: "Research",
+        title: "What the category was already doing.",
+        body: [
+          "Before reframing anything, we audited how other clinical-AI companies were positioning themselves. The pattern was identical across the category: hero metrics, AI-first language, abstract multi-agent diagrams, generic nurse stock photos. None of them led with the people actually doing the work.",
+          "That gap was the opening. If every competitor was selling “AI for healthcare,” OutcomesAI could win the buyer in 30 seconds by selling “nurses with their time back.” Same product, opposite shelf.",
+        ],
+      },
+      {
         label: "Narrative",
         title: "Nurses first, AI second.",
         body: [
-          "The entire narrative was reframed. OutcomesAI isn't an AI company selling to healthcare; it's a nursing company using AI to give nurses their time back. The tagline that shipped, “AI-enabled Nursing. Human Care at Scale.”, puts nurses first deliberately, and that word order changed every headline downstream.",
+          "We reframed the entire narrative. OutcomesAI isn't an AI company selling to healthcare; it's a nursing company using AI to give nurses their time back. The tagline that shipped, “AI-enabled Nursing. Human Care at Scale,” puts nurses first deliberately, and that word order changed every headline downstream.",
         ],
       },
       {
@@ -608,6 +616,14 @@ export const works: Work[] = [
             label: "No curated discovery",
             body: "Catalogue browsing, not looks or trend-led shopping.",
           },
+        ],
+      },
+      {
+        label: "Research",
+        title: "What the category was assuming.",
+        body: [
+          "Before designing anything, the team audited Myntra, Ajio, Nykaa Fashion, and Tata CLiQ. The assumption baked into every one of them was the same: more SKUs, better filters, returns are an unavoidable cost. The way Indian shoppers actually browse, by occasion, by mood, by trend, wasn't reflected anywhere in the tab bar.",
+          "We also pulled references from outside the category: editorial magazines (Vogue, GQ India), Nordstrom's curated lookbooks, the way Pinterest treats outfits. The pattern across all of them was the same: people browse fashion like inspiration, not inventory.",
         ],
       },
       {
