@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
-import { HaloTitle } from "@/components/HaloTitle";
 import { PixelsMasonry } from "@/components/PixelsMasonry";
 import { type PixelsItem } from "@/components/PixelsTile";
 
@@ -135,20 +134,6 @@ const items: PixelsItem[] = [
       },
     ],
   },
-  {
-    slug: "providence",
-    title: "Providence",
-    kind: "Concept UI",
-    year: "2025",
-    images: [
-      {
-        src: "/works/providence.png",
-        alt: "Providence concept UI",
-        width: 2880,
-        height: 1400,
-      },
-    ],
-  },
 ];
 
 export default function PixelsPage() {
@@ -159,17 +144,17 @@ export default function PixelsPage() {
         <section>
           <Container>
             <div className="max-w-[720px]">
-              <h1 className="hero-y2k flex text-[clamp(2.75rem,7vw,5.25rem)] font-bold leading-[0.95] tracking-tight">
-                <HaloTitle text="Pixels" color="yellow" />
+              <h1 className="text-[clamp(3rem,9vw,5.25rem)] font-bold leading-[1.05] tracking-tight">
+                <span className="hero-block hero-block--yellow">Pixels</span>
               </h1>
 
-              <p className="mt-10 max-w-[48ch] text-pretty text-[18px] font-bold leading-[1.5] text-ink md:text-[20px]">
+              <p className="mt-8 max-w-[48ch] text-pretty text-[17px] font-bold leading-[1.5] text-ink md:mt-10 md:text-[20px]">
                 Interfaces without briefs. A sketchbook: some become
                 products, most stay themselves.
               </p>
             </div>
 
-            <section className="mt-20 md:mt-24">
+            <section className="mt-16 md:mt-24">
               <div className="flex items-baseline justify-between">
                 <span className="text-[13px] text-muted">
                   All · {items.length}
@@ -177,7 +162,7 @@ export default function PixelsPage() {
                 <span className="text-[13px] text-muted">2025</span>
               </div>
 
-              <div className="mt-12 md:mt-16">
+              <div className="mt-8 md:mt-12">
                 <PixelsMasonry items={items} />
               </div>
             </section>

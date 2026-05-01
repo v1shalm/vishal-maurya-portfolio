@@ -112,7 +112,8 @@ export default async function WorkPage({
         {/* === Hero === */}
         <header>
           <Container>
-            <div className="max-w-[760px]">
+            <div className="mx-auto max-w-[1100px]">
+              <div className="max-w-[760px]">
                 <h1 className="text-balance text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.0] tracking-[-0.02em] text-ink">
                   {work.title}
                 </h1>
@@ -162,6 +163,7 @@ export default async function WorkPage({
                 <MediaBlock media={work.heroMedia} />
               </div>
             )}
+            </div>
           </Container>
         </header>
 

@@ -18,7 +18,7 @@ export function HomeWorkSection({ works }: Props) {
         <Container>
           <SectionHeader title="Selected Work" />
 
-          <div className="mt-12 flex flex-col gap-16 md:mt-20 md:gap-24">
+          <div className="mx-auto mt-12 flex max-w-[1100px] flex-col gap-16 md:mt-20 md:gap-24">
             {works.map((work, i) => (
               <Reveal key={work.slug} delay={i * 80}>
                 <TransitionLink

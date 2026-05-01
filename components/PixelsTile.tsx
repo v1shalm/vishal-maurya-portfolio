@@ -82,6 +82,7 @@ function TileMedia({
           fill
           sizes={sizes}
           priority={priority}
+          quality={92}
           className="object-cover transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
         />
       </div>

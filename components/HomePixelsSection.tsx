@@ -83,7 +83,8 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
         aria-label="Pixels showcase"
       >
         {doubled.map(({ item, image }, i) => {
-          const aspect = `${image.width} / ${image.height}`;
+          const isPortrait = image.height > image.width;
+          const frameAspect = isPortrait ? "3 / 4" : "4 / 3";
           const isVideo = isVideoSrc(image.src);
           return (
             <li
@@ -97,24 +98,27 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
                 aria-label={`${item.title}: ${item.kind}`}
               >
                 <div
-                  className="relative h-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0"
-                  style={{ aspectRatio: aspect }}
+                  className="relative h-full overflow-hidden rounded-md bg-bg-elevated p-3 shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0 md:p-5"
+                  style={{ aspectRatio: frameAspect }}
                 >
-                  {isVideo ? (
-                    <LazyVideo
-                      src={image.src}
-                      alt={image.alt}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  ) : (
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      sizes="(min-width: 768px) 480px, 70vw"
-                      className="object-cover"
-                    />
-                  )}
+                  <div className="relative h-full w-full">
+                    {isVideo ? (
+                      <LazyVideo
+                        src={image.src}
+                        alt={image.alt}
+                        className="absolute inset-0 h-full w-full object-contain"
+                      />
+                    ) : (
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        sizes="(min-width: 768px) 480px, 70vw"
+                        quality={92}
+                        className="object-contain"
+                      />
+                    )}
+                  </div>
                 </div>
               </Link>
             </li>

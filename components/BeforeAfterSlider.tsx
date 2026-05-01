@@ -90,7 +90,8 @@ export function BeforeAfterSlider({
           src={after.src}
           alt={after.alt}
           fill
-          sizes="(min-width: 1024px) 720px, (min-width: 768px) 90vw, 100vw"
+          sizes="(min-width: 1280px) 1100px, (min-width: 1024px) 90vw, (min-width: 768px) 90vw, 100vw"
+          quality={92}
           className="object-cover"
           draggable={false}
           priority

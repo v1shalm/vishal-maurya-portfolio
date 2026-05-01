@@ -282,7 +282,7 @@ export function CommandPalette() {
             }}
             className="relative w-full max-w-[640px] overflow-hidden rounded-[16px] border border-line-soft bg-bg shadow-[0_30px_60px_-15px_rgba(12,12,16,0.28),0_8px_20px_-8px_rgba(249,28,169,0.12)]"
           >
-        <div className="flex items-center gap-3 px-4 py-4 transition-shadow has-[:focus-visible]:shadow-[inset_0_-2px_0_0_var(--color-yellow-edge)]">
+        <div className="flex items-center gap-3 px-4 py-4">
           <svg className="h-5 w-5 text-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-4.35-4.35M16.65 16.65A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
           </svg>
@@ -293,7 +293,7 @@ export function CommandPalette() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKey}
             placeholder="Search pages, projects, actions…"
-            className="flex-1 border-0 bg-transparent text-[15.5px] leading-none text-ink placeholder:text-muted outline-none ring-0 focus:outline-none"
+            className="flex-1 border-0 bg-transparent text-[15.5px] leading-none text-ink placeholder:text-muted outline-none ring-0 focus:outline-none focus-visible:outline-none"
           />
         </div>
 

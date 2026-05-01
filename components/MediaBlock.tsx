@@ -158,7 +158,8 @@ function MediaFrame({
           alt={item.alt ?? ""}
           width={2400}
           height={1500}
-          sizes="(min-width: 1024px) 720px, (min-width: 768px) 90vw, 100vw"
+          sizes="(min-width: 1280px) 1100px, (min-width: 1024px) 90vw, (min-width: 768px) 90vw, 100vw"
+          quality={92}
           className="block h-auto w-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.01]"
           draggable={false}
         />

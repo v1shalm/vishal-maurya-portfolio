@@ -213,6 +213,7 @@ export function Carousel({
                     alt={img.alt}
                     fill
                     sizes={sizes}
+                    quality={92}
                     className="pointer-events-none object-contain"
                     priority={i === 0}
                     draggable={false}

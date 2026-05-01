@@ -26,7 +26,8 @@ export function WorkThumbnail({ src, alt, poster, className = "" }: Props) {
         src={src}
         alt={alt}
         fill
-        sizes="(min-width: 1024px) 700px, (min-width: 768px) 50vw, 100vw"
+        sizes="(min-width: 1280px) 1100px, (min-width: 1024px) 90vw, (min-width: 768px) 90vw, 100vw"
+        quality={92}
         className={`object-cover ${className}`}
       />
     );

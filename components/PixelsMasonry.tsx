@@ -29,10 +29,12 @@ export function PixelsMasonry({ items }: { items: PixelsItem[] }) {
 
   return (
     <>
-      <div className="columns-1 gap-x-6 sm:columns-2 lg:columns-3 lg:gap-x-8">
+      <div className="columns-1 gap-4 sm:columns-2 xl:columns-3">
         {tiles.map((tile) => {
           const img = tile.item.images![tile.imageIndex];
           const isVideo = isVideoSrc(img.src);
+          const isPortrait = img.height > img.width;
+          const frameAspect = isPortrait ? "3 / 4" : "4 / 3";
           return (
             <button
               key={`${tile.item.slug}-${tile.imageIndex}`}
@@ -41,36 +43,31 @@ export function PixelsMasonry({ items }: { items: PixelsItem[] }) {
                 setOpen({ slug: tile.item.slug, index: tile.imageIndex })
               }
               aria-label={`Open ${tile.item.title}: ${img.alt}`}
-              className="group mb-6 block w-full break-inside-avoid text-left active:scale-[0.99] md:mb-8"
+              className="group mb-4 block w-full break-inside-avoid text-left active:scale-[0.99]"
               style={{ transition: "transform 200ms cubic-bezier(0.16,1,0.3,1)" }}
             >
               <div
-                className="relative w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0"
-                style={{ aspectRatio: `${img.width} / ${img.height}` }}
+                className="relative overflow-hidden rounded-md bg-bg-elevated p-5 shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0 md:p-9"
+                style={{ aspectRatio: frameAspect }}
               >
-                {isVideo ? (
-                  <LazyVideo
-                    src={img.src}
-                    alt={img.alt}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                ) : (
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
-                  />
-                )}
-              </div>
-              <div className="mt-4 flex flex-col gap-1.5">
-                <p className="text-pretty text-[15px] leading-[1.4] text-ink md:text-[16px]">
-                  {tile.item.kind}
-                </p>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  {tile.item.title} · {tile.item.year}
-                </p>
+                <div className="relative h-full w-full">
+                  {isVideo ? (
+                    <LazyVideo
+                      src={img.src}
+                      alt={img.alt}
+                      className="absolute inset-0 h-full w-full object-contain"
+                    />
+                  ) : (
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      quality={92}
+                      className="object-contain transition-transform duration-[400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+                    />
+                  )}
+                </div>
               </div>
             </button>
           );
