@@ -189,7 +189,17 @@ export function CommandPalette() {
     if (!item.href) return;
     play("paletteRun");
     if (item.href.startsWith("http") || item.href.startsWith("mailto:")) {
-      window.open(item.href, "_blank", "noopener,noreferrer");
+      // Synthesise a real anchor click instead of window.open(): the latter
+      // is silently blocked by some browsers when fired from inside a
+      // focus-trapped dialog, leaving the modal closing without anything
+      // happening. A real <a> click bypasses that.
+      const a = document.createElement("a");
+      a.href = item.href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } else {
       router.push(item.href);
     }

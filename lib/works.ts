@@ -164,11 +164,11 @@ export const works: Work[] = [
       {
         label: "Principles",
         title:
-          "Three guiding principles: Familiarity, Discovery, Speed.",
+          "I worked from three principles: familiarity, discovery, speed.",
         body: [
-          "Familiarity: make the experience easy to use daily.",
-          "Discovery: bring back the feeling of browsing a mall.",
-          "Speed: enable quick-commerce without friction.",
+          "Familiarity: make the experience easy enough to use every day.",
+          "Discovery: keep the feeling of browsing a mall, even on a small screen.",
+          "Speed: never slow the user down once they know what they want.",
         ],
         media: {
           kind: "single",
@@ -185,8 +185,8 @@ export const works: Work[] = [
         title:
           "A modular, content-driven system: quick-commerce efficiency with in-mall discovery richness.",
         body: [
-          "Built a unified visual system that scales across multiple retailers, with shared patterns for browsing, merchandising, and checkout without flattening brand identity.",
-          "Introduced physical-to-digital touchpoints that connect in-mall experiences with digital interactions, letting brand discovery and campaign engagement continue beyond the physical space.",
+          "I built a unified visual system that could scale across multiple retailers, with shared patterns for browsing, merchandising, and checkout. The skin per brand stayed flexible, but the bones of every flow were the same. That kept the experience consistent for the user and the build sane for the team.",
+          "Then I added physical-to-digital touchpoints. The mall doesn't end when the user leaves the parking lot, so the campaigns and the loyalty surfaces shouldn't either. Tracking, coupons, and rewards became a thread back into the next visit.",
         ],
         media: {
           kind: "triptych",
@@ -211,11 +211,20 @@ export const works: Work[] = [
         },
       },
       {
+        label: "Process",
+        title: "What I considered before opening Figma.",
+        body: [
+          "I started by mapping the two patterns I was trying to fuse. Quick-commerce apps, like Blinkit and Instamart, optimise for the transaction: a search bar, a category strip, and a fast checkout. Mall apps optimise for the visit: wayfinding, curated displays, loyalty cards. Neither tries to do both.",
+          "The unlock for me was treating the home surface as a wayfinding moment, not a search bar with a horizontal scroll of categories. Each retailer needed space to surface what's new, the same way a window display does in a mall. From there the rest of the flow could stay quick, so the daily-habit feeling held: a scenic home paired with a fast checkout.",
+          "I also pulled references outside the category. Editorial homepages from fashion publications, museum wayfinding, even mall directories. The look I was after was closer to a magazine cover than a category grid.",
+        ],
+      },
+      {
         label: "Outcome",
         title: "A scalable digital product, now across 17+ malls.",
         body: [
-          "Extended a unified digital experience across a network of 17+ physical locations.",
-          "A unified UI system lets the retailer's identity carry across brands and categories in the digital surface, rather than fragmenting into separate apps, inconsistent flows, and separate campaigns.",
+          "The result extended across a network of 17+ physical locations.",
+          "The unified UI system lets the retailer's identity carry across brands and categories in the digital surface, rather than fragmenting into separate apps, inconsistent flows, and separate campaigns.",
         ],
         media: {
           kind: "single",
@@ -326,7 +335,7 @@ export const works: Work[] = [
         title:
           "Digital can extend the physical world without replacing it.",
         body: [
-          "The project showed how to balance speed, discovery, and brand consistency in a single product, and that designing for continuity between physical and digital is often more valuable than designing either in isolation.",
+          "The takeaway for me was that designing for the seam between physical and digital is often more valuable than perfecting either side in isolation. Speed, discovery, and brand consistency aren't opposites; they just need a system holding them together.",
         ],
       },
       {

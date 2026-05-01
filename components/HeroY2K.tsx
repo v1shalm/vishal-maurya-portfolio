@@ -15,16 +15,13 @@ export function HeroY2K() {
             </span>
             <span className="hero-blocks__row">
               <span className="hero-block hero-block--yellow">that feel</span>
-            </span>
-            <span className="hero-blocks__row">
               <AliveBlock>alive.</AliveBlock>
             </span>
           </h1>
 
-          <p className="hero-blocks__sub mx-auto mt-10 max-w-[640px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
-            I&rsquo;m Vishal, a product designer from Mumbai with 2+ years
-            of experience shipping real products. Currently looking for
-            full-time roles.
+          <p className="hero-blocks__sub mx-auto mt-10 max-w-[560px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
+            I&rsquo;m Vishal, a product designer in Mumbai with 2+ years
+            shipping real products. Looking for full-time roles.
           </p>
         </div>
       </Container>
