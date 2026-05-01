@@ -788,6 +788,7 @@ body {
   line-height: 16px;
   border-radius: 999px;
   gap: 6px;
+  min-height: 44px;
 }
 
 /* Tag size — tiny labels (uppercase metadata). */

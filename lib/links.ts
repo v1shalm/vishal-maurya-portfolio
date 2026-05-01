@@ -9,5 +9,5 @@ export const links = {
   linkedin: "https://www.linkedin.com/in/v1shalm/",
   dribbble: "https://dribbble.com/V1shal",
   resume:
-    "https://drive.google.com/file/d/1GvrKGjh08j-1-QIwgFnzLLrrqnlUJ-mU/view?usp=sharing",
+    "https://drive.google.com/file/d/1IKoJFJbpOuDLjYsgUDKGyDmZRjN70bXH/view?usp=sharing",
 } as const;

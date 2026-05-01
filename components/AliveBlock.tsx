@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { HERO_ENTRANCE_MS } from "@/lib/motion";
 
 /**
  * Pink "alive" hero block. Wraps the existing `.hero-block--pink` so the
  * infinite breathing animation can be paused via `animation-play-state`
- * once the hero leaves the viewport — saves idle GPU/battery.
+ * once the hero leaves the viewport, saving idle GPU/battery.
  *
  * The entrance animation runs unconditionally on mount; the observer
  * only attaches after the entrance has completed, so we never pause
@@ -29,7 +30,7 @@ export function AliveBlock({ children }: { children: ReactNode }) {
         { threshold: 0.05 },
       );
       obs.observe(el);
-    }, 1700);
+    }, HERO_ENTRANCE_MS);
 
     return () => {
       clearTimeout(t);

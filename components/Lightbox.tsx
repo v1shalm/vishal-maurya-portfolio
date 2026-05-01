@@ -80,7 +80,7 @@ export function Lightbox({ images, startIndex, onClose }: Props) {
           e.stopPropagation();
           onClose();
         }}
-        className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-colors hover:bg-white/20 md:right-6 md:top-6 md:h-10 md:w-10"
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/90 backdrop-blur-md transition-colors hover:bg-white/20 md:right-6 md:top-6 md:h-10 md:w-10"
       >
         <svg
           width="14"
