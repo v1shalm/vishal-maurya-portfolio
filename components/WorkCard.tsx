@@ -35,7 +35,7 @@ export function WorkCard({ work }: { work: Work }) {
           {work.tagline}
         </p>
 
-        <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:text-[14px]">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[14px] text-muted md:mt-3 md:text-[15px]">
           <span>{work.kind}</span>
           <span className="tabular-nums">{work.year}</span>
         </div>

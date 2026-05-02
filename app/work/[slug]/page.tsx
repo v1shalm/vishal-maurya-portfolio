@@ -303,7 +303,7 @@ export default async function WorkPage({
                       <p className="mt-2 max-w-[52ch] text-pretty text-[15.5px] leading-[1.55] text-ink-soft md:mt-3">
                         {next.tagline}
                       </p>
-                      <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:mt-6 md:text-[14px]">
+                      <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[14px] text-muted md:mt-3 md:text-[15px]">
                         <span>{next.kind}</span>
                         <span className="tabular-nums">{next.year}</span>
                       </div>

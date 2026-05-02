@@ -46,7 +46,7 @@ export function PixelsTile({
           {item.kind}.
         </p>
 
-        <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:text-[14px]">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[14px] text-muted md:mt-3 md:text-[15px]">
           <span className="tabular-nums">{item.year}</span>
         </div>
       </div>

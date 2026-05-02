@@ -37,11 +37,6 @@ const clients: {
     logo: "/logos/briskpe.png",
     heightClass: "h-10 md:h-14",
   },
-  {
-    name: "Inato",
-    logo: "/logos/inato.png",
-    heightClass: "h-10 md:h-14",
-  },
 ];
 
 const playground: PixelsItem[] = [

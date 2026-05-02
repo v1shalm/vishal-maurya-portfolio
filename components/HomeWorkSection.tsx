@@ -13,7 +13,7 @@ type Props = { works: Work[] };
  */
 export function HomeWorkSection({ works }: Props) {
   return (
-    <Reveal as="section" className="pt-36 md:pt-48">
+    <Reveal as="section" className="pt-20 md:pt-28">
       <div id="work">
         <Container>
           <SectionHeader title="Selected Work" />
@@ -50,7 +50,7 @@ export function HomeWorkSection({ works }: Props) {
                     <p className="mt-2 text-pretty text-[16px] leading-[1.5] text-ink-soft transition-colors duration-300 ease-out group-hover:text-ink md:mt-3 md:text-[18px]">
                       {work.tagline}
                     </p>
-                    <div className="mt-5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[13px] text-muted md:mt-6 md:text-[14px]">
+                    <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[14px] text-muted md:mt-3 md:text-[15px]">
                       <span>{work.kind}</span>
                       <span className="tabular-nums">{work.year}</span>
                     </div>
