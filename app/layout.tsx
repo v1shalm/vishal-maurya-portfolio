@@ -6,6 +6,7 @@ import { CommandPaletteTrigger } from "@/components/CommandPaletteTrigger";
 import { SmartCursor } from "@/components/SmartCursor";
 import { LenisProvider } from "@/components/LenisProvider";
 import { siteUrl } from "@/lib/site";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geist = Geist({
   variable: "--font-sans",
@@ -135,6 +136,7 @@ export default function RootLayout({
         <CommandPaletteTrigger />
         <SmartCursor />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );
