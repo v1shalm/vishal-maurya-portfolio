@@ -122,6 +122,8 @@ export type Work = {
   thumbnail?: string;
   /** Optional still image shown before a video thumbnail begins playing. */
   thumbnailPoster?: string;
+  /** When true, the case study route is gated by middleware behind a password. */
+  locked?: boolean;
   heroMedia?: Media;
   sections: CaseSection[];
 };
@@ -132,6 +134,7 @@ export const works: Work[] = [
     title: "Nexus 247",
     kind: "Quick-commerce product",
     tagline: "Mall-style browsing, quick-commerce speed. Shipped across 17+ malls.",
+    locked: true,
     summary:
       "Balancing mall-style discovery with quick-commerce speed: a unified UI system across multiple brands.",
     status: "Live",

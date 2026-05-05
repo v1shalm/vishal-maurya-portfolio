@@ -25,6 +25,7 @@ export function HomeWorkSection({ works }: Props) {
                   href={`/work/${work.slug}`}
                   className="group flex flex-col"
                   data-cursor="view-case-study"
+                  data-cursor-label={work.locked ? "Under NDA" : undefined}
                 >
                   <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0 md:aspect-[16/10]">
                     {work.thumbnail ? (
@@ -53,6 +54,11 @@ export function HomeWorkSection({ works }: Props) {
                     <div className="mt-2.5 flex flex-wrap items-center gap-x-7 gap-y-1.5 text-[14px] text-muted md:mt-3 md:text-[15px]">
                       <span>{work.kind}</span>
                       <span className="tabular-nums">{work.year}</span>
+                      {work.locked ? (
+                        <span className="rounded-full bg-bg-elevated px-2.5 py-0.5 text-[12.5px] font-medium text-ink-soft">
+                          Locked · NDA
+                        </span>
+                      ) : null}
                     </div>
                   </div>
                 </TransitionLink>
