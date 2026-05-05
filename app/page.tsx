@@ -139,8 +139,8 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* Work */}
-        <HomeWorkSection works={works} />
+        {/* Work — locked entries are filtered out of the public listing. */}
+        <HomeWorkSection works={works.filter((w) => !w.locked)} />
 
         {/* Pixels */}
         <HomePixelsSection items={playground} />

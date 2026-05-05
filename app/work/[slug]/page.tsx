@@ -62,8 +62,11 @@ export default async function WorkPage({
   const work = getWork(slug);
   if (!work) notFound();
 
-  const index = works.findIndex((w) => w.slug === slug);
-  const next = works[(index + 1) % works.length];
+  // The "next project" rail skips locked entries so visitors don't bounce
+  // into a password wall from an adjacent case study.
+  const visibleWorks = works.filter((w) => !w.locked || w.slug === slug);
+  const visibleIndex = visibleWorks.findIndex((w) => w.slug === slug);
+  const next = visibleWorks[(visibleIndex + 1) % visibleWorks.length];
   const isLive = work.status === "Live";
 
   const heroImage =
