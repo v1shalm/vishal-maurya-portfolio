@@ -1,4 +1,4 @@
-import { defineSound, setMasterVolume } from "@web-kits/audio";
+import { defineSound, ensureReady, setMasterVolume } from "@web-kits/audio";
 import type { SoundDefinition } from "@web-kits/audio";
 import * as playful from "./playful";
 
@@ -217,6 +217,23 @@ export function play(name: SoundKey) {
   } catch {
     // AudioContext can refuse to start in some embedded contexts —
     // failing silently here is preferable to crashing the UI.
+  }
+}
+
+/**
+ * Resume the shared AudioContext. iOS/Safari suspends it until a real
+ * user gesture; call this from a touch/pointer handler so the first
+ * play() that follows actually emits audio. No-op on the server or when
+ * the user prefers reduced motion.
+ */
+export function primeAudio() {
+  if (typeof window === "undefined") return;
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+  try {
+    if (!primed) init();
+    void ensureReady();
+  } catch {
+    /* silent — context may be unavailable in some embedded contexts */
   }
 }
 

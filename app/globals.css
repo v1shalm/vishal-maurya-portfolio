@@ -919,4 +919,17 @@ body {
   transform: rotate(var(--tilt, 0deg)) translateY(var(--lift, 0px)) scale(1);
 }
 
+/* Draggable scroller: per-row transform-origin uses a CSS variable so
+   we can swap the pivot between mobile (smaller 44px shape) and desktop
+   (original 64px shape). Desktop value matches the previous hardcoded
+   32px exactly to keep desktop pixel-identical. */
+.wheel-listbox {
+  --row-pivot: 22px;
+}
+@media (min-width: 768px) {
+  .wheel-listbox {
+    --row-pivot: 32px;
+  }
+}
+
 

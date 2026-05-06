@@ -11,7 +11,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import { Shape, SHAPE_LABEL, type ShapeKind } from "./Shapes";
-import { play } from "@/lib/sounds";
+import { play, primeAudio } from "@/lib/sounds";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
 const SHAPES: ShapeKind[] = [
@@ -187,6 +187,9 @@ export function Wheel() {
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
     e.preventDefault();
+    // iOS/Safari keep the AudioContext suspended until a real user
+    // gesture. Resume it here so the first tick sound on touch is heard.
+    primeAudio();
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
@@ -313,12 +316,12 @@ export function Wheel() {
             itself. Width is just enough to fit the longest tick (knob
             ends at 58, gap, comb 78-100, then ~40px of breathing room
             before the wheel column). */}
-        <div className="relative h-[560px] w-[120px] md:h-[640px] md:w-[130px]">
+        <div className="relative h-[460px] w-[96px] md:h-[640px] md:w-[130px]">
           {/* Active tick — short dark line, sits to the right of the
               knob with a small gap. Stays put at vertical center. */}
           <span
             aria-hidden
-            className="absolute left-[78px] top-1/2 z-10 h-[2px] w-[34px] -translate-y-1/2 rounded-full bg-ink/85"
+            className="absolute left-[64px] top-1/2 z-10 h-[2px] w-[26px] -translate-y-1/2 rounded-full bg-ink/85 md:left-[78px] md:w-[34px]"
           />
 
           {/* Comb of short ticks (above + below the active line). */}
@@ -330,7 +333,7 @@ export function Wheel() {
                 data-ruler-tick
                 data-slot={slot}
                 aria-hidden
-                className="absolute left-[78px] top-1/2 h-[2px] w-[22px] origin-left rounded-full bg-ink/25 will-change-transform"
+                className="absolute left-[64px] top-1/2 h-[2px] w-[18px] origin-left rounded-full bg-ink/25 will-change-transform md:left-[78px] md:w-[22px]"
               />
             ))}
 
@@ -342,7 +345,7 @@ export function Wheel() {
             className="absolute left-0 top-1/2 z-20 -translate-y-1/2"
           >
             <span
-              className="relative inline-flex h-[34px] w-[58px] items-center justify-center rounded-full"
+              className="relative inline-flex h-[28px] w-[48px] items-center justify-center rounded-full md:h-[34px] md:w-[58px]"
               style={{
                 background:
                   "linear-gradient(180deg, #fff486 0%, #fdf004 38%, #ddc806 100%)",
@@ -353,7 +356,7 @@ export function Wheel() {
               {/* Top specular highlight */}
               <span
                 aria-hidden
-                className="pointer-events-none absolute left-2 right-2 top-[3px] h-[6px] rounded-full"
+                className="pointer-events-none absolute left-2 right-2 top-[3px] h-[5px] rounded-full md:h-[6px]"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0))",
@@ -366,7 +369,7 @@ export function Wheel() {
               <span
                 aria-hidden
                 data-knob-mark
-                className="block h-[3px] w-[18px] rounded-full will-change-transform"
+                className="block h-[2px] w-[14px] rounded-full will-change-transform md:h-[3px] md:w-[18px]"
                 style={{
                   background: "#1a1810",
                   boxShadow:
@@ -390,7 +393,7 @@ export function Wheel() {
           onPointerCancel={onPointerUp}
           onWheel={onWheel}
           onKeyDown={onKeyDown}
-          className="relative h-[560px] w-[320px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[380px]"
+          className="wheel-listbox relative h-[460px] w-[220px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[380px]"
           style={{
             outline: "none",
             WebkitMaskImage:
@@ -413,19 +416,13 @@ export function Wheel() {
                 role="option"
                 aria-selected={isActive}
                 aria-label={SHAPE_LABEL[kind]}
-                className="absolute left-[200px] top-1/2 flex items-center gap-4 will-change-transform md:left-[200px] md:gap-5"
-                style={{ transformOrigin: "32px 50%" }}
+                className="absolute left-0 top-1/2 flex items-center gap-3 will-change-transform md:left-[200px] md:gap-5"
+                style={{ transformOrigin: "var(--row-pivot, 32px) 50%" }}
               >
-                <div
-                  className="h-[56px] w-[56px] shrink-0 md:h-[68px] md:w-[68px]"
-                  style={{
-                    filter:
-                      "drop-shadow(0 14px 22px rgba(0,0,0,0.16)) drop-shadow(0 4px 8px rgba(0,0,0,0.10))",
-                  }}
-                >
+                <div className="h-[44px] w-[44px] shrink-0 md:h-[68px] md:w-[68px]">
                   <Shape kind={kind} />
                 </div>
-                <span className="whitespace-nowrap text-[20px] font-medium tracking-[-0.012em] text-ink md:text-[24px]">
+                <span className="whitespace-nowrap text-[17px] font-medium tracking-[-0.012em] text-ink md:text-[24px]">
                   {SHAPE_LABEL[kind]}
                 </span>
               </div>
