@@ -42,7 +42,7 @@ const experiments: Experiment[] = [
     external: true,
     title: "Résumé Builder",
     subtext:
-      "A keyboard-first résumé editor with a live A4 preview and ATS-safe PDF export. Drag rows, type into the canvas, swap themes, every interaction has a tactile audio cue and the preview updates in real time. Built open source on Next.js 15 + React 19.",
+      "Keyboard-first résumé editor with a live A4 preview and ATS-safe PDF export. Drag to reorder, type into the canvas, swap themes. Every action plays a click. Open source on Next.js 15 and React 19.",
     tags: [
       "Next.js",
       "Motion",

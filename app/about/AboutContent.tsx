@@ -30,17 +30,16 @@ export default function AboutContent() {
 
             {/* Headline */}
             <h1 className="text-balance text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink">
-              I&rsquo;m a product designer based in Mumbai, shipping
-              products that feel alive.
+              Product designer in Mumbai. I ship things people actually
+              use.
             </h1>
 
             {/* Intro */}
             <p className="mt-8 text-[18px] leading-[1.8] text-ink-soft">
-              Most recently at Pineapple Design Studio, where I shipped
-              quick-commerce products (Nexus 247, Zilo) and healthtech
-              (OutcomesAI). I work AI-first, pressure-testing the brief
-              before opening Figma, so by the time I&rsquo;m designing, I
-              already know what to build.
+              Most recently at Pineapple Design Studio, on quick-commerce
+              (Nexus 247, Zilo) and healthtech (OutcomesAI). I sit with
+              the problem before I open Figma. By the time I&rsquo;m
+              drawing screens, the brief has been picked apart.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
@@ -49,32 +48,32 @@ export default function AboutContent() {
 
             {/* Lately */}
             <p className="mt-10 text-[18px] leading-[1.8] text-ink-soft">
-              Right now I&rsquo;m:
+              Right now:
             </p>
             <ul className="mt-4 flex flex-col gap-3">
               <BulletItem color="pink">
-                Looking for full-time product design roles
+                Looking for full-time product design roles.
               </BulletItem>
               <BulletItem color="yellow">
-                Turning &ldquo;what if&rdquo; into &ldquo;shipped&rdquo; with AI in the loop
+                Shipping faster by treating AI as a teammate, not a tool.
               </BulletItem>
               <BulletItem color="pink">
-                Exploring personal UI concepts in{" "}
+                Sketching UI ideas in{" "}
                 <Link href="/pixels" className="link-accent">
                   Pixels
                 </Link>
+                .
               </BulletItem>
             </ul>
 
             {/* Open to */}
             <p className="mt-10 text-[18px] leading-[1.8] text-ink-soft">
-              I&rsquo;m open to in-house product design roles, consumer-facing,
-              in fintech, healthtech, or commerce, building for Indian users.
-              If you&rsquo;re hiring,{" "}
+              I&rsquo;m best on consumer products built for Indian users:
+              fintech, healthtech, commerce. If that&rsquo;s your team,{" "}
               <a href={links.email} className="link-accent" data-cursor="email">
-                I&rsquo;d love to talk
+                say hi
               </a>
-              . Or find me on{" "}
+              . Also on{" "}
               <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className="link-accent" data-cursor="external">
                 LinkedIn
               </a>

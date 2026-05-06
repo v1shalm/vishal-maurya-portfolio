@@ -227,8 +227,8 @@ export const works: Work[] = [
         label: "Outcome",
         title: "A scalable digital product, now across 17+ malls.",
         body: [
-          "The result extended across a network of 17+ physical locations.",
-          "The unified UI system lets the retailer's identity carry across brands and categories in the digital surface, rather than fragmenting into separate apps, inconsistent flows, and separate campaigns.",
+          "Now live across 17+ malls.",
+          "One UI system carries the retailer's identity across brands and categories. No splintered apps, no mismatched flows, no parallel campaigns.",
         ],
         media: {
           kind: "single",
@@ -252,19 +252,19 @@ export const works: Work[] = [
           tabs: [
             {
               label: "Homepage",
-              caption: "The daily entry point, built for return visits.",
+              caption: "Home, built like a mall window display.",
               src: "/works/nexus-247/homepage_light_tall.png",
               alt: "Nexus 247 homepage, full-page walkthrough",
             },
             {
               label: "PLP",
-              caption: "Product list, paced like turning corners in a mall.",
+              caption: "Product list, paced for browsing.",
               src: "/works/nexus-247/plp_tall.png",
               alt: "Nexus 247 product list page, full-page walkthrough",
             },
             {
               label: "PDP",
-              caption: "Product detail, the moment of consideration.",
+              caption: "Product detail.",
               src: "/works/nexus-247/pdp_tall.png",
               alt: "Nexus 247 product detail page, full-page walkthrough",
             },
@@ -282,19 +282,19 @@ export const works: Work[] = [
           tabs: [
             {
               label: "Bag",
-              caption: "Bag. Every tap removed is a return visit earned.",
+              caption: "Bag, paced for fast checkout.",
               src: "/works/nexus-247/bag_tall.png",
               alt: "Nexus 247 bag, full-page walkthrough",
             },
             {
               label: "Coupons",
-              caption: "Coupons. The reward moment, made tangible.",
+              caption: "Coupons, the reward made visible.",
               src: "/works/nexus-247/coupons_tall.png",
               alt: "Nexus 247 coupons, full-page walkthrough",
             },
             {
               label: "Tracking",
-              caption: "Tracking. The post-buy surface that earns the next visit.",
+              caption: "Order tracking after checkout.",
               src: "/works/nexus-247/tracking_tall.png",
               alt: "Nexus 247 order tracking, full-page walkthrough",
             },
@@ -469,7 +469,7 @@ export const works: Work[] = [
             alt: "Glia's anatomy: voice agents, clinical scribing, escalation protocols",
             aspect: "16/9",
           },
-          caption: "Glia's anatomy. AI as architecture, not a black box.",
+          caption: "Glia's anatomy, shown as architecture instead of a black box.",
         },
       },
       {
@@ -537,7 +537,7 @@ export const works: Work[] = [
             alt: "OutcomesAI mobile experience, scrolled in a phone frame",
             aspect: "16/9",
           },
-          caption: "Mobile. Same trust signals, same story, smaller frame.",
+          caption: "Mobile. Full trust signals in a smaller frame.",
         },
       },
       {
@@ -772,7 +772,7 @@ export const works: Work[] = [
         title: "Shipped fast. Found product-market fit. Raised $19.9M.",
         body: [
           "The MVP shipped in under 8 weeks on Android and iOS: branding, the core flows, dev-ready files, from a blank canvas. Zilo launched and found product-market fit. A $4.5M seed co-led by Info Edge Ventures and Chiratae Ventures closed within weeks; a $15.3M Series A led by Peak XV Partners followed in 2026.",
-          "Investors backed Zilo for the thesis, and the design was the product they saw to evaluate it. We built the case that Zilo could fix what Chiratae had named as broken.",
+          "Investors backed the thesis. Design was the artifact they evaluated it against, and it made the case that Zilo could fix what the category hadn't.",
         ],
         stats: [
           { value: "0\u21921", label: "Full product: brand to dev-ready files" },
@@ -789,7 +789,7 @@ export const works: Work[] = [
         label: "Reflection",
         title: "The part that carries forward.",
         body: [
-          "Eight weeks teaches you to commit. Define a new category by what to leave out, anchor it with four design responses that frame the experience, then bind it under one identity. That recipe extends past Zilo. It's a way of working under pressure, and it's the part I take to ambiguous briefs now: the next fog feels less like fog and more like a sequence.",
+          "Eight weeks teaches you to commit. Define a new category by what to leave out, anchor it with four design responses that frame the experience, then bind it under one identity. That sequence carries past Zilo. It's how I take on briefs that start ambiguous now: name the four bets early, then build.",
         ],
       },
       {
