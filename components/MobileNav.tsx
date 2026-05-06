@@ -3,6 +3,11 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { links } from "@/lib/links";
+import {
+  isSoundEnabled,
+  setSoundEnabled,
+  playForce,
+} from "@/lib/sounds";
 
 type Item = {
   href: string;
@@ -28,7 +33,28 @@ const items: Item[] = [
  */
 export function MobileNav() {
   const [open, setOpen] = useState(false);
+  const [soundsOn, setSoundsOn] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Hydrate the toggle from localStorage and stay in sync if another
+  // surface (e.g. command palette on a tablet) flips the preference.
+  useEffect(() => {
+    setSoundsOn(isSoundEnabled());
+    const onChange = (e: Event) => {
+      const detail = (e as CustomEvent<boolean>).detail;
+      setSoundsOn(typeof detail === "boolean" ? detail : isSoundEnabled());
+    };
+    window.addEventListener("sound:toggled", onChange);
+    return () => window.removeEventListener("sound:toggled", onChange);
+  }, []);
+
+  const toggleSounds = () => {
+    const next = !soundsOn;
+    setSoundEnabled(next);
+    // Tactile click on every flip; success chime only when enabling.
+    playForce("wheelTickFast");
+    if (next) playForce("success");
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -138,9 +164,69 @@ export function MobileNav() {
                 </li>
               );
             })}
+            <li role="none">
+              <button
+                role="menuitem"
+                type="button"
+                onClick={toggleSounds}
+                aria-pressed={soundsOn}
+                className="mobile-nav-item flex w-full items-center justify-between rounded-xl px-4 py-3 text-[17px] font-bold tracking-tight text-ink transition-[background-color,color,transform] duration-150 ease-out hover:bg-[color:var(--color-y-ink)] hover:text-[color:var(--color-yellow)] active:scale-[0.97] focus-visible:outline-none focus-visible:bg-[color:var(--color-y-ink)] focus-visible:text-[color:var(--color-yellow)]"
+              >
+                <span>Sounds</span>
+                <NavSoundToggle on={soundsOn} />
+              </button>
+            </li>
           </ul>
         </div>
       )}
     </div>
+  );
+}
+
+/**
+ * Compact sound toggle pill rendered at the right edge of the mobile
+ * nav's Sounds row. Mirrors the command palette toggle's styling
+ * (yellow track when on, slate when off, dark thumb that slides) but
+ * sized down to read inline next to the row label.
+ */
+function NavSoundToggle({ on }: { on: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className="relative inline-flex shrink-0 items-center"
+      style={{ width: 36, height: 20 }}
+    >
+      <span
+        className="relative h-full w-full rounded-full"
+        style={{
+          background: on
+            ? "linear-gradient(180deg, #fff486 0%, #fdf004 38%, #ddc806 100%)"
+            : "linear-gradient(180deg, #d8d8dc 0%, #c4c4c9 50%, #a8a8af 100%)",
+          boxShadow: on
+            ? "0 1.5px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 0 0 1px rgba(0,0,0,0.10)"
+            : "0 1.5px 0 rgba(0,0,0,0.10) inset, 0 -1px 0 rgba(255,255,255,0.45) inset, 0 0 0 1px rgba(0,0,0,0.08)",
+          transition: "background 200ms ease-out, box-shadow 200ms ease-out",
+        }}
+      >
+        <span
+          className="pointer-events-none absolute left-1.5 right-1.5 top-[2px] h-[3px] rounded-full"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0))",
+            opacity: on ? 1 : 0.5,
+          }}
+        />
+        <span
+          className="absolute top-1/2 h-[14px] w-[14px] -translate-y-1/2 rounded-full"
+          style={{
+            left: on ? "calc(100% - 17px)" : "3px",
+            background: "#1a1810",
+            boxShadow:
+              "0 1.5px 3px rgba(0,0,0,0.30), 0 0 0 1px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.4)",
+            transition: "left 200ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        />
+      </span>
+    </span>
   );
 }
