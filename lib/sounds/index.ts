@@ -2,6 +2,75 @@ import { defineSound, setMasterVolume } from "@web-kits/audio";
 import type { SoundDefinition } from "@web-kits/audio";
 import * as playful from "./playful";
 
+// Draggable scroller — mechanical jog-dial clicks. Each tick is a short
+// noise-led transient with a square-wave body for a hard, plastic edge
+// (vs. the sine-based playful patches used elsewhere on the site). Three
+// velocity tiers; gain ramps down as velocity rises so fast flicks don't
+// machine-gun the user.
+const wheelTickSlow: SoundDefinition = {
+  layers: [
+    {
+      source: { type: "square", frequency: { start: 220, end: 110 } },
+      envelope: { attack: 0, decay: 0.025, sustain: 0, release: 0.012 },
+      gain: 0.16,
+    },
+    {
+      source: { type: "noise" },
+      envelope: { attack: 0, decay: 0.018, sustain: 0, release: 0.01 },
+      gain: 0.06,
+    },
+  ],
+};
+const wheelTickMid: SoundDefinition = {
+  layers: [
+    {
+      source: { type: "square", frequency: { start: 320, end: 180 } },
+      envelope: { attack: 0, decay: 0.018, sustain: 0, release: 0.008 },
+      gain: 0.13,
+    },
+    {
+      source: { type: "noise" },
+      envelope: { attack: 0, decay: 0.014, sustain: 0, release: 0.008 },
+      gain: 0.05,
+    },
+  ],
+};
+const wheelTickFast: SoundDefinition = {
+  layers: [
+    {
+      source: { type: "square", frequency: { start: 480, end: 280 } },
+      envelope: { attack: 0, decay: 0.012, sustain: 0, release: 0.006 },
+      gain: 0.09,
+    },
+    {
+      source: { type: "noise" },
+      envelope: { attack: 0, decay: 0.01, sustain: 0, release: 0.006 },
+      gain: 0.035,
+    },
+  ],
+};
+// Release: short noise sweep, like a wheel being let go.
+const wheelRelease: SoundDefinition = {
+  source: { type: "noise" },
+  envelope: { attack: 0.005, decay: 0.08, sustain: 0, release: 0.03 },
+  gain: 0.07,
+};
+// Settle: a final, slightly heavier mechanical click — the detent landing.
+const wheelSettle: SoundDefinition = {
+  layers: [
+    {
+      source: { type: "square", frequency: { start: 200, end: 90 } },
+      envelope: { attack: 0, decay: 0.04, sustain: 0, release: 0.02 },
+      gain: 0.18,
+    },
+    {
+      source: { type: "noise" },
+      envelope: { attack: 0, decay: 0.025, sustain: 0, release: 0.012 },
+      gain: 0.08,
+    },
+  ],
+};
+
 // Confetti burst — designed for the easter egg. Six stacked layers:
 // (1) a low pop with FM for the "burst"; (2-5) an ascending C major
 // arpeggio (C-E-G-C in two octaves) so each layer lands like a piece
@@ -71,7 +140,12 @@ type SoundKey =
   | "confetti" // pop + arpeggio + sparkle (easter egg)
   | "lightboxOpen" // image lightbox opens
   | "lightboxClose" // image lightbox closes
-  | "pageTransition"; // case study / page enter via TransitionLink
+  | "pageTransition" // case study / page enter via TransitionLink
+  | "wheelTickSlow" // scroller: tick crossing at low velocity (~softer)
+  | "wheelTickMid" // scroller: tick crossing at medium velocity
+  | "wheelTickFast" // scroller: tick crossing at high velocity (~sharper)
+  | "wheelRelease" // scroller: pointer released, inertia begins
+  | "wheelSettle"; // scroller: snap spring completes
 
 let cache: Partial<Record<SoundKey, () => void>> | null = null;
 let primed = false;
@@ -89,6 +163,11 @@ function init() {
     lightboxOpen: defineSound(playful.pop),
     lightboxClose: defineSound(playful.collapse),
     pageTransition: defineSound(playful.swoosh),
+    wheelTickSlow: defineSound(wheelTickSlow),
+    wheelTickMid: defineSound(wheelTickMid),
+    wheelTickFast: defineSound(wheelTickFast),
+    wheelRelease: defineSound(wheelRelease),
+    wheelSettle: defineSound(wheelSettle),
   };
   primed = true;
 }

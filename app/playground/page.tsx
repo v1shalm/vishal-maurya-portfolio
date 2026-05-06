@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "@/components/Nav";
 import { Container } from "@/components/Container";
+import { Shape } from "@/components/draggable-scroller/Shapes";
 
 export const metadata: Metadata = {
   title: "Playground · Vishal Maurya",
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 type Preview =
   | { kind: "image"; src: string; alt: string }
   | { kind: "swatch"; color: string; ink: string; pattern?: string }
-  | { kind: "resume" };
+  | { kind: "resume" }
+  | { kind: "wheel" };
 
 type Experiment = {
   slug: string;
@@ -65,6 +67,16 @@ const experiments: Experiment[] = [
       ink: "#FFFFFF",
       pattern: DOT_PATTERN,
     },
+  },
+  {
+    slug: "draggable-scroller",
+    href: "/playground/draggable-scroller",
+    title: "Draggable scroller",
+    subtext:
+      "A jog wheel for picking from a list. Shapes ride a curve, the knob tilts like a compass between rows, and the click sounds track how fast you scroll.",
+    tags: ["Pointer events", "Inertia", "Spring snap", "Audio feedback"],
+    status: "In progress",
+    preview: { kind: "wheel" },
   },
 ];
 
@@ -196,6 +208,10 @@ function PreviewTile({
     return <ResumePreview />;
   }
 
+  if (preview.kind === "wheel") {
+    return <WheelPreview />;
+  }
+
   // Mini guest-card mockup that hints at what the experiment actually is:
   // a tilted card on a soft pink wash, with a hand-drawn signature curve.
   // Replaces the flat orange swatch + italic serif type from v2.
@@ -307,6 +323,80 @@ function ResumePreview() {
         <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-yellow)]" />
         PDF
       </span>
+    </div>
+  );
+}
+
+/**
+ * Static preview hinting at the draggable scroller: a column of three
+ * shapes on a curve, with a small ruler + handle on the left. No real
+ * interaction, just a snapshot of the experiment's silhouette.
+ */
+function WheelPreview() {
+  const rows: { kind: Parameters<typeof Shape>[0]["kind"]; offset: number; scale: number; rotate: number; tx: number }[] = [
+    { kind: "diamond", offset: -90, scale: 0.62, rotate: -10, tx: 18 },
+    { kind: "star",    offset: -38, scale: 0.82, rotate: -5,  tx: 6 },
+    { kind: "circle",  offset: 0,   scale: 1.0,  rotate: 0,   tx: 0 },
+    { kind: "heart",   offset: 38,  scale: 0.82, rotate: 5,   tx: 6 },
+    { kind: "flower",  offset: 90,  scale: 0.62, rotate: 10,  tx: 18 },
+  ];
+
+  return (
+    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-white to-pink-50">
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-50"
+        style={{
+          backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(
+            "<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='3' cy='3' r='1' fill='%23000' opacity='0.06'/></svg>",
+          )}")`,
+          backgroundRepeat: "repeat",
+        }}
+      />
+
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative flex items-center gap-5">
+          {/* Ruler hint */}
+          <div className="relative h-[200px] w-5">
+            {[-2, -1, 1, 2].map((t) => (
+              <span
+                key={t}
+                aria-hidden
+                className="absolute right-0 h-[2px] rounded-full bg-ink-soft/40"
+                style={{ top: `calc(50% + ${t * 22}px)`, width: t % 2 === 0 ? 16 : 10 }}
+              />
+            ))}
+            <span
+              aria-hidden
+              className="absolute right-[-2px] top-1/2 h-[14px] w-[14px] -translate-y-1/2 rounded-full bg-ink shadow-[0_3px_8px_rgba(0,0,0,0.25)]"
+            />
+          </div>
+
+          <div
+            className="relative h-[220px] w-[140px]"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
+            }}
+          >
+            {rows.map((r) => (
+              <div
+                key={r.kind}
+                className="absolute left-1/2 top-1/2 h-[56px] w-[56px]"
+                style={{
+                  transform: `translate(-50%, -50%) translate3d(${r.tx}px, ${r.offset}px, 0) scale(${r.scale}) rotate(${r.rotate}deg)`,
+                  filter:
+                    "drop-shadow(0 10px 18px rgba(0,0,0,0.18)) drop-shadow(0 3px 6px rgba(0,0,0,0.10))",
+                }}
+              >
+                <Shape kind={r.kind} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
