@@ -130,8 +130,8 @@ function ExperimentCard({ exp }: { exp: Experiment }) {
     <>
       <PreviewTile preview={exp.preview} title={exp.title} />
 
-      {/* Three-line stack matching WorkCard / PixelsTile across the site:
-          title → subtext → category · status. */}
+      {/* Three-line stack matching PixelsTile across the site:
+          title, subtext, then category and status on a single meta line. */}
       <div className="mt-5 flex flex-col md:mt-7">
         <p className="text-[18px] font-bold leading-[1.3] tracking-[-0.012em] text-ink md:text-[20px]">
           {exp.title}.

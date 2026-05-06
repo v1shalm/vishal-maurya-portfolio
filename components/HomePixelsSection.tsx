@@ -30,10 +30,9 @@ export function HomePixelsSection({ items }: Props) {
             <Button
               variant="yellow"
               href="/pixels"
-              className="btn--sm group gap-2.5"
+              className="btn--sm"
             >
-              All
-              <AllArrow />
+              View all
             </Button>
           }
         />
@@ -41,27 +40,6 @@ export function HomePixelsSection({ items }: Props) {
 
       <PixelsMarquee items={items} />
     </Reveal>
-  );
-}
-
-function AllArrow() {
-  return (
-    <svg
-      width="32"
-      height="12"
-      viewBox="0 0 32 12"
-      aria-hidden
-      className="shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5 group-active:translate-x-0"
-    >
-      <path
-        d="M2 6 H24 M20 1.5 L24.5 6 L20 10.5"
-        stroke="var(--color-y-ink)"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
   );
 }
 
