@@ -41,6 +41,20 @@ const clients: {
 
 const playground: PixelsItem[] = [
   {
+    slug: "draggable-scroll",
+    title: "Draggable scroll",
+    kind: "Interaction study",
+    year: "2026",
+    images: [
+      {
+        src: "/Pixels/draggable-scroll.png",
+        alt: "Draggable scroll: a vertical jog wheel of 3D shapes with a yellow knob and tick comb",
+        width: 1171,
+        height: 767,
+      },
+    ],
+  },
+  {
     slug: "dsp",
     title: "DSP",
     kind: "GIFT City landing page",

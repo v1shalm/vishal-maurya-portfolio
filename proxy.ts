@@ -3,7 +3,7 @@ import { UNLOCK_COOKIE, verifyTokenEdge } from "@/lib/workAuth";
 
 const LOCKED_SLUGS = new Set(["nexus-247"]);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const match = pathname.match(/^\/work\/([^/]+)\/?$/);
   if (!match) return NextResponse.next();
