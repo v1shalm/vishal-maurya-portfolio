@@ -14,11 +14,11 @@ export type ShapeKind =
 export const SHAPE_LABEL: Record<ShapeKind, string> = {
   diamond: "Clarity",
   star: "Craft",
-  circle: "Hierarchy",
-  heart: "Empathy",
+  circle: "Curation",
+  heart: "Momentum",
   flower: "Rhythm",
   square: "Restraint",
-  hexagon: "Tension",
+  hexagon: "Motion",
 };
 
 type Props = { kind: ShapeKind };

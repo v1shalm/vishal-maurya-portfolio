@@ -476,9 +476,16 @@ function transformRow(
   reducedMotion: boolean,
   config: ArcConfig,
 ) {
+  // Subtle de-emphasis so the centered row reads as dominant. Active
+  // (|d| < 0.5) stays at 1; off-center rows ease down to ~0.7 by |d|=2,
+  // then hold flat — strong enough to push focus, light enough not to
+  // dim the colors out.
+  const absd = Math.abs(d);
+  const opacity = Math.max(0.7, 1 - Math.max(0, absd - 0.5) * 0.2);
+
   if (reducedMotion) {
     el.style.transform = `translate3d(0, ${d * config.dragPxPerTick}px, 0) translate(0, -50%)`;
-    el.style.opacity = "1";
+    el.style.opacity = `${opacity}`;
     return;
   }
   const angle = d * config.rowAngleDeg;
@@ -489,7 +496,7 @@ function transformRow(
   const rotate = angle;
 
   el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(0, -50%) rotate(${rotate}deg)`;
-  el.style.opacity = "1";
+  el.style.opacity = `${opacity}`;
   el.style.zIndex = `${100 - Math.round(Math.abs(d) * 10)}`;
 }
 

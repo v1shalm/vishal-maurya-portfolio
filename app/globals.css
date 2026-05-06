@@ -932,4 +932,23 @@ body {
   }
 }
 
+/* Wheel break-out wrapper used on the about page. On mobile the prose
+   column is narrower than the wheel needs, so we pull the wrapper to
+   the viewport edge with a negative right margin and apply a horizontal
+   mask gradient so the rightmost rows fade out softly instead of
+   hard-clipping. Desktop has plenty of room and skips the breakout. */
+.wheel-breakout {
+  overflow: hidden;
+  margin-right: calc(-1 * var(--page-px));
+  -webkit-mask-image: linear-gradient(to right, black 0%, black 76%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, black 76%, transparent 100%);
+}
+@media (min-width: 768px) {
+  .wheel-breakout {
+    margin-right: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 

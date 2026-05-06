@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
 import { SignatureLetters } from "@/components/SignatureLetters";
+import { Wheel } from "@/components/draggable-scroller/Wheel";
 import { links } from "@/lib/links";
 import { play } from "@/lib/sounds";
 
@@ -66,8 +67,23 @@ export default function AboutContent() {
               </BulletItem>
             </ul>
 
+            {/* How I think about design — heading stays in prose column,
+                wheel breaks out via negative right margin so the curve has
+                room without being clipped by the 760px column. */}
+            <div className="mt-16 md:mt-20">
+              <h2 className="text-balance text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
+                How I think about design.
+              </h2>
+              <p className="mt-4 text-[16px] leading-[1.7] text-muted md:text-[17px]">
+                Drag, flick, or scroll to spin.
+              </p>
+              <div className="wheel-breakout mt-10 md:mt-14">
+                <Wheel />
+              </div>
+            </div>
+
             {/* Open to */}
-            <p className="mt-10 text-[18px] leading-[1.8] text-ink-soft">
+            <p className="mt-16 text-[18px] leading-[1.8] text-ink-soft md:mt-20">
               I&rsquo;m best on consumer products built for Indian users:
               fintech, healthtech, commerce. If that&rsquo;s your team,{" "}
               <a href={links.email} className="link-accent" data-cursor="email">
