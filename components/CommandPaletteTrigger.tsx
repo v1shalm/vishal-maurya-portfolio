@@ -71,23 +71,33 @@ export function CommandPaletteTrigger() {
 function YellowFace({ modKey }: { modKey: string }) {
   return (
     <span
-      className="inline-flex items-center rounded-full py-1.5 pl-5 pr-1.5"
+      className="relative inline-flex items-center rounded-full py-1.5 pl-5 pr-1.5"
       style={{
-        backgroundColor: "var(--color-yellow)",
-        border: "1px solid var(--color-yellow-edge)",
-        // Soft 3D pill: bright highlight along the top rim, gentle shadow
-        // pooling at the bottom-inside. Reads as a chunky chiclet, not flat.
-        boxShadow: [
-          "inset 0 1.5px 0 rgba(255, 255, 255, 0.55)",
-          "inset 0 -3px 6px rgba(0, 0, 0, 0.14)",
-        ].join(", "),
+        // Match the wheel knob: vertical gradient (lemon top, primary
+        // yellow body, mustard bottom) so it reads as a chunky 3D capsule.
+        background:
+          "linear-gradient(180deg, #fff486 0%, #fdf004 38%, #ddc806 100%)",
+        // Inset rim shadows + outer drop shadow + 1px hairline, identical
+        // to the scroller knob's treatment.
+        boxShadow:
+          "0 2px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 6px 14px -2px rgba(0,0,0,0.28), 0 2px 4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.10)",
       }}
     >
-      <span className="mr-2.5 text-[15px] font-bold tracking-tight text-ink">
+      {/* Top specular highlight strip */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-3 right-3 top-[3px] h-[6px] rounded-full"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0))",
+        }}
+      />
+
+      <span className="relative mr-2.5 text-[15px] font-bold tracking-tight text-ink">
         Menu
       </span>
       <span
-        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12.5px] font-semibold leading-none tracking-tight text-ink [&_kbd]:font-sans"
+        className="relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12.5px] font-semibold leading-none tracking-tight text-ink [&_kbd]:font-sans"
         style={{
           backgroundColor: "var(--color-yellow)",
           // Recessed chiclet: a deep mustard inner shadow falls in from
