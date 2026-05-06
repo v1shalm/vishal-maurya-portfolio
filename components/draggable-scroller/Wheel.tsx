@@ -418,7 +418,7 @@ export function Wheel() {
           onPointerCancel={onPointerUp}
           onWheel={onWheel}
           onKeyDown={onKeyDown}
-          className="wheel-listbox relative h-[460px] w-[260px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[440px]"
+          className="wheel-listbox relative h-[460px] w-[200px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[440px]"
           style={{
             outline: "none",
             WebkitMaskImage:
@@ -441,7 +441,7 @@ export function Wheel() {
                 role="option"
                 aria-selected={isActive}
                 aria-label={SHAPE_LABEL[kind]}
-                className="absolute left-0 top-1/2 flex items-center gap-3 will-change-transform md:left-[200px] md:gap-5"
+                className="absolute left-6 top-1/2 flex items-center gap-3 will-change-transform md:left-[200px] md:gap-5"
                 style={{ transformOrigin: "var(--row-pivot, 32px) 50%" }}
               >
                 <div className="h-[44px] w-[44px] shrink-0 md:h-[68px] md:w-[68px]">
