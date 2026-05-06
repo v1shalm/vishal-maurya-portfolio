@@ -418,7 +418,7 @@ export function Wheel() {
           onPointerCancel={onPointerUp}
           onWheel={onWheel}
           onKeyDown={onKeyDown}
-          className="wheel-listbox relative h-[460px] w-[220px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[380px]"
+          className="wheel-listbox relative h-[460px] w-[260px] cursor-grab touch-none focus:outline-none focus-visible:outline-none active:cursor-grabbing md:h-[640px] md:w-[380px]"
           style={{
             outline: "none",
             WebkitMaskImage:
