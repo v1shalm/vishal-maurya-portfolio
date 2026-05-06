@@ -29,20 +29,41 @@ const SHAPES: ShapeKind[] = [
 // center axis; rows above center curve up-and-out-to-the-left, rows
 // below curve down-and-out-to-the-left. Active row sits closest to
 // the ruler/knob on the left.
-const ROW_ANGLE_DEG = 16; // angular gap between adjacent rows
-const ARC_RADIUS = 340; // smaller = more pronounced rightward bulge per row
+//
+// Two sets of constants: desktop keeps the original tuning so the
+// existing layout is pixel-identical; mobile uses tighter values so
+// the smaller column doesn't have rows overshooting top/bottom.
+const ROW_ANGLE_DEG_DESKTOP = 16;
+const ARC_RADIUS_DESKTOP = 340;
+const DRAG_PX_PER_TICK_DESKTOP = 96;
+
+const ROW_ANGLE_DEG_MOBILE = 11;
+const ARC_RADIUS_MOBILE = 240;
+const DRAG_PX_PER_TICK_MOBILE = 64;
+
 const VISIBLE_RADIUS = 5;
 const FRICTION = 0.94;
 const SNAP_STIFFNESS = 220;
 const SNAP_DAMPING = 30;
 const SNAP_VELOCITY_THRESHOLD = 0.4;
 const TICK_THROTTLE_MS = 28;
-const DRAG_PX_PER_TICK = 96; // bigger drag distance per tick = more breathing room
 
 type Phase = "idle" | "drag" | "inertia" | "snap";
 
 export function Wheel() {
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  // Pick the right curve constants for the current viewport. The values
+  // resolve at render time so SSR sees mobile defaults, and the first
+  // client render after hydration switches to desktop if appropriate.
+  const ROW_ANGLE_DEG = isDesktop
+    ? ROW_ANGLE_DEG_DESKTOP
+    : ROW_ANGLE_DEG_MOBILE;
+  const ARC_RADIUS = isDesktop ? ARC_RADIUS_DESKTOP : ARC_RADIUS_MOBILE;
+  const DRAG_PX_PER_TICK = isDesktop
+    ? DRAG_PX_PER_TICK_DESKTOP
+    : DRAG_PX_PER_TICK_MOBILE;
   const containerRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<{
     pointerId: number;
@@ -78,7 +99,11 @@ export function Wheel() {
     rows.forEach((row) => {
       const slot = Number(row.dataset.slot ?? 0);
       const d = slot - subTick; // distance-from-center in tick units
-      transformRow(row, d, reducedMotion);
+      transformRow(row, d, reducedMotion, {
+        rowAngleDeg: ROW_ANGLE_DEG,
+        arcRadius: ARC_RADIUS,
+        dragPxPerTick: DRAG_PX_PER_TICK,
+      });
     });
 
     const ticks = wrapper.querySelectorAll<HTMLElement>("[data-ruler-tick]");
@@ -97,7 +122,7 @@ export function Wheel() {
       const tilt = reducedMotion ? 0 : subTick * 24; // 24 = 12deg per half-tick
       knobMark.style.transform = `rotate(${tilt}deg)`;
     }
-  }, [reducedMotion]);
+  }, [reducedMotion, ROW_ANGLE_DEG, ARC_RADIUS, DRAG_PX_PER_TICK]);
 
   const tickIndexFromOffset = (offset: number) =>
     Math.round(offset / DRAG_PX_PER_TICK);
@@ -436,22 +461,31 @@ export function Wheel() {
 
 // Shape row arc: pivot is OFF-SCREEN TO THE LEFT. Active row sits at
 // the rightmost point of the arc (closest to the viewer); rows above
-// and below shift left and tilt up-left / down-left.
+// and below shift left and tilt up-left / down-left. Curve constants
+// vary by viewport — they're passed in so desktop and mobile can use
+// different angles/radii without touching this function.
+type ArcConfig = {
+  rowAngleDeg: number;
+  arcRadius: number;
+  dragPxPerTick: number;
+};
+
 function transformRow(
   el: HTMLElement,
   d: number,
   reducedMotion: boolean,
+  config: ArcConfig,
 ) {
   if (reducedMotion) {
-    el.style.transform = `translate3d(0, ${d * DRAG_PX_PER_TICK}px, 0) translate(0, -50%)`;
+    el.style.transform = `translate3d(0, ${d * config.dragPxPerTick}px, 0) translate(0, -50%)`;
     el.style.opacity = "1";
     return;
   }
-  const angle = d * ROW_ANGLE_DEG;
+  const angle = d * config.rowAngleDeg;
   const rad = (angle * Math.PI) / 180;
   // Pivot off-screen LEFT: as |angle| grows, x grows NEGATIVE (leftward).
-  const y = ARC_RADIUS * Math.sin(rad);
-  const x = -ARC_RADIUS * (1 - Math.cos(rad));
+  const y = config.arcRadius * Math.sin(rad);
+  const x = -config.arcRadius * (1 - Math.cos(rad));
   const rotate = angle;
 
   el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(0, -50%) rotate(${rotate}deg)`;
@@ -473,12 +507,13 @@ function transformRulerTick(
     el.style.opacity = `${Math.max(0, 1 - Math.abs(d) / 9)}`;
     return;
   }
-  // Linear vertical pitch mapped to a leftward arc.
+  // Linear vertical pitch mapped to a leftward arc. The ruler comb has
+  // its own (smaller) radius so it stays compact next to the knob; the
+  // shape rows sit on a wider arc and don't share this value.
+  const RULER_ARC_RADIUS = 260;
   const y = d * RULER_TICK_PITCH_PX;
-  // Compute the angle for this y based on the same radius as rows.
-  // We clamp y / ARC_RADIUS to [-1, 1] to avoid NaN if y exceeds radius.
-  const rad = Math.asin(Math.max(-1, Math.min(1, y / ARC_RADIUS)));
-  const x = -ARC_RADIUS * (1 - Math.cos(rad));
+  const rad = Math.asin(Math.max(-1, Math.min(1, y / RULER_ARC_RADIUS)));
+  const x = -RULER_ARC_RADIUS * (1 - Math.cos(rad));
   
   const tiltFactor = Math.min(Math.abs(d) / 8, 1);
   const rotate = Math.sign(d) * tiltFactor * RULER_TICK_MAX_TILT;
