@@ -19,6 +19,10 @@ type Item = {
   href?: string;
   action?: () => void | Promise<void>;
   hint?: string;
+  /** When set, the row's trailing slot renders this kind of control
+   *  instead of the default group label. Currently used by the sounds
+   *  toggle so it shows a 3D yellow switch on the right. */
+  trailing?: "soundToggle";
 };
 
 const items: Item[] = [
@@ -131,9 +135,14 @@ export function CommandPalette() {
         action: () => {
           const next = !soundsOn;
           setSoundEnabled(next);
+          // Tactile click on every flip so the toggle always feels
+          // physical, regardless of direction. Confirmation chime fires
+          // only when enabling so muting stays quiet.
+          playForce("wheelTickFast");
           if (next) playForce("success");
         },
         hint: soundsOn ? "Click to mute" : "Click to enable",
+        trailing: "soundToggle",
       },
     ],
     [soundsOn],
@@ -396,9 +405,13 @@ export function CommandPalette() {
                       )}
                     </div>
 
-                    <span className={`relative z-10 shrink-0 text-[13px] capitalize hidden sm:block transition-colors duration-150 ${active ? "text-ink font-semibold" : "text-muted font-medium"}`}>
-                      {item.group}
-                    </span>
+                    {item.trailing === "soundToggle" ? (
+                      <SoundToggle on={soundsOn} active={active} />
+                    ) : (
+                      <span className={`relative z-10 shrink-0 text-[13px] capitalize hidden sm:block transition-colors duration-150 ${active ? "text-ink font-semibold" : "text-muted font-medium"}`}>
+                        {item.group}
+                      </span>
+                    )}
                   </li>
                 </div>
               );
@@ -464,5 +477,61 @@ function ExternalIcon() {
       <polyline points="15 3 21 3 21 9"></polyline>
       <line x1="10" y1="14" x2="21" y2="3"></line>
     </svg>
+  );
+}
+
+/**
+ * 3D sound toggle pill that lives in the palette's sounds row. Track
+ * uses the same depth treatment as the draggable scroller knob and the
+ * Menu trigger: yellow vertical gradient, inset rim shadows, top
+ * specular highlight, 1px hairline. Thumb is a dark disc that slides
+ * left/right with a soft inner highlight. Click is handled by the row
+ * itself, so this is purely visual; we only need to reflect the state.
+ */
+function SoundToggle({ on, active: _active }: { on: boolean; active: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className="relative z-10 inline-flex shrink-0 items-center"
+      style={{ width: 40, height: 22 }}
+    >
+      {/* Track — yellow when on, muted slate when off so the visual
+          state matches the label without needing copy. */}
+      <span
+        className="relative h-full w-full rounded-full"
+        style={{
+          background: on
+            ? "linear-gradient(180deg, #fff486 0%, #fdf004 38%, #ddc806 100%)"
+            : "linear-gradient(180deg, #d8d8dc 0%, #c4c4c9 50%, #a8a8af 100%)",
+          boxShadow: on
+            ? "0 1.5px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 2px 5px -1px rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.10)"
+            : "0 1.5px 0 rgba(0,0,0,0.10) inset, 0 -1px 0 rgba(255,255,255,0.45) inset, 0 1px 3px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.08)",
+          transition:
+            "background 200ms ease-out, box-shadow 200ms ease-out",
+        }}
+      >
+        {/* Top specular highlight — only visible on when there's enough
+            value contrast to read it. */}
+        <span
+          className="pointer-events-none absolute left-1.5 right-1.5 top-[2px] h-[3px] rounded-full"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0))",
+            opacity: on ? 1 : 0.5,
+          }}
+        />
+        {/* Thumb */}
+        <span
+          className="absolute top-1/2 h-[16px] w-[16px] -translate-y-1/2 rounded-full"
+          style={{
+            left: on ? "calc(100% - 19px)" : "3px",
+            background: "#1a1810",
+            boxShadow:
+              "0 1.5px 3px rgba(0,0,0,0.30), 0 0 0 1px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.4)",
+            transition: "left 200ms cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        />
+      </span>
+    </span>
   );
 }

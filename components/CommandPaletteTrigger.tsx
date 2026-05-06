@@ -80,7 +80,7 @@ function YellowFace({ modKey }: { modKey: string }) {
         // Inset rim shadows + outer drop shadow + 1px hairline, identical
         // to the scroller knob's treatment.
         boxShadow:
-          "0 2px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 6px 14px -2px rgba(0,0,0,0.28), 0 2px 4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.10)",
+          "0 2px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 4px 10px -3px rgba(0,0,0,0.20), 0 1px 2px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.10)",
       }}
     >
       {/* Top specular highlight strip */}
