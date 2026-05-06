@@ -97,7 +97,7 @@ export function CommandPalette() {
   const [index, setIndex] = useState(0);
   const [copied, setCopied] = useState<string | null>(null);
   const [modKey, setModKey] = useState("⌘");
-  const [soundsOn, setSoundsOn] = useState(false);
+  const [soundsOn, setSoundsOn] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const router = useRouter();

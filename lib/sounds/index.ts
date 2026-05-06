@@ -174,13 +174,20 @@ function init() {
 
 const SOUND_FLAG = "sound-enabled";
 
-/** Returns true if the user has opted in to UI sounds. Defaults to false. */
+/**
+ * Returns true if UI sounds should play. Defaults to ON; users can mute
+ * from the command palette and the choice persists in localStorage.
+ * Treats the absence of a stored value as "on" so first-time visitors
+ * hear the site as designed.
+ */
 export function isSoundEnabled() {
   if (typeof window === "undefined") return false;
   try {
-    return window.localStorage.getItem(SOUND_FLAG) === "1";
+    const stored = window.localStorage.getItem(SOUND_FLAG);
+    if (stored === null) return true; // default on for new visitors
+    return stored === "1";
   } catch {
-    return false;
+    return true;
   }
 }
 
