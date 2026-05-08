@@ -10,6 +10,7 @@ import { Container } from "@/components/Container";
 import { Button } from "@/components/Button";
 import { SignatureLetters } from "@/components/SignatureLetters";
 import { Wheel } from "@/components/draggable-scroller/Wheel";
+import { StickerWord } from "@/components/StickerWord";
 import { links } from "@/lib/links";
 import { play } from "@/lib/sounds";
 
@@ -17,8 +18,6 @@ const STRIP_PHOTOS = [
   { src: "/image1.jpg", alt: "Studio morning, Mumbai", aspect: "3/4" },
   { src: "/image2.jpg", alt: "At the desk", aspect: "4/5" },
   { src: "/image3.jpg", alt: "Out and about", aspect: "3/2" },
-  { src: "/image1.jpg", alt: "Workshop", aspect: "3/4" },
-  { src: "/image2.jpg", alt: "Sketching", aspect: "4/5" },
 ];
 
 export default function AboutContent() {
@@ -31,20 +30,40 @@ export default function AboutContent() {
 
             {/* Headline */}
             <h1 className="text-balance text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.1] tracking-[-0.025em] text-ink">
-              Product designer in Mumbai. I ship things people actually
-              use.
+              I&rsquo;m Vishal. I design products people actually use.
             </h1>
 
             {/* Intro */}
             <p className="mt-8 text-[18px] leading-[1.8] text-ink-soft">
-              Most recently at Pineapple Design Studio, on quick-commerce
-              (Nexus 247, Zilo) and healthtech (OutcomesAI). I sit with
-              the problem before I open Figma. By the time I&rsquo;m
-              drawing screens, the brief has been picked apart.
+              I started as a{" "}
+              <StickerWord sticker="code">frontend developer</StickerWord>,
+              building interfaces from the engineering side. The part I
+              kept getting pulled into was the decisions behind them. Why
+              this button goes here. Why this flow loses people halfway
+              through. So I switched to{" "}
+              <StickerWord sticker="cursor">product design</StickerWord>.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
-              Most of the work is subtraction.
+              2+ years across quick-commerce, healthtech, fintech, and
+              brand. Most recently at{" "}
+              <StickerWord sticker="pineapple">Pineapple Design Studio</StickerWord>{" "}
+              in Mumbai. I take projects from the first whiteboard to
+              the dev handoff.
+            </p>
+
+            <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
+              AI brought the engineering brain back. Lately I&rsquo;m
+              building prototypes and small tools I actually use, instead
+              of just speccing what someone else builds.
+            </p>
+
+            <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
+              When I&rsquo;m not working: losing{" "}
+              <StickerWord sticker="crosshair">Valorant</StickerWord>{" "}
+              matches and blaming everyone else, building playlists for
+              moods that don&rsquo;t have names, watching design videos at{" "}
+              <StickerWord sticker="moon">1am</StickerWord>.
             </p>
 
             {/* Lately */}
@@ -56,7 +75,7 @@ export default function AboutContent() {
                 Looking for full-time product design roles.
               </BulletItem>
               <BulletItem color="yellow">
-                Shipping faster by treating AI as a teammate, not a tool.
+                Treating AI as a teammate.
               </BulletItem>
               <BulletItem color="pink">
                 Sketching UI ideas in{" "}
