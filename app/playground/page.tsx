@@ -59,7 +59,7 @@ const experiments: Experiment[] = [
     subtext:
       "A tactile thank-you card tucked behind a pill bar. Pick a color, pick a pattern, sign, and drag the card down into the bar to send. Nothing is transmitted; the finished card downloads as a PNG.",
     tags: ["Motion", "Canvas", "Drag-to-send", "SVG to PNG"],
-    status: "In progress",
+    status: "Shipped",
     preview: {
       kind: "swatch",
       color: "#f91ca9",
@@ -74,7 +74,7 @@ const experiments: Experiment[] = [
     subtext:
       "A jog wheel for picking from a list. Shapes ride a curve, the knob tilts like a compass between rows, and the click sounds track how fast you scroll.",
     tags: ["Pointer events", "Inertia", "Spring snap", "Audio feedback"],
-    status: "In progress",
+    status: "Shipped",
     preview: { kind: "wheel" },
   },
 ];
@@ -222,49 +222,120 @@ function PreviewTile({
     );
   }
 
-  // Mini guest-card mockup that hints at what the experiment actually is:
-  // a tilted card on a soft pink wash, with a hand-drawn signature curve.
-  // Replaces the flat orange swatch + italic serif type from v2.
-  return (
-    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-pink-100 via-pink-50 to-yellow-50">
-      {/* Subtle dot grid texture */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(
-            "<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='3' cy='3' r='1' fill='%23f91ca9' opacity='0.18'/></svg>",
-          )}")`,
-          backgroundRepeat: "repeat",
-        }}
-      />
+  return <GuestCardPreview />;
+}
 
-      {/* Tilted mini-card preview */}
-      <div className="absolute inset-0 flex items-center justify-center p-6 md:p-10">
+/**
+ * Believable UI mock for the Guest card experiment. Shows the real app
+ * structure: card preview at top, color picker row, pattern picker row,
+ * signature line, and a "drag to send" pill bar at the bottom that
+ * hints at the gesture. No tilt, no abstract decoration: reads as a
+ * compact app frame inside the tile.
+ */
+function GuestCardPreview() {
+  const colors = [
+    { hex: "#f91ca9", active: true },
+    { hex: "#fdf004", active: false },
+    { hex: "#26b7ff", active: false },
+    { hex: "#15c95b", active: false },
+    { hex: "#ff8b2e", active: false },
+  ];
+  return (
+    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+      {/* App frame: rounded inner panel inset from the tile edge */}
+      <div className="absolute inset-3 flex flex-col gap-2.5 rounded-xl bg-white p-3 shadow-[0_1px_0_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(249,28,169,0.18)] ring-1 ring-black/5 md:inset-5 md:gap-3 md:p-4">
+        {/* Card preview */}
         <div
-          className="flex w-[min(75%,300px)] -rotate-[3deg] flex-col gap-2 rounded-2xl bg-white p-5 shadow-[0_28px_56px_-16px_rgba(249,28,169,0.4),0_8px_16px_-4px_rgba(0,0,0,0.08)] ring-1 ring-pink-100/60 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-[1deg] group-hover:scale-[1.04] md:p-6"
+          className="relative flex flex-1 flex-col justify-between overflow-hidden rounded-lg p-3 md:p-4"
+          style={{ background: "#f91ca9" }}
         >
-          <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-pink-600">
-            Hello,
+          {/* Dot pattern */}
+          <span
+            aria-hidden
+            className="absolute inset-0 opacity-35"
+            style={{
+              backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(
+                "<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><circle cx='2' cy='2' r='1' fill='%23ffffff' opacity='0.5'/></svg>",
+              )}")`,
+              backgroundRepeat: "repeat",
+            }}
+          />
+          <span className="relative text-[8px] font-bold uppercase tracking-[0.2em] text-white/80 md:text-[9px]">
+            Guest card · 01
           </span>
-          <span className="text-[clamp(1.125rem,2.2vw,1.625rem)] font-bold leading-[1.05] tracking-[-0.018em] text-ink">
-            Thank you for visiting.
+          <span className="relative text-[clamp(0.875rem,1.7vw,1.125rem)] font-bold leading-[1.1] tracking-[-0.012em] text-white">
+            Thank you
+            <br />
+            for visiting.
           </span>
-          {/* Hand-drawn signature scribble */}
+          {/* Signature curve */}
           <svg
             aria-hidden
-            className="mt-3 h-6 w-24"
-            viewBox="0 0 96 24"
+            className="relative h-4 w-16 md:h-5 md:w-20"
+            viewBox="0 0 80 18"
             fill="none"
           >
             <path
-              d="M2 18 C 12 4, 22 22, 32 12 S 56 4, 68 16 S 90 6, 94 12"
-              stroke="#f91ca9"
-              strokeWidth="2.5"
+              d="M2 13 C 10 3, 18 16, 26 9 S 46 3, 56 11 S 74 5, 78 9"
+              stroke="#ffffff"
+              strokeWidth="1.8"
               strokeLinecap="round"
               fill="none"
             />
           </svg>
+        </div>
+
+        {/* Picker rows */}
+        <div className="flex items-center gap-1.5 md:gap-2">
+          {colors.map((c) => (
+            <span
+              key={c.hex}
+              aria-hidden
+              className="block h-3.5 w-3.5 shrink-0 rounded-full md:h-4 md:w-4"
+              style={{
+                background: c.hex,
+                boxShadow: c.active
+                  ? "0 0 0 2px var(--color-bg), 0 0 0 3.5px #1a1810"
+                  : "0 0 0 1px rgba(0,0,0,0.08)",
+              }}
+            />
+          ))}
+          <span
+            aria-hidden
+            className="ml-auto h-2.5 w-12 rounded-full bg-line md:h-3 md:w-16"
+          />
+        </div>
+
+        {/* Drag-to-send pill bar */}
+        <div className="relative flex h-8 items-center overflow-hidden rounded-full bg-bg-elevated md:h-9">
+          <span
+            aria-hidden
+            className="absolute left-1 top-1/2 inline-flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full md:h-7 md:w-7"
+            style={{
+              background: "#1a1810",
+              boxShadow:
+                "0 2px 4px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.18)",
+            }}
+          >
+            <svg
+              aria-hidden
+              width="10"
+              height="10"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M6 2v8M3 7l3 3 3-3"
+                stroke="#ffffff"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="ml-10 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted md:ml-12 md:text-[11px]">
+            Drag to send
+          </span>
         </div>
       </div>
     </div>
@@ -272,52 +343,109 @@ function PreviewTile({
 }
 
 /**
- * Mini A4 résumé mockup. Light yellow wash background, with a tilted
- * white paper card showing mock content bars: a bold name row, a smaller
- * role row, then three small "section" groups separated by gaps.
- * Hovers to a softer rotation and a slight scale.
+ * Believable UI mock for the Résumé Builder. Two-pane editor: left
+ * panel shows section list with a drag handle on the active row,
+ * right panel shows a compact A4 preview with mock content bars. A
+ * "PDF" pill sits top-right and a "⌘ K" chip sits bottom-left to
+ * signal the keyboard-first claim. No tilt, no decorative wash.
  */
 function ResumePreview() {
+  const sections = [
+    { label: "Header", active: false },
+    { label: "Experience", active: true },
+    { label: "Education", active: false },
+    { label: "Skills", active: false },
+  ];
   return (
-    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-50 via-white to-pink-50">
-      {/* Faint grid texture */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(
-            "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><path d='M0 0H20M0 0V20' stroke='%23dbd009' stroke-width='0.5' opacity='0.3'/></svg>",
-          )}")`,
-          backgroundRepeat: "repeat",
-        }}
-      />
+    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+      {/* App frame: two columns inside an inset card */}
+      <div className="absolute inset-3 flex gap-2.5 rounded-xl bg-white p-2.5 shadow-[0_1px_0_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(219,208,9,0.22)] ring-1 ring-black/5 md:inset-5 md:gap-3 md:p-3">
+        {/* Left: section list */}
+        <div className="flex w-[36%] flex-col gap-1 md:gap-1.5">
+          <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-muted md:text-[9px]">
+            Sections
+          </span>
+          {sections.map((s) => (
+            <div
+              key={s.label}
+              className="flex items-center gap-1.5 rounded-md px-1.5 py-1 md:gap-2 md:px-2 md:py-1.5"
+              style={
+                s.active
+                  ? {
+                      background: "var(--color-yellow)",
+                      boxShadow:
+                        "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.08)",
+                    }
+                  : undefined
+              }
+            >
+              {/* Drag handle dots */}
+              <span
+                aria-hidden
+                className={`flex flex-col gap-[2px] ${s.active ? "text-ink" : "text-muted"}`}
+              >
+                <span className="block h-[2px] w-[2px] rounded-full bg-current" />
+                <span className="block h-[2px] w-[2px] rounded-full bg-current" />
+                <span className="block h-[2px] w-[2px] rounded-full bg-current" />
+              </span>
+              <span
+                className={`text-[10px] font-semibold tracking-tight md:text-[11px] ${
+                  s.active ? "text-ink" : "text-ink-soft"
+                }`}
+              >
+                {s.label}
+              </span>
+            </div>
+          ))}
+          <span className="mt-auto text-[8px] font-medium uppercase tracking-[0.16em] text-muted md:text-[9px]">
+            A4 · PDF
+          </span>
+        </div>
 
-      <div className="absolute inset-0 flex items-center justify-center p-6 md:p-10">
-        <div
-          className="aspect-[1/1.3] w-[42%] -rotate-[3deg] overflow-hidden rounded-[6px] bg-white p-4 shadow-[0_28px_56px_-16px_rgba(219,208,9,0.5),0_8px_18px_-4px_rgba(0,0,0,0.10)] ring-1 ring-black/5 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-[1deg] group-hover:scale-[1.04] md:w-[44%]"
-        >
+        {/* Right: A4 preview */}
+        <div className="relative flex-1 overflow-hidden rounded-md bg-white p-2.5 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] md:p-3.5">
           {/* Name bar */}
-          <div className="h-2 w-3/5 rounded-sm bg-ink" />
+          <div className="h-1.5 w-3/5 rounded-sm bg-ink md:h-2" />
           <div className="mt-1 h-1 w-2/5 rounded-sm bg-muted/60" />
 
-          {/* Section 1 */}
-          <div className="mt-3 h-[2px] w-1/4 rounded-sm bg-[color:var(--color-accent)]" />
+          {/* Experience section header */}
+          <div className="mt-2.5 flex items-center gap-1 md:mt-3">
+            <span
+              aria-hidden
+              className="h-[6px] w-[6px] rounded-full"
+              style={{ background: "var(--color-accent)" }}
+            />
+            <div className="h-[2px] w-1/3 rounded-sm bg-ink-soft/60" />
+          </div>
           <div className="mt-1.5 space-y-[3px]">
             <div className="h-[2px] w-full rounded-sm bg-line" />
             <div className="h-[2px] w-[88%] rounded-sm bg-line" />
             <div className="h-[2px] w-[72%] rounded-sm bg-line" />
           </div>
 
-          {/* Section 2 */}
-          <div className="mt-3 h-[2px] w-1/4 rounded-sm bg-[color:var(--color-yellow-edge)]" />
+          {/* Education section */}
+          <div className="mt-2.5 flex items-center gap-1 md:mt-3">
+            <span
+              aria-hidden
+              className="h-[6px] w-[6px] rounded-full"
+              style={{ background: "var(--color-yellow-edge)" }}
+            />
+            <div className="h-[2px] w-1/4 rounded-sm bg-ink-soft/60" />
+          </div>
           <div className="mt-1.5 space-y-[3px]">
             <div className="h-[2px] w-full rounded-sm bg-line" />
             <div className="h-[2px] w-[80%] rounded-sm bg-line" />
-            <div className="h-[2px] w-[64%] rounded-sm bg-line" />
           </div>
 
-          {/* Section 3 */}
-          <div className="mt-3 h-[2px] w-1/4 rounded-sm bg-[color:var(--color-accent)]" />
+          {/* Skills section */}
+          <div className="mt-2.5 flex items-center gap-1 md:mt-3">
+            <span
+              aria-hidden
+              className="h-[6px] w-[6px] rounded-full"
+              style={{ background: "var(--color-accent)" }}
+            />
+            <div className="h-[2px] w-1/4 rounded-sm bg-ink-soft/60" />
+          </div>
           <div className="mt-1.5 space-y-[3px]">
             <div className="h-[2px] w-[90%] rounded-sm bg-line" />
             <div className="h-[2px] w-[68%] rounded-sm bg-line" />
@@ -332,6 +460,16 @@ function ResumePreview() {
       >
         <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-yellow)]" />
         PDF
+      </span>
+
+      {/* Keyboard chip bottom-left signals "keyboard-first" */}
+      <span
+        aria-hidden
+        className="absolute bottom-4 left-4 inline-flex items-center gap-1 rounded-full bg-white px-2 py-1 text-[9px] font-bold tracking-tight text-ink shadow-[0_2px_6px_-2px_rgba(0,0,0,0.2),0_0_0_1px_rgba(0,0,0,0.06)] md:text-[10px]"
+      >
+        <kbd className="font-sans tabular-nums">⌘</kbd>
+        <span aria-hidden className="text-ink/40">+</span>
+        <kbd className="font-sans">K</kbd>
       </span>
     </div>
   );
