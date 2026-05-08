@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Nav } from "@/components/Nav";
 import { Container } from "@/components/Container";
-import { Shape } from "@/components/draggable-scroller/Shapes";
 
 export const metadata: Metadata = {
   title: "Playground · Vishal Maurya",
@@ -209,7 +208,18 @@ function PreviewTile({
   }
 
   if (preview.kind === "wheel") {
-    return <WheelPreview />;
+    return (
+      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+        <Image
+          src="/playground/Draggable-scroller.png"
+          alt="Draggable scroller: a vertical jog wheel of 3D shapes spinning through design principles"
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
+          quality={92}
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+        />
+      </div>
+    );
   }
 
   // Mini guest-card mockup that hints at what the experiment actually is:
@@ -327,126 +337,3 @@ function ResumePreview() {
   );
 }
 
-/**
- * Static preview that mirrors the live wheel: yellow knob with a
- * compass mark, a comb of fanning ticks, and five shapes on a right-
- * bulging arc with their labels. No drop shadows on the row content
- * to match the wheel's flat row treatment.
- */
-function WheelPreview() {
-  type RowKind = Parameters<typeof Shape>[0]["kind"];
-  const rows: { kind: RowKind; label: string; angle: number }[] = [
-    { kind: "hexagon", label: "Tension",   angle: -32 },
-    { kind: "diamond", label: "Clarity",   angle: -16 },
-    { kind: "circle",  label: "Hierarchy", angle: 0 },
-    { kind: "heart",   label: "Empathy",   angle: 16 },
-    { kind: "flower",  label: "Rhythm",    angle: 32 },
-  ];
-
-  // Arc projection for the preview: pivot off-screen left, rows bulge right.
-  const RADIUS = 200;
-  const tickPitch = 14;
-
-  return (
-    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-white to-pink-50">
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(
-            "<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18'><circle cx='3' cy='3' r='1' fill='%23000' opacity='0.06'/></svg>",
-          )}")`,
-          backgroundRepeat: "repeat",
-        }}
-      />
-
-      <div className="absolute inset-0 flex items-center">
-        {/* Ruler block: knob + active tick + comb of fanning ticks */}
-        <div className="relative ml-6 h-full w-[88px]">
-          {/* Active tick */}
-          <span
-            aria-hidden
-            className="absolute left-[44px] top-1/2 z-10 h-[2px] w-[22px] -translate-y-1/2 rounded-full bg-ink/85"
-          />
-          {/* Comb */}
-          {[-3, -2, -1, 1, 2, 3].map((t) => {
-            const tilt = (t / 3) * 12;
-            return (
-              <span
-                key={t}
-                aria-hidden
-                className="absolute left-[44px] top-1/2 h-[2px] w-[16px] origin-left rounded-full bg-ink/25"
-                style={{
-                  transform: `translate3d(0, ${t * tickPitch}px, 0) translate(0, -50%) rotate(${tilt}deg)`,
-                }}
-              />
-            );
-          })}
-          {/* Knob */}
-          <span
-            aria-hidden
-            className="absolute left-0 top-1/2 z-20 -translate-y-1/2"
-          >
-            <span
-              className="relative inline-flex h-[24px] w-[40px] items-center justify-center rounded-full"
-              style={{
-                background:
-                  "linear-gradient(180deg, #fff486 0%, #fdf004 38%, #ddc806 100%)",
-                boxShadow:
-                  "0 2px 0 rgba(0,0,0,0.15) inset, 0 -1px 0 rgba(255,255,255,0.55) inset, 0 4px 10px -2px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.10)",
-              }}
-            >
-              <span
-                aria-hidden
-                className="pointer-events-none absolute left-1.5 right-1.5 top-[2px] h-[4px] rounded-full"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0))",
-                }}
-              />
-              <span
-                aria-hidden
-                className="block h-[2px] w-[12px] rounded-full"
-                style={{ background: "#1a1810" }}
-              />
-            </span>
-          </span>
-        </div>
-
-        {/* Shape + label rows on the arc */}
-        <div
-          className="relative -ml-2 h-full flex-1"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 22%, black 78%, transparent 100%)",
-          }}
-        >
-          {rows.map((r) => {
-            const rad = (r.angle * Math.PI) / 180;
-            const y = RADIUS * Math.sin(rad);
-            const x = RADIUS * (1 - Math.cos(rad));
-            return (
-              <div
-                key={r.kind}
-                className="absolute left-0 top-1/2 flex items-center gap-2.5"
-                style={{
-                  transform: `translate3d(${x}px, ${y}px, 0) translate(0, -50%) rotate(${r.angle}deg)`,
-                  transformOrigin: "16px 50%",
-                }}
-              >
-                <div className="h-[32px] w-[32px] shrink-0">
-                  <Shape kind={r.kind} />
-                </div>
-                <span className="whitespace-nowrap text-[13px] font-medium tracking-[-0.01em] text-ink">
-                  {r.label}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}

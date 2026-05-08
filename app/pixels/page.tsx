@@ -18,10 +18,10 @@ const items: PixelsItem[] = [
     year: "2026",
     images: [
       {
-        src: "/Pixels/draggable-scroll.png",
-        alt: "Draggable scroll: a vertical jog wheel of 3D shapes with a yellow knob and tick comb",
-        width: 1171,
-        height: 767,
+        src: "/Pixels/Principles4by3.mp4",
+        alt: "Draggable scroll: a vertical jog wheel of 3D shapes spinning through design principles",
+        width: 1200,
+        height: 900,
       },
     ],
   },
