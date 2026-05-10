@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/Container";
@@ -47,11 +48,27 @@ type MarqueeTile = { item: PixelsItem; image: PixelsImage };
 
 function PixelsMarquee({ items }: { items: PixelsItem[] }) {
   // Flatten every image of every item into its own tile so the marquee
-  // shows the full sketchbook, not just one cover per project. Doubled
-  // once so the -50% translate keyframe loops without a visible seam.
-  const tiles: MarqueeTile[] = items.flatMap((item) =>
+  // shows the full sketchbook, not just one cover per project.
+  const baseTiles: MarqueeTile[] = items.flatMap((item) =>
     (item.images ?? []).map((image) => ({ item, image })),
   );
+
+  // SSR renders the deterministic order so server and client markup
+  // match on first paint. After mount we shuffle once so each page
+  // load surfaces a different lead tile. Stays stable for the rest
+  // of the visit. Fisher-Yates.
+  const [tiles, setTiles] = useState<MarqueeTile[]>(baseTiles);
+  useEffect(() => {
+    const shuffled = [...baseTiles];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    setTiles(shuffled);
+    // baseTiles is derived from `items` prop; re-shuffle if items change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
   const doubled = [...tiles, ...tiles];
 
   return (
@@ -72,7 +89,7 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
             >
               <Link
                 href="/pixels"
-                className="group block h-[240px] md:h-[360px]"
+                className="group block h-[312px] md:h-[468px]"
                 aria-label={`${item.title}: ${item.kind}`}
               >
                 <div
