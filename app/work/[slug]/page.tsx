@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getWork, works } from "@/lib/works";
 import type { ProblemItem, PullQuote, StatItem } from "@/lib/works";
 import { siteUrl } from "@/lib/site";
+import { isUnlockedHost } from "@/lib/host";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
@@ -37,6 +38,9 @@ export async function generateMetadata({
     title: work.title,
     description: work.summary,
     alternates: { canonical: `/work/${slug}` },
+    // Locked case studies (NDA work) stay out of search indexes even
+    // though the URL is technically reachable.
+    robots: work.locked ? { index: false, follow: false } : undefined,
     openGraph: {
       type: "article",
       title: `${work.title} · Case study by Vishal Maurya`,
@@ -62,9 +66,13 @@ export default async function WorkPage({
   const work = getWork(slug);
   if (!work) notFound();
 
-  // The "next project" rail skips locked entries so visitors don't bounce
-  // into a password wall from an adjacent case study.
-  const visibleWorks = works.filter((w) => !w.locked || w.slug === slug);
+  // The "next project" rail skips locked entries on the public domain so
+  // visitors don't land on an unlinked NDA case study from the rail.
+  // On portfolio.* every case study is fair game.
+  const unlockAll = await isUnlockedHost();
+  const visibleWorks = unlockAll
+    ? works
+    : works.filter((w) => !w.locked || w.slug === slug);
   const visibleIndex = visibleWorks.findIndex((w) => w.slug === slug);
   const next = visibleWorks[(visibleIndex + 1) % visibleWorks.length];
   const isLive = work.status === "Live";

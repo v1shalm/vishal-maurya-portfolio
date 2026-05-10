@@ -9,6 +9,7 @@ import { HomeWorkSection } from "@/components/HomeWorkSection";
 import { HomePixelsSection } from "@/components/HomePixelsSection";
 import { works } from "@/lib/works";
 import { links } from "@/lib/links";
+import { isUnlockedHost } from "@/lib/host";
 
 const clients: {
   name: string;
@@ -140,7 +141,10 @@ const playground: PixelsItem[] = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const unlockAll = await isUnlockedHost();
+  const visibleWorks = unlockAll ? works : works.filter((w) => !w.locked);
+
   return (
     <>
       <main id="main-content" className="flex flex-1 flex-col">
@@ -153,8 +157,9 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* Work — locked entries are filtered out of the public listing. */}
-        <HomeWorkSection works={works.filter((w) => !w.locked)} />
+        {/* Work — locked entries hidden on public domain, visible on
+           the portfolio.* subdomain. */}
+        <HomeWorkSection works={visibleWorks} />
 
         {/* Pixels */}
         <HomePixelsSection items={playground} />

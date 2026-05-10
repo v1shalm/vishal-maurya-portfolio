@@ -25,25 +25,15 @@ export function HomeWorkSection({ works }: Props) {
                   href={`/work/${work.slug}`}
                   className="group flex flex-col"
                   data-cursor="view-case-study"
-                  data-cursor-label={work.locked ? "Under NDA" : undefined}
                 >
                   <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-active:translate-y-0 md:aspect-[16/10]">
                     {work.thumbnail ? (
-                      <div
-                        className="absolute inset-0"
-                        style={
-                          work.locked
-                            ? { filter: "blur(22px) saturate(1.05)", transform: "scale(1.08)" }
-                            : undefined
-                        }
-                      >
-                        <WorkThumbnail
-                          src={work.thumbnail}
-                          poster={work.thumbnailPoster}
-                          alt={`${work.title}: ${work.tagline}`}
-                          className="transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
-                        />
-                      </div>
+                      <WorkThumbnail
+                        src={work.thumbnail}
+                        poster={work.thumbnailPoster}
+                        alt={`${work.title}: ${work.tagline}`}
+                        className="transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+                      />
                     ) : (
                       <div className="absolute inset-0 flex items-end p-10">
                         <span className="text-[13px] text-muted">
@@ -51,21 +41,6 @@ export function HomeWorkSection({ works }: Props) {
                         </span>
                       </div>
                     )}
-
-                    {work.locked ? (
-                      <>
-                        <div
-                          aria-hidden
-                          className="pointer-events-none absolute inset-0 bg-black/15"
-                        />
-                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                          <span className="inline-flex items-center gap-2 rounded-full bg-bg/90 px-4 py-2 text-[13px] font-medium text-ink backdrop-blur-md shadow-[0_0_0_1px_rgba(0,0,0,0.06)] md:px-5 md:py-2.5 md:text-[14px]">
-                            <LockGlyph />
-                            Locked · NDA
-                          </span>
-                        </div>
-                      </>
-                    ) : null}
                   </div>
 
                   <div className="mt-6 flex max-w-[58ch] flex-col md:mt-8">
@@ -87,34 +62,5 @@ export function HomeWorkSection({ works }: Props) {
         </Container>
       </div>
     </Reveal>
-  );
-}
-
-function LockGlyph() {
-  return (
-    <svg
-      aria-hidden
-      width="14"
-      height="14"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4.5 7V5a3.5 3.5 0 1 1 7 0v2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <rect
-        x="3"
-        y="7"
-        width="10"
-        height="7"
-        rx="1.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-    </svg>
   );
 }

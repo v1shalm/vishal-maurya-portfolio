@@ -24,11 +24,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    ...works.map((w) => ({
-      url: `${siteUrl}/work/${w.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    })),
+    // Locked case studies (NDA) are excluded from the public sitemap.
+    // They remain reachable via direct URL but shouldn't be indexed.
+    ...works
+      .filter((w) => !w.locked)
+      .map((w) => ({
+        url: `${siteUrl}/work/${w.slug}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.9,
+      })),
   ];
 }
