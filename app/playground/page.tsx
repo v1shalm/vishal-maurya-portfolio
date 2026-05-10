@@ -14,7 +14,8 @@ type Preview =
   | { kind: "image"; src: string; alt: string }
   | { kind: "swatch"; color: string; ink: string; pattern?: string }
   | { kind: "resume" }
-  | { kind: "wheel" };
+  | { kind: "wheel" }
+  | { kind: "ditto-sidebar" };
 
 type Experiment = {
   slug: string;
@@ -76,6 +77,16 @@ const experiments: Experiment[] = [
     tags: ["Pointer events", "Inertia", "Spring snap", "Audio feedback"],
     status: "Shipped",
     preview: { kind: "wheel" },
+  },
+  {
+    slug: "ditto-sidebar",
+    href: "/experiments/ditto-sidebar",
+    title: "Ditto sidebar",
+    subtext:
+      "Sticky case-study TOC inspired by Ditto. A cream spine flares outward, pinches to a sharp neck, and bulges back into a colored tile that tracks the active section as you scroll. Built with morphing SVG paths.",
+    tags: ["Motion", "SVG path morph", "IntersectionObserver", "Scroll-linked"],
+    status: "In progress",
+    preview: { kind: "ditto-sidebar" },
   },
 ];
 
@@ -222,8 +233,232 @@ function PreviewTile({
     );
   }
 
+  if (preview.kind === "ditto-sidebar") {
+    return <DittoSidebarPreview />;
+  }
+
   return <GuestCardPreview />;
 }
+
+/**
+ * Frozen frame of the v1 (Ditto-faithful) sidebar at the Review step.
+ * Mirrors the live experiment's structure 1:1 so the playground card
+ * reads as a true thumbnail of what the user will see.
+ *
+ * Composition (matches experiments/ditto-sidebar/CaseStudyNav.tsx):
+ *   - 40px-wide cream column with mask fade at top + bottom
+ *   - 7 rows distributed via flex space-between
+ *   - Each row: top branch (collapsed unless active), 40×17 link with
+ *     dot, bottom branch (collapsed unless active), absolute label
+ *   - Active row (Review): branches expanded, link grown to 80×80 with
+ *     inner black circle, label grown to 26px bold
+ */
+function DittoSidebarPreview() {
+  const STEP_COLORS = [
+    "#aa7e2e", // brown
+    "#b26dc2", // purple
+    "#3e6b15", // green (active)
+    "#0097e6", // blue
+    "#ff6137", // red
+    "#bbb809", // olive
+    "#f5c4cc", // pink
+  ];
+  const LABELS = [
+    "Draft",
+    "Design",
+    "Review",
+    "Translate",
+    "Personalize",
+    "Ship",
+    "Iterate",
+  ];
+  const ACTIVE = 2;
+  const SPINE_FILL = "#ECE9E5";
+  const BEIGE = "#dcd8cf";
+
+  // Branch SVG paths — verbatim from Ditto's CDN. Top: narrow→wide
+  // (used above the active row). Bottom: wide→narrow (below it).
+  const BRANCH_TOP =
+    "M58.317 0.98819C58.317 91.8255 80.5983 99.6376 80.5983 132.244L0.598267 132.244C0.598267 99.6376 22.8795 91.8255 22.8795 0.98819L58.317 0.98819Z";
+  const BRANCH_BOTTOM =
+    "M22.8795 132C22.8795 41.1626 0.59828 33.3506 0.598282 0.743893L80.5983 0.743896C80.5983 33.3506 58.3171 41.1627 58.3171 132L22.8795 132Z";
+
+  // Frame geometry. Everything is positioned in absolute pixel space
+  // off these constants so the preview reads identically across tile
+  // sizes and the spine rows align exactly with their labels.
+  const FRAME_H = 280;
+  const SPINE_X = 60; // x of spine center within the frame
+  const SPINE_W = 30; // narrow column width when no row is bulging
+  const ROW_GAP = 30; // vertical spacing between inactive dot centers
+  const TILE = 64; // active tile edge
+  const INNER_TILE = 36; // black circle diameter inside the active tile
+  const BRANCH_H = 22; // height of each branch tile (above + below active)
+
+  // Y center of each dot. Active row gets extra cushion above and
+  // below to make room for the branch SVGs to expand visibly.
+  const dotY = (i: number) => {
+    const baseTop = 28;
+    if (i < ACTIVE) return baseTop + i * ROW_GAP;
+    if (i === ACTIVE) {
+      return baseTop + ACTIVE * ROW_GAP + BRANCH_H + TILE / 2;
+    }
+    const afterActive = baseTop + ACTIVE * ROW_GAP + BRANCH_H + TILE + BRANCH_H;
+    return afterActive + (i - ACTIVE) * ROW_GAP;
+  };
+
+  return (
+    <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl bg-bg-elevated shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+      <div
+        className="absolute inset-0"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ position: "relative", width: 320, height: FRAME_H }}>
+          {/* Cream spine — a narrow rectangle running floor-to-ceiling,
+             with mask fade at top and bottom so it dissolves into the
+             surrounding tile bg. */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: SPINE_X - SPINE_W / 2,
+              top: 0,
+              width: SPINE_W,
+              height: FRAME_H,
+              background: SPINE_FILL,
+              WebkitMaskImage:
+                "linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%)",
+              maskImage:
+                "linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%)",
+            }}
+          />
+
+          {/* Branch tile above the active row — narrow→wide hourglass-half. */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: SPINE_X - TILE / 2,
+              top: dotY(ACTIVE) - TILE / 2 - BRANCH_H,
+              width: TILE,
+              height: BRANCH_H,
+              overflow: "hidden",
+            }}
+          >
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 81 133"
+              preserveAspectRatio="none"
+              style={{ display: "block" }}
+            >
+              <path d={BRANCH_TOP} fill={SPINE_FILL} />
+            </svg>
+          </div>
+
+          {/* Active tile — green square with black inner circle. */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: SPINE_X - TILE / 2,
+              top: dotY(ACTIVE) - TILE / 2,
+              width: TILE,
+              height: TILE,
+              background: STEP_COLORS[ACTIVE],
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                width: INNER_TILE,
+                height: INNER_TILE,
+                background: "#0a0a0a",
+                borderRadius: "50%",
+              }}
+            />
+          </div>
+
+          {/* Branch tile below the active row — wide→narrow hourglass-half. */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: SPINE_X - TILE / 2,
+              top: dotY(ACTIVE) + TILE / 2,
+              width: TILE,
+              height: BRANCH_H,
+              overflow: "hidden",
+            }}
+          >
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 81 132"
+              preserveAspectRatio="none"
+              style={{ display: "block" }}
+            >
+              <path d={BRANCH_BOTTOM} fill={SPINE_FILL} />
+            </svg>
+          </div>
+
+          {/* Inactive dots */}
+          {LABELS.map((_, i) => {
+            if (i === ACTIVE) return null;
+            const isPast = i < ACTIVE;
+            const color = isPast ? STEP_COLORS[i] : "#c4c0b8";
+            return (
+              <span
+                key={`dot-${i}`}
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  width: 12,
+                  height: 12,
+                  left: SPINE_X - 6,
+                  top: dotY(i) - 6,
+                  background: color,
+                  borderRadius: "50%",
+                }}
+              />
+            );
+          })}
+
+          {/* Labels — absolute Y matching each dot's Y so they stay
+             aligned regardless of variable row heights. */}
+          {LABELS.map((label, i) => {
+            const isActive = i === ACTIVE;
+            return (
+              <span
+                key={`label-${i}`}
+                style={{
+                  position: "absolute",
+                  left: SPINE_X + (isActive ? TILE / 2 + 16 : 26),
+                  top: dotY(i),
+                  transform: "translateY(-50%)",
+                  fontSize: isActive ? 20 : 12,
+                  fontWeight: isActive ? 700 : 400,
+                  color: isActive ? "#0a0a0a" : BEIGE,
+                  letterSpacing: isActive ? "-0.01em" : "0",
+                  lineHeight: 1,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {label}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 /**
  * Believable UI mock for the Guest card experiment. Shows the real app
