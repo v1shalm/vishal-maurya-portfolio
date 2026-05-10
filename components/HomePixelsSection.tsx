@@ -46,6 +46,15 @@ export function HomePixelsSection({ items }: Props) {
 
 type MarqueeTile = { item: PixelsItem; image: PixelsImage };
 
+/** Fisher-Yates in place. Returns the same array for chaining. */
+function shuffleInPlace<T>(arr: T[]): T[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function PixelsMarquee({ items }: { items: PixelsItem[] }) {
   // Flatten every image of every item into its own tile so the marquee
   // shows the full sketchbook, not just one cover per project.
@@ -53,18 +62,40 @@ function PixelsMarquee({ items }: { items: PixelsItem[] }) {
     (item.images ?? []).map((image) => ({ item, image })),
   );
 
-  // SSR renders the deterministic order so server and client markup
-  // match on first paint. After mount we shuffle once so each page
-  // load surfaces a different lead tile. Stays stable for the rest
-  // of the visit. Fisher-Yates.
+  // SSR renders the deterministic flat order so server/client markup
+  // matches on first paint. After mount we re-order via round-robin
+  // interleaving by project: each project's images get shuffled within
+  // themselves, then we pull one image at a time from each project in
+  // turn. This guarantees images from the same project (e.g. all 3 DSP
+  // shots) never sit back-to-back even when one project has more
+  // images than the others.
   const [tiles, setTiles] = useState<MarqueeTile[]>(baseTiles);
   useEffect(() => {
-    const shuffled = [...baseTiles];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    // Group tiles by project slug, shuffle within each group, then
+    // shuffle the project order itself so the lead changes per visit.
+    const groups = new Map<string, MarqueeTile[]>();
+    for (const t of baseTiles) {
+      const arr = groups.get(t.item.slug) ?? [];
+      arr.push(t);
+      groups.set(t.item.slug, arr);
     }
-    setTiles(shuffled);
+    for (const arr of groups.values()) shuffleInPlace(arr);
+    const projectOrder = shuffleInPlace([...groups.keys()]);
+
+    // Round-robin pull one tile per project until all groups empty.
+    const interleaved: MarqueeTile[] = [];
+    let drained = false;
+    while (!drained) {
+      drained = true;
+      for (const slug of projectOrder) {
+        const arr = groups.get(slug);
+        if (arr && arr.length > 0) {
+          interleaved.push(arr.shift()!);
+          drained = false;
+        }
+      }
+    }
+    setTiles(interleaved);
     // baseTiles is derived from `items` prop; re-shuffle if items change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
