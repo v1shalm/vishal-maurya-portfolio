@@ -316,15 +316,22 @@ function PoppyChip({ children }: { children: ReactNode }) {
         cursor: "pointer",
       }}
     >
-      {/* Underside layer — pineapple crown leaf texture exposed by the peel.
-         Built from layered conic + linear gradients to fake spiky leaf
-         shapes with two-tone shading. */}
+      {/* Underside layer — pineapple crown green, with the SAME diamond
+         cross-hatch + dot pattern as the yellow face above for visual
+         continuity. Slightly higher contrast since green is darker. */}
       <span
         aria-hidden
         className="absolute inset-0 overflow-hidden"
         style={{
           background:
             "linear-gradient(180deg, #6cc25c 0%, #3d8e34 70%, #2a6824 100%)",
+          backgroundImage: `
+            linear-gradient(45deg, transparent 46%, rgba(0,0,0,0.18) 47%, rgba(0,0,0,0.18) 53%, transparent 54%),
+            linear-gradient(-45deg, transparent 46%, rgba(0,0,0,0.18) 47%, rgba(0,0,0,0.18) 53%, transparent 54%),
+            radial-gradient(circle at 50% 50%, rgba(0,0,0,0.28) 0.8px, transparent 1.4px),
+            linear-gradient(180deg, #6cc25c 0%, #3d8e34 70%, #2a6824 100%)
+          `,
+          backgroundSize: "10px 10px, 10px 10px, 10px 10px, 100% 100%",
           borderRadius: 3,
           boxShadow: hover
             ? "inset 2px -2px 6px rgba(0,0,0,0.22), 0 6px 14px -4px rgba(0,0,0,0.28)"
@@ -333,58 +340,7 @@ function PoppyChip({ children }: { children: ReactNode }) {
             "box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1)",
           pointerEvents: "none",
         }}
-      >
-        {/* Leaf blades — repeating sharp triangles using conic gradients.
-           Two passes at slight horizontal offset and different scales to
-           feel hand-stacked rather than mathematically tiled. */}
-        <span
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              repeating-conic-gradient(
-                from 0deg at 50% 100%,
-                rgba(255,255,255,0.18) 0deg 4deg,
-                transparent 4deg 8deg,
-                rgba(0,0,0,0.16) 8deg 12deg,
-                transparent 12deg 16deg
-              )
-            `,
-            backgroundSize: "10px 100%",
-            backgroundRepeat: "repeat-x",
-          }}
-        />
-        {/* Second pass — finer blades in the opposite tone for depth */}
-        <span
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              repeating-linear-gradient(
-                92deg,
-                transparent 0px,
-                transparent 2px,
-                rgba(255,255,255,0.14) 2px,
-                rgba(255,255,255,0.14) 3px,
-                transparent 3px,
-                transparent 5px,
-                rgba(0,0,0,0.18) 5px,
-                rgba(0,0,0,0.18) 6px
-              )
-            `,
-            mixBlendMode: "soft-light",
-          }}
-        />
-        {/* Sharp leaf-tip darkening at the bottom edge */}
-        <span
-          aria-hidden
-          className="absolute inset-x-0 bottom-0 h-1/3"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.20) 100%)",
-          }}
-        />
-      </span>
+      />
 
       {/* Top sticker face — pineapple yellow with diamond cross-hatch
          texture and dot specks. Decorative only: the clip-path peels
