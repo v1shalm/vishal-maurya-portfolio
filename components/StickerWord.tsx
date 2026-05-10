@@ -1,25 +1,75 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
 
-type StickerKind = "code" | "cursor" | "pineapple" | "crosshair" | "moon";
+/**
+ * Shared hover/tap interaction. On mouse devices it tracks pointer
+ * enter/leave. On touch devices, tap toggles "hover" on/off so the
+ * animation can play (since :hover doesn't fire reliably on touch).
+ * Tap outside the chip clears it.
+ */
+function useChipInteraction() {
+  const [active, setActive] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
 
-const TILTS: Record<StickerKind, number> = {
-  code: -7,
-  cursor: 6,
-  pineapple: -5,
-  crosshair: 8,
-  moon: -6,
-};
+  useEffect(() => {
+    if (!active) return;
+    const onDoc = (e: PointerEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setActive(false);
+      }
+    };
+    document.addEventListener("pointerdown", onDoc);
+    return () => document.removeEventListener("pointerdown", onDoc);
+  }, [active]);
 
-const CHIP_COLOR: Record<StickerKind, "yellow" | "pink"> = {
-  code: "yellow",
-  cursor: "pink",
-  pineapple: "yellow",
-  crosshair: "yellow",
-  moon: "pink",
-};
+  const handlers = {
+    onMouseEnter: () => setActive(true),
+    onMouseLeave: () => setActive(false),
+    onClick: (e: React.MouseEvent) => {
+      // Tap-to-toggle for touch. Mouse already handled by enter/leave;
+      // this only meaningfully fires on touch where there's no enter/leave.
+      e.stopPropagation();
+      setActive((v) => !v);
+    },
+  };
+
+  return { active, ref, handlers };
+}
+
+/** Hook to detect prefers-reduced-motion */
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(m.matches);
+    update();
+    m.addEventListener("change", update);
+    return () => m.removeEventListener("change", update);
+  }, []);
+  return reduced;
+}
+
+/**
+ * Inline chunky chip — Ditto-style annotated highlight.
+ *
+ * Each chip is always visible as a chunky color block within the prose.
+ * Hover triggers a chip-specific animation (no separate popup sticker).
+ * The 5 sticker keys map to 5 chip variants:
+ *   code      → gray "{{ }}" code chip with blinking caret on hover
+ *   cursor    → yellow uppercase chip, triple-stack on hover  ✦
+ *   pineapple → blue chunky chip, confident scale-up on hover
+ *   crosshair → black chip with white text, RGB glitch on hover
+ *   moon      → purple chip, word-shuffle on hover
+ */
+
+type StickerKind =
+  | "code"
+  | "cursor"
+  | "pineapple"
+  | "crosshair"
+  | "moon"
+  | "ai";
 
 export function StickerWord({
   children,
@@ -28,371 +78,880 @@ export function StickerWord({
   children: ReactNode;
   sticker: StickerKind;
 }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
+  const chip = (() => {
+    switch (sticker) {
+      case "code":
+        return <CodeChip>{children}</CodeChip>;
+      case "cursor":
+        return <StackChip>{children}</StackChip>;
+      case "pineapple":
+        return <PoppyChip>{children}</PoppyChip>;
+      case "crosshair":
+        return <GlitchChip>{children}</GlitchChip>;
+      case "moon":
+        return <ShuffleChip>{children}</ShuffleChip>;
+      case "ai":
+        return <ClaudeChip>{children}</ClaudeChip>;
+    }
+  })();
 
+  // Consistent breathing room around every chip so they don't crash
+  // into surrounding punctuation/words. Applied once at the root so
+  // each chip variant picks it up automatically.
+  return (
+    <span style={{ display: "inline-block", margin: "0 0.18em" }}>
+      {chip}
+    </span>
+  );
+}
+
+/* ── 1. Code chip — {{ }} braces, blinking caret on hover ─────── */
+
+/* Code chip — chunky electric-indigo block in our family style.
+   Body: deep indigo with hairline edge + inset highlight.
+   Mark: </> angle brackets on the left as the "code" signifier.
+   Hover: brackets re-type left-to-right (snap in one char at a time)
+   like text being written. */
+
+const CODE_INDIGO = "#3a3aff";
+const CODE_INDIGO_DEEP = "#2a2dd6";
+
+function CodeChip({ children }: { children: ReactNode }) {
+  const { active: hover, ref, handlers } = useChipInteraction();
+  const reducedMotion = useReducedMotion();
+  const [step, setStep] = useState(3); // 0..3, how many chars revealed
+
+  // On hover, re-type the brackets one by one
   useEffect(() => {
-    if (!open) return;
-    const onDoc = (e: PointerEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", onDoc);
-    return () => document.removeEventListener("pointerdown", onDoc);
-  }, [open]);
-
-  const tilt = TILTS[sticker];
-  const tone = CHIP_COLOR[sticker];
-
-  const chipBg =
-    tone === "yellow" ? "var(--color-yellow)" : "var(--color-accent)";
-  const chipEdge =
-    tone === "yellow"
-      ? "var(--color-yellow-edge)"
-      : "var(--color-accent-ink)";
+    if (!hover) {
+      setStep(3);
+      return;
+    }
+    if (reducedMotion) {
+      setStep(3);
+      return;
+    }
+    setStep(0);
+    const timers = [80, 160, 240].map((delay, i) =>
+      window.setTimeout(() => setStep(i + 1), delay)
+    );
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, [hover, reducedMotion]);
 
   return (
     <span
       ref={ref}
-      className="relative inline-block"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onClick={(e) => {
-        e.stopPropagation();
-        setOpen((v) => !v);
+      {...handlers}
+      className="relative inline-flex items-center font-bold"
+      style={{
+        background: CODE_INDIGO,
+        color: "#ffffff",
+        padding: "0.05em 0.55em 0.05em 0.45em",
+        borderRadius: 3,
+        boxShadow: `0 0 0 1px ${CODE_INDIGO_DEEP}, inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(58,58,255,0.20)`,
+        verticalAlign: "baseline",
+        fontSize: "max(14px, 0.92em)",
+        whiteSpace: "nowrap",
+        gap: "0.4em",
+        letterSpacing: "0.005em",
+        cursor: "pointer",
       }}
     >
+      {/* </> mark — three characters that "type in" on hover */}
       <span
-        className="relative inline cursor-pointer rounded-[4px] font-bold text-ink"
+        aria-hidden
+        className="font-mono"
         style={{
-          background: chipBg,
-          padding: "0.5px 4px",
-          margin: "0 -1px",
-          boxShadow: `0 0 0 1px ${chipEdge}, inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.10), 0 1.5px 3px -1.5px rgba(0,0,0,0.18)`,
-          boxDecorationBreak: "clone",
-          WebkitBoxDecorationBreak: "clone",
+          color: "rgba(255,255,255,0.85)",
+          fontWeight: 700,
+          fontSize: "0.85em",
+          letterSpacing: "-0.04em",
+          fontVariantLigatures: "none",
+          // Stable width so chars don't reflow when revealed
+          minWidth: "2.4ch",
+          display: "inline-block",
+          textAlign: "left",
         }}
       >
-        {children}
+        <span style={{ opacity: step >= 1 ? 1 : 0, transition: "opacity 60ms" }}>{"<"}</span>
+        <span style={{ opacity: step >= 2 ? 1 : 0, transition: "opacity 60ms" }}>{"/"}</span>
+        <span style={{ opacity: step >= 3 ? 1 : 0, transition: "opacity 60ms" }}>{">"}</span>
       </span>
 
-      <AnimatePresence>
-        {open && (
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute -top-3 left-1/2 z-30 block"
-            style={{ transform: "translate(-50%, -100%)" }}
-            initial={{ opacity: 0, y: 10, scale: 0.65, rotate: 0 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate: tilt }}
-            exit={{ opacity: 0, y: 6, scale: 0.85, rotate: 0 }}
-            transition={{
-              duration: 0.22,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            <Sticker kind={sticker} />
-          </motion.span>
-        )}
-      </AnimatePresence>
+      <span>{children}</span>
     </span>
   );
 }
 
-function Sticker({ kind }: { kind: StickerKind }) {
-  switch (kind) {
-    case "code":
-      return <CodeSticker />;
-    case "cursor":
-      return <CursorSticker />;
-    case "pineapple":
-      return <PineappleSticker />;
-    case "crosshair":
-      return <CrosshairSticker />;
-    case "moon":
-      return <MoonSticker />;
-  }
+/* ── 2. Selection chip — white fill, Figma-style selection frame
+       with corner handles + dimension label on hover ────────── */
+
+const SELECTION_BLUE = "#0c8ce9";
+
+function StackChip({ children }: { children: ReactNode }) {
+  const wrapRef = useRef<HTMLSpanElement>(null);
+  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
+
+  // Measure once on mount so the dimension label reflects the real chip size.
+  // Re-measure on resize so the label stays accurate at any viewport.
+  useEffect(() => {
+    if (!wrapRef.current) return;
+    const measure = () => {
+      if (!wrapRef.current) return;
+      const r = wrapRef.current.getBoundingClientRect();
+      setDims({ w: Math.round(r.width), h: Math.round(r.height) });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [children]);
+
+  const handleSize = 6;
+
+  return (
+    <span
+      ref={wrapRef}
+      className="relative inline-block font-semibold"
+      style={{
+        background: "#ffffff",
+        color: "var(--color-ink)",
+        padding: "0.05em 0.4em",
+        borderRadius: 2,
+        boxShadow: `0 0 0 1.5px ${SELECTION_BLUE}`,
+        verticalAlign: "baseline",
+        fontSize: "max(15px, 0.95em)",
+        whiteSpace: "nowrap",
+        // Reserve a hair of space below for the dimension label so the
+        // next line of prose never collides with it.
+        marginBottom: "0.6em",
+      }}
+    >
+      {children}
+
+      {/* Four corner handles (always visible) */}
+      {(["tl", "tr", "bl", "br"] as const).map((corner) => {
+        const pos: Record<string, React.CSSProperties> = {
+          tl: { top: -handleSize / 2, left: -handleSize / 2 },
+          tr: { top: -handleSize / 2, right: -handleSize / 2 },
+          bl: { bottom: -handleSize / 2, left: -handleSize / 2 },
+          br: { bottom: -handleSize / 2, right: -handleSize / 2 },
+        };
+        return (
+          <span
+            key={corner}
+            aria-hidden
+            className="absolute"
+            style={{
+              ...pos[corner],
+              width: handleSize,
+              height: handleSize,
+              background: "#ffffff",
+              boxShadow: `0 0 0 1.5px ${SELECTION_BLUE}`,
+              borderRadius: 1,
+              pointerEvents: "none",
+            }}
+          />
+        );
+      })}
+
+      {/* Dimension label below the chip (always visible) */}
+      <span
+        aria-hidden
+        className="absolute font-mono font-medium"
+        style={{
+          top: "calc(100% + 6px)",
+          left: "50%",
+          transform: "translate(-50%, 0)",
+          padding: "1px 5px",
+          background: SELECTION_BLUE,
+          color: "#ffffff",
+          fontSize: 10,
+          lineHeight: "14px",
+          letterSpacing: "0.01em",
+          borderRadius: 2,
+          whiteSpace: "nowrap",
+          pointerEvents: "none",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {dims ? `${dims.w}×${dims.h}` : ""}
+      </span>
+    </span>
+  );
 }
 
-const DROP_SHADOW =
-  "drop-shadow(0 8px 14px rgba(0,0,0,0.25)) drop-shadow(0 2px 4px rgba(0,0,0,0.18))";
+/* ── 3. Pineapple sticker chip — chunky yellow with pineapple
+       diamond cross-hatch texture. On hover, a dramatic diagonal
+       peel sweeps across the chip, revealing a gold underside across
+       most of the block. */
 
-const RING_PADDING = 4;
+const PINEAPPLE_TEXTURE = `
+  linear-gradient(45deg, transparent 46%, rgba(0,0,0,0.10) 47%, rgba(0,0,0,0.10) 53%, transparent 54%),
+  linear-gradient(-45deg, transparent 46%, rgba(0,0,0,0.10) 47%, rgba(0,0,0,0.10) 53%, transparent 54%),
+  radial-gradient(circle at 50% 50%, rgba(0,0,0,0.18) 0.8px, transparent 1.4px)
+`;
+const PINEAPPLE_TEXTURE_SIZE = "10px 10px, 10px 10px, 10px 10px";
 
-function StickerFrame({
-  size,
-  children,
-  shape = "circle",
+function PoppyChip({ children }: { children: ReactNode }) {
+  const { active: hover, ref, handlers } = useChipInteraction();
+
+  // Dramatic peel: covers the full top-right diagonal of the block.
+  // At rest, a small corner peel hints at the sticker.
+  // On hover, the peel sweeps across the entire chip.
+  const restClip =
+    "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%)";
+  const peelClip =
+    "polygon(0 0, 30% 0, 0 80%, 0 100%, 0 100%)";
+
+  return (
+    <span
+      ref={ref}
+      {...handlers}
+      className="relative inline-block font-bold"
+      style={{
+        verticalAlign: "baseline",
+        fontSize: "max(14px, 0.92em)",
+        padding: "0 2px 0 0",
+        whiteSpace: "nowrap",
+        cursor: "pointer",
+      }}
+    >
+      {/* Underside layer — pineapple crown leaf texture exposed by the peel.
+         Built from layered conic + linear gradients to fake spiky leaf
+         shapes with two-tone shading. */}
+      <span
+        aria-hidden
+        className="absolute inset-0 overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(180deg, #6cc25c 0%, #3d8e34 70%, #2a6824 100%)",
+          borderRadius: 3,
+          boxShadow: hover
+            ? "inset 2px -2px 6px rgba(0,0,0,0.22), 0 6px 14px -4px rgba(0,0,0,0.28)"
+            : "inset 1px -1px 2px rgba(0,0,0,0.12), 0 2px 5px -2px rgba(0,0,0,0.10)",
+          transition:
+            "box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1)",
+          pointerEvents: "none",
+        }}
+      >
+        {/* Leaf blades — repeating sharp triangles using conic gradients.
+           Two passes at slight horizontal offset and different scales to
+           feel hand-stacked rather than mathematically tiled. */}
+        <span
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              repeating-conic-gradient(
+                from 0deg at 50% 100%,
+                rgba(255,255,255,0.18) 0deg 4deg,
+                transparent 4deg 8deg,
+                rgba(0,0,0,0.16) 8deg 12deg,
+                transparent 12deg 16deg
+              )
+            `,
+            backgroundSize: "10px 100%",
+            backgroundRepeat: "repeat-x",
+          }}
+        />
+        {/* Second pass — finer blades in the opposite tone for depth */}
+        <span
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              repeating-linear-gradient(
+                92deg,
+                transparent 0px,
+                transparent 2px,
+                rgba(255,255,255,0.14) 2px,
+                rgba(255,255,255,0.14) 3px,
+                transparent 3px,
+                transparent 5px,
+                rgba(0,0,0,0.18) 5px,
+                rgba(0,0,0,0.18) 6px
+              )
+            `,
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Sharp leaf-tip darkening at the bottom edge */}
+        <span
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-1/3"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.20) 100%)",
+          }}
+        />
+      </span>
+
+      {/* Top sticker face — pineapple yellow with diamond cross-hatch
+         texture and dot specks. Decorative only: the clip-path peels
+         it back to reveal the green underside. Text lives in a separate
+         layer above so it's never clipped. */}
+      <span
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          background: "var(--color-yellow)",
+          borderRadius: 3,
+          boxShadow: `0 0 0 1px var(--color-yellow-edge), inset 0 1px 0 rgba(255,255,255,0.55)`,
+          backgroundImage: PINEAPPLE_TEXTURE,
+          backgroundSize: PINEAPPLE_TEXTURE_SIZE,
+          backgroundColor: "var(--color-yellow)",
+          clipPath: hover ? peelClip : restClip,
+          transition:
+            "clip-path 320ms cubic-bezier(0.22, 1, 0.36, 1), transform 320ms cubic-bezier(0.22, 1, 0.36, 1)",
+          transform: hover
+            ? "translate(-1px, 1px) rotate(-1.2deg)"
+            : "translate(0, 0) rotate(0)",
+          transformOrigin: "0 100%",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Text layer — always present, switches color based on which
+         layer it sits over (yellow at rest, green on hover). */}
+      <span
+        className="relative inline-block"
+        style={{
+          padding: "0.05em 0.5em",
+          color: hover ? "#ffffff" : "var(--color-ink)",
+          textShadow: hover
+            ? "0 1px 0 rgba(0,0,0,0.18)"
+            : "none",
+          transition: "color 200ms ease, text-shadow 200ms ease",
+        }}
+      >
+        {children}
+      </span>
+    </span>
+  );
+}
+
+/* ── 4. Killfeed chip — black chip with white text. On hover, a
+       Valorant-style killfeed entry slides in below: a red attacker
+       name + a weapon icon + the victim (Vishal). Reads as "you keep
+       dying," matching the about-copy joke. */
+
+function GlitchChip({ children }: { children: ReactNode }) {
+  const { active: hover, ref, handlers } = useChipInteraction();
+  return (
+    <span
+      ref={ref}
+      {...handlers}
+      className="relative inline-block font-bold"
+      style={{
+        background: "#ff4655",
+        color: "#ffffff",
+        padding: "0.05em 0.5em",
+        borderRadius: 3,
+        boxShadow:
+          "0 0 0 1px #c93644, inset 0 1px 0 rgba(255,255,255,0.20), 0 1px 2px rgba(201,54,68,0.25)",
+        verticalAlign: "baseline",
+        fontSize: "max(14px, 0.92em)",
+        letterSpacing: "0.01em",
+        whiteSpace: "nowrap",
+        cursor: "pointer",
+      }}
+    >
+      {children}
+
+      {/* Killfeed entry — appears on hover, runs the kill animation,
+         then fades out on mouse leave. Float above the line so it
+         doesn't overlap the next line of prose. Right-anchored to
+         the chip on desktop, but on narrow viewports it shifts to
+         left-anchored so it doesn't overflow the screen edge. */}
+      <span
+        aria-hidden
+        className="absolute font-mono right-0 max-md:left-0 max-md:right-auto"
+        style={{
+          // Float above the chip instead of below to avoid colliding
+          // with the next paragraph line.
+          bottom: "calc(100% + 6px)",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 5,
+          padding: "2px 6px",
+          background: "rgba(10,10,10,0.95)",
+          borderLeft: "2px solid #ff4655",
+          color: "#ffffff",
+          fontSize: 10,
+          lineHeight: "12px",
+          letterSpacing: "0.02em",
+          whiteSpace: "nowrap",
+          opacity: hover ? 1 : 0,
+          // Hide from layout entirely when not hovered so it never
+          // affects neighboring lines, even on narrow viewports.
+          visibility: hover ? "visible" : "hidden",
+          transform: hover ? "translateX(0)" : "translateX(8px)",
+          transition:
+            "opacity 160ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear " +
+            (hover ? "0s" : "160ms"),
+          pointerEvents: "none",
+          boxShadow: "0 6px 14px -4px rgba(0,0,0,0.45)",
+          animation: hover ? "ssw-killshake 0.5s ease 80ms" : "none",
+          zIndex: 5,
+        }}
+      >
+        <span style={{ color: "#ff4655", fontWeight: 700 }}>JETT</span>
+
+        {/* Weapon + muzzle flash on hover */}
+        <span
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+        >
+          <ValorantWeaponIcon />
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              right: -5,
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: 10,
+              height: 10,
+              background:
+                "radial-gradient(circle, #ffea00 0%, #ff8a00 50%, transparent 75%)",
+              borderRadius: "50%",
+              opacity: 0,
+              animation: hover ? "ssw-flash 0.5s ease" : "none",
+              pointerEvents: "none",
+            }}
+          />
+        </span>
+
+        {/* VISHAL with kill-flash + strikethrough */}
+        <span
+          style={{
+            position: "relative",
+            color: "#bfbfbf",
+            fontWeight: 700,
+            animation: hover ? "ssw-killflash 0.5s ease" : "none",
+          }}
+        >
+          VISHAL
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: 0,
+              top: "50%",
+              height: 1.4,
+              background: "#ff4655",
+              transformOrigin: "left center",
+              transform: hover ? "scaleX(1)" : "scaleX(0)",
+              width: "100%",
+              transition: "transform 220ms cubic-bezier(0.65,0,0.35,1) 140ms",
+              pointerEvents: "none",
+            }}
+          />
+        </span>
+
+        <span
+          aria-hidden
+          style={{
+            color: "#ff4655",
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: "0.06em",
+            transform: hover ? "scale(1)" : "scale(0.6)",
+            opacity: hover ? 1 : 0.55,
+            transition:
+              "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1) 280ms, opacity 180ms ease 280ms",
+            display: "inline-block",
+          }}
+        >
+          HS
+        </span>
+      </span>
+
+      <style>{`
+        @keyframes ssw-flash {
+          0% { opacity: 0; transform: translateY(-50%) scale(0.4); }
+          20% { opacity: 1; transform: translateY(-50%) scale(1.6); }
+          50% { opacity: 0.6; transform: translateY(-50%) scale(1.1); }
+          100% { opacity: 0; transform: translateY(-50%) scale(0.6); }
+        }
+        @keyframes ssw-killflash {
+          0%, 30% { color: #bfbfbf; }
+          35%, 55% { color: #ff4655; }
+          100% { color: #bfbfbf; }
+        }
+        @keyframes ssw-killshake {
+          0% { transform: translate(0, 0); }
+          14% { transform: translate(1px, -1px); }
+          28% { transform: translate(-1px, 1px); }
+          42% { transform: translate(0.5px, 0); }
+          100% { transform: translate(0, 0); }
+        }
+      `}</style>
+    </span>
+  );
+}
+
+/* Valorant-style Vandal/AK silhouette. Tiny enough to read at killfeed
+   scale: barrel + receiver + magazine + stock. */
+function ValorantWeaponIcon() {
+  return (
+    <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden>
+      {/* Stock */}
+      <rect x="0.5" y="3.5" width="3" height="3" rx="0.4" fill="#e8e8e8" />
+      {/* Receiver */}
+      <rect x="3" y="3" width="11" height="4" rx="0.4" fill="#e8e8e8" />
+      {/* Magazine */}
+      <path
+        d="M6 7L7 9.5H9L9.6 7"
+        stroke="#e8e8e8"
+        strokeWidth="1.6"
+        fill="#e8e8e8"
+        strokeLinejoin="round"
+      />
+      {/* Sight */}
+      <rect x="9" y="2" width="2" height="1.2" fill="#e8e8e8" />
+      {/* Barrel */}
+      <rect x="14" y="4" width="6.5" height="2" rx="0.2" fill="#e8e8e8" />
+      {/* Muzzle */}
+      <rect x="20.5" y="3.5" width="1.2" height="3" fill="#e8e8e8" />
+    </svg>
+  );
+}
+
+/* ── 5. Flip-clock chip — realistic split-flap timer.
+       Two side-by-side panels (HH | MM), dark slate body with rim highlight,
+       white tabular numbers, a horizontal hinge bar with two rivets across
+       the middle. Time advances slowly at rest; on hover the minutes panel
+       does a fast flip animation. */
+
+const HOUR = "01";
+
+function ShuffleChip({ children: _children }: { children: ReactNode }) {
+  const { active: hover, ref, handlers } = useChipInteraction();
+  const reducedMotion = useReducedMotion();
+  const [minute, setMinute] = useState(0);
+  const [flipKey, setFlipKey] = useState(0);
+
+  // Slow auto-advance: tick the minute every 6s so the clock feels alive
+  // without being a distraction. Disabled when reduced-motion is on.
+  useEffect(() => {
+    if (hover || reducedMotion) return;
+    const id = window.setInterval(() => {
+      setMinute((m) => (m + 1) % 60);
+      setFlipKey((k) => k + 1);
+    }, 6000);
+    return () => window.clearInterval(id);
+  }, [hover, reducedMotion]);
+
+  // On hover, fast-flip 5 minutes in a burst, then settle.
+  useEffect(() => {
+    if (!hover || reducedMotion) return;
+    let count = 0;
+    const id = window.setInterval(() => {
+      count++;
+      setMinute((m) => (m + 1) % 60);
+      setFlipKey((k) => k + 1);
+      if (count >= 5) window.clearInterval(id);
+    }, 140);
+    return () => window.clearInterval(id);
+  }, [hover, reducedMotion]);
+
+  const mm = String(minute).padStart(2, "0");
+
+  return (
+    <span
+      ref={ref}
+      {...handlers}
+      className="relative inline-flex items-center font-bold"
+      style={{
+        // Pull up so the clock body sits on the text baseline rather
+        // than sinking below it.
+        verticalAlign: "-0.32em",
+        fontSize: "max(14px, 0.92em)",
+        // Reserve a touch of space so the rim shadow doesn't crop
+        padding: "0 1px",
+        whiteSpace: "nowrap",
+        cursor: "pointer",
+      }}
+    >
+      <span
+        className="inline-flex items-center"
+        style={{
+          background: "linear-gradient(180deg, #2a2c33 0%, #1c1d22 100%)",
+          padding: "3px",
+          borderRadius: 6,
+          boxShadow: [
+            // Outer rim
+            "0 0 0 1px #0d0e11",
+            // Lift on the page
+            "0 2px 6px -2px rgba(0,0,0,0.40)",
+            // Top edge highlight
+            "inset 0 1px 0 rgba(255,255,255,0.10)",
+            // Bottom edge darkening
+            "inset 0 -1px 0 rgba(0,0,0,0.45)",
+          ].join(", "),
+          gap: 2,
+        }}
+      >
+        <FlipPanel value={HOUR} />
+        <FlipPanel value={mm} flipKey={flipKey} />
+      </span>
+    </span>
+  );
+}
+
+function FlipPanel({
+  value,
+  flipKey,
 }: {
-  size: number;
-  children: ReactNode;
-  shape?: "circle" | "rounded";
+  value: string;
+  flipKey?: number;
 }) {
-  const radius = shape === "circle" ? "9999px" : "14px";
+  const [prev, setPrev] = useState(value);
+  const [flipping, setFlipping] = useState(false);
+  const flipKeyRef = useRef(flipKey);
+
+  useEffect(() => {
+    if (flipKey === undefined || flipKey === flipKeyRef.current) return;
+    flipKeyRef.current = flipKey;
+    setFlipping(true);
+    const t = window.setTimeout(() => {
+      setPrev(value);
+      setFlipping(false);
+    }, 320);
+    return () => window.clearTimeout(t);
+  }, [flipKey, value]);
+
+  const W = 24;
+  const H = 24;
+  const FONT = 17;
+
   return (
     <span
       className="relative inline-block"
       style={{
-        width: size + RING_PADDING * 2,
-        height: size + RING_PADDING * 2,
-        background: "#ffffff",
-        borderRadius: radius,
-        padding: RING_PADDING,
-        boxShadow:
-          "0 0 0 1px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 0 rgba(0,0,0,0.08)",
-        filter: DROP_SHADOW,
+        width: W,
+        height: H,
+        // Two-stop gradient that gives each half its own light fall:
+        // top half lit from above, bottom half darker, but no hard band.
+        background:
+          "linear-gradient(180deg, #1d1e22 0%, #0e0f12 49%, #0a0b0e 51%, #1a1b20 100%)",
+        borderRadius: 3,
+        overflow: "hidden",
+        boxShadow: [
+          // Outer rim
+          "0 0 0 1px #000",
+          // Lift on the page
+          "0 2px 5px -2px rgba(0,0,0,0.45)",
+          // Top edge highlight
+          "inset 0 1px 0 rgba(255,255,255,0.18)",
+          // Bottom edge darken
+          "inset 0 -1px 0 rgba(0,0,0,0.7)",
+          // Side bevels
+          "inset 1px 0 0 rgba(255,255,255,0.04)",
+          "inset -1px 0 0 rgba(0,0,0,0.4)",
+        ].join(", "),
+        fontVariantNumeric: "tabular-nums",
       }}
     >
       <span
-        className="relative block overflow-hidden"
-        style={{ width: size, height: size, borderRadius: radius }}
+        className="absolute inset-0 flex items-center justify-center"
+        style={{
+          color: "#ffffff",
+          fontWeight: 900,
+          fontSize: FONT,
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+          textShadow: "0 1px 0 rgba(0,0,0,0.85)",
+        }}
       >
-        {children}
+        {flipping ? prev : value}
       </span>
+
+      {flipping && (
+        <span
+          aria-hidden
+          className="absolute left-0 right-0 top-0 overflow-hidden"
+          style={{
+            height: "50%",
+            background: "linear-gradient(180deg, #1f2025 0%, #16171b 100%)",
+            transformOrigin: "bottom",
+            animation:
+              "ssw-flipDown 320ms cubic-bezier(0.55, 0, 0.55, 1) forwards",
+            backfaceVisibility: "hidden",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.10)",
+          }}
+        >
+          <span
+            className="absolute inset-0 flex items-end justify-center"
+            style={{
+              color: "#ffffff",
+              fontWeight: 800,
+              fontSize: FONT,
+              lineHeight: 1,
+              letterSpacing: "-0.04em",
+              transform: "translateY(50%)",
+            }}
+          >
+            {prev}
+          </span>
+        </span>
+      )}
+
+      {/* Hairline split at the middle — single dark line + faint
+         highlight below for a subtle fold cue, no band. */}
+      <span
+        aria-hidden
+        className="absolute left-0 right-0"
+        style={{
+          top: "calc(50% - 0.5px)",
+          height: 1,
+          background: "rgba(0,0,0,0.85)",
+          boxShadow: "0 0.5px 0 rgba(255,255,255,0.05)",
+        }}
+      />
+      {/* Inset rivets — small, sit on the seam */}
+      <span
+        aria-hidden
+        className="absolute"
+        style={{
+          left: 1.5,
+          top: "calc(50% - 1px)",
+          width: 2,
+          height: 2,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle at 35% 35%, #4a4c52 0%, #1a1b20 70%, #050507 100%)",
+          boxShadow: "inset 0 0.5px 0 rgba(255,255,255,0.30)",
+        }}
+      />
+      <span
+        aria-hidden
+        className="absolute"
+        style={{
+          right: 1.5,
+          top: "calc(50% - 1px)",
+          width: 2,
+          height: 2,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle at 35% 35%, #4a4c52 0%, #1a1b20 70%, #050507 100%)",
+          boxShadow: "inset 0 0.5px 0 rgba(255,255,255,0.30)",
+        }}
+      />
+
+      <style>{`
+        @keyframes ssw-flipDown {
+          0% { transform: rotateX(0deg); }
+          100% { transform: rotateX(-90deg); }
+        }
+      `}</style>
     </span>
   );
 }
 
-function CodeSticker() {
-  const size = 60;
+/* ── 6. Claude chip — Anthropic-branded chunky chip.
+       Cream paper body, coral sparkle on the left, coral hairline edge.
+       At rest, the sparkle does a slow rotation. On hover, the sparkle
+       spins faster, the chip background gets a soft coral wash, and
+       the text picks up a subtle coral tint. */
+
+const CLAUDE = {
+  paper: "#f0eee6",
+  paperEdge: "#e2dfd2",
+  coral: "#cc785c",
+  coralDeep: "#a85d44",
+  ink: "#191919",
+};
+
+function ClaudeChip({ children }: { children: ReactNode }) {
+  const { active: hover, ref, handlers } = useChipInteraction();
+  const reducedMotion = useReducedMotion();
   return (
-    <StickerFrame size={size} shape="rounded">
+    <span
+      ref={ref}
+      {...handlers}
+      className="relative inline-flex items-center font-bold"
+      style={{
+        background: CLAUDE.paper,
+        color: hover ? CLAUDE.coralDeep : CLAUDE.ink,
+        padding: "0.05em 0.55em 0.05em 0.45em",
+        borderRadius: 3,
+        boxShadow: hover
+          ? `0 0 0 1px ${CLAUDE.coral}, inset 0 1px 0 rgba(255,255,255,0.7), 0 4px 14px -6px rgba(204,120,92,0.45)`
+          : `0 0 0 1px ${CLAUDE.paperEdge}, inset 0 1px 0 rgba(255,255,255,0.7)`,
+        verticalAlign: "baseline",
+        fontSize: "max(14px, 0.92em)",
+        whiteSpace: "nowrap",
+        gap: "0.35em",
+        transition:
+          "color 220ms ease, box-shadow 220ms ease",
+        cursor: "pointer",
+      }}
+    >
+      {/* Soft coral wash that fades in on hover, behind the text */}
       <span
-        className="absolute inset-0 flex flex-col"
+        aria-hidden
+        className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg, var(--color-yellow) 0%, #efd900 100%)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -2px 0 rgba(0,0,0,0.10)",
+          background: `radial-gradient(circle at 16% 50%, rgba(204,120,92,0.20), transparent 65%)`,
+          opacity: hover ? 1 : 0,
+          transition: "opacity 260ms ease",
+          borderRadius: 3,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Anthropic-style sparkle ✦ in coral, rotates slowly at rest,
+         spins faster on hover. */}
+      <span
+        aria-hidden
+        className="relative inline-flex flex-shrink-0 items-center justify-center"
+        style={{
+          width: "0.95em",
+          height: "0.95em",
+          color: CLAUDE.coral,
+          animation: reducedMotion
+            ? "none"
+            : hover
+            ? "ssw-claudeSpark 1.2s linear infinite"
+            : "ssw-claudeSpark 9s linear infinite",
+          transition: "color 220ms ease",
         }}
       >
-        {/* Title bar */}
-        <span
-          className="flex items-center gap-[3px] px-[6px]"
-          style={{
-            height: 12,
-            background: "rgba(0,0,0,0.06)",
-            borderBottom: "1px solid rgba(0,0,0,0.10)",
-          }}
-        >
-          <span
-            className="block rounded-full"
-            style={{ width: 4, height: 4, background: "#ff5f56" }}
-          />
-          <span
-            className="block rounded-full"
-            style={{ width: 4, height: 4, background: "#ffbd2e" }}
-          />
-          <span
-            className="block rounded-full"
-            style={{ width: 4, height: 4, background: "#28c840" }}
-          />
-        </span>
-        {/* Code glyph */}
-        <span className="relative flex flex-1 items-center justify-center">
-          <span
-            className="font-mono font-black leading-none text-ink"
-            style={{ fontSize: 22, letterSpacing: "-0.04em" }}
-          >
-            &lt;/&gt;
-          </span>
-        </span>
+        <ClaudeSparkle />
       </span>
-    </StickerFrame>
+
+      <span className="relative">{children}</span>
+
+      <style>{`
+        @keyframes ssw-claudeSpark {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </span>
   );
 }
 
-function CursorSticker() {
-  const size = 56;
+function ClaudeSparkle() {
+  // Anthropic ✦ — four-point asterisk-sparkle.
   return (
-    <StickerFrame size={size}>
-      <span
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 30% 25%, #ff5cc1 0%, var(--color-accent) 55%, #d11589 100%)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.65), inset 0 -2px 4px rgba(0,0,0,0.15)",
-        }}
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 12 12"
+      fill="none"
+      aria-hidden
+      style={{ display: "block" }}
+    >
+      <path
+        d="M6 0.5 L6.7 5.3 L11.5 6 L6.7 6.7 L6 11.5 L5.3 6.7 L0.5 6 L5.3 5.3 Z"
+        fill="currentColor"
       />
-      {/* Frame outline (Figma-style) */}
-      <svg
-        className="absolute"
-        style={{ left: 8, top: 8 }}
-        width="24"
-        height="20"
-        viewBox="0 0 24 20"
-        fill="none"
-      >
-        <rect
-          x="1"
-          y="1"
-          width="22"
-          height="18"
-          rx="2"
-          stroke="#0a0a0a"
-          strokeWidth="1.5"
-          fill="rgba(255,255,255,0.18)"
-        />
-        <line x1="6" y1="1" x2="6" y2="19" stroke="#0a0a0a" strokeWidth="1" opacity="0.4" />
-        <line x1="1" y1="6" x2="23" y2="6" stroke="#0a0a0a" strokeWidth="1" opacity="0.4" />
-      </svg>
-      {/* Cursor on top */}
-      <svg
-        className="absolute"
-        style={{ right: 6, bottom: 6 }}
-        width="22"
-        height="22"
-        viewBox="0 0 22 22"
-        fill="none"
-      >
-        <path
-          d="M3 2L18 10L11 11.5L8.5 18L3 2Z"
-          fill="#ffffff"
-          stroke="#0a0a0a"
-          strokeWidth="1.4"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </StickerFrame>
-  );
-}
-
-function PineappleSticker() {
-  const size = 60;
-  return (
-    <StickerFrame size={size}>
-      <span
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 30% 30%, #fff7a8 0%, #fff196 35%, #ffe85c 100%)",
-        }}
-      />
-      <svg
-        className="absolute"
-        style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-        width="44"
-        height="56"
-        viewBox="0 0 44 56"
-        fill="none"
-      >
-        {/* Crown leaves (back layer) */}
-        <path
-          d="M22 4L16 16L13 11L11 17L7 14L10 20L22 22L34 20L37 14L33 17L31 11L28 16L22 4Z"
-          fill="#5fb851"
-          stroke="#0a0a0a"
-          strokeWidth="1.4"
-          strokeLinejoin="round"
-        />
-        {/* Crown leaves (front highlight) */}
-        <path
-          d="M22 6L19 14L22 12L25 14L22 6Z"
-          fill="#7bd06a"
-        />
-        {/* Body */}
-        <ellipse
-          cx="22"
-          cy="36"
-          rx="14"
-          ry="17"
-          fill="var(--color-yellow)"
-          stroke="#0a0a0a"
-          strokeWidth="1.4"
-        />
-        {/* Diamond pattern */}
-        <g stroke="#0a0a0a" strokeWidth="0.9" strokeLinecap="round" opacity="0.55" fill="none">
-          <path d="M14 28L22 33L30 28" />
-          <path d="M12 35L22 41L32 35" />
-          <path d="M14 43L22 49L30 43" />
-          <path d="M14 28L14 43" />
-          <path d="M22 33L22 49" />
-          <path d="M30 28L30 43" />
-        </g>
-        {/* Highlight */}
-        <ellipse cx="16" cy="30" rx="3" ry="4.5" fill="rgba(255,255,255,0.55)" />
-      </svg>
-    </StickerFrame>
-  );
-}
-
-function CrosshairSticker() {
-  const size = 56;
-  return (
-    <StickerFrame size={size}>
-      <span
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 30% 25%, #2a2a2e 0%, #0a0a0a 70%)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -2px 4px rgba(0,0,0,0.4)",
-        }}
-      />
-      <svg
-        className="absolute"
-        style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-        width="38"
-        height="38"
-        viewBox="0 0 38 38"
-        fill="none"
-      >
-        {/* Outer ring */}
-        <circle cx="19" cy="19" r="14" stroke="var(--color-yellow)" strokeWidth="1.5" opacity="0.4" />
-        {/* Inner ring */}
-        <circle cx="19" cy="19" r="9" stroke="var(--color-yellow)" strokeWidth="1.8" />
-        {/* Tick marks */}
-        <path
-          d="M19 1V8M19 30V37M1 19H8M30 19H37"
-          stroke="var(--color-yellow)"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* Center dot */}
-        <circle cx="19" cy="19" r="2" fill="var(--color-yellow)" />
-        <circle cx="19" cy="19" r="0.8" fill="#0a0a0a" />
-      </svg>
-    </StickerFrame>
-  );
-}
-
-function MoonSticker() {
-  const size = 56;
-  return (
-    <StickerFrame size={size}>
-      <span
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 70% 30%, #2a1a4a 0%, #1a0f3a 60%, #0d0824 100%)",
-        }}
-      />
-      {/* Stars */}
-      <svg className="absolute inset-0" width="100%" height="100%" viewBox="0 0 56 56" fill="none">
-        <circle cx="10" cy="12" r="0.8" fill="#ffffff" opacity="0.9" />
-        <circle cx="46" cy="18" r="0.6" fill="#ffffff" opacity="0.7" />
-        <circle cx="44" cy="44" r="0.9" fill="#ffffff" opacity="0.85" />
-        <circle cx="14" cy="42" r="0.5" fill="#ffffff" opacity="0.6" />
-        <circle cx="38" cy="8" r="0.4" fill="#ffffff" opacity="0.5" />
-      </svg>
-      {/* Moon */}
-      <svg
-        className="absolute"
-        style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
-        width="34"
-        height="34"
-        viewBox="0 0 34 34"
-        fill="none"
-      >
-        <path
-          d="M27 22C25.3 23.7 23 24.5 20.5 24.5C15 24.5 10.5 20 10.5 14.5C10.5 12 11.3 9.7 13 8C8.5 9.5 5 14 5 19.2C5 25.4 10 30.5 16.3 30.5C21.5 30.5 26 27 27 22Z"
-          fill="var(--color-yellow)"
-          stroke="#0a0a0a"
-          strokeWidth="1.3"
-          strokeLinejoin="round"
-        />
-        {/* Crater */}
-        <circle cx="20" cy="26" r="1.2" fill="#0a0a0a" opacity="0.25" />
-        <circle cx="15" cy="22" r="0.8" fill="#0a0a0a" opacity="0.2" />
-      </svg>
-    </StickerFrame>
+    </svg>
   );
 }

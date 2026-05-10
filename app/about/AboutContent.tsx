@@ -53,9 +53,10 @@ export default function AboutContent() {
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
-              AI brought the engineering brain back. Lately I&rsquo;m
-              building prototypes and small tools I actually use, instead
-              of just speccing what someone else builds.
+              AI brought the engineering brain back. Lately I&rsquo;m{" "}
+              <StickerWord sticker="ai">building prototypes</StickerWord>{" "}
+              and small tools I actually use, instead of just speccing what
+              someone else builds.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
