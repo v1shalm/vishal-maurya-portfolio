@@ -4,36 +4,37 @@ import { useEffect, useState } from "react";
 import type { CaseSection } from "@/lib/works";
 
 /**
- * v2: Same Ditto-style sidebar geometry and motion, restyled to fit
- * the portfolio's palette and edge language.
+ * v2: byte-for-byte identical to v1 except for two things —
  *
- * Differences from v1:
- * - Spine fill switched from cream `#ECE9E5` to the portfolio's
- *   `--color-bg-elevated` so it sits naturally on white pages.
- * - Active tile uses portfolio palette (magenta primary, yellow / ink
- *   for accents) instead of Ditto's per-step colors.
- * - Active dot is now a square (matches the portfolio's
- *   sharp-cornered hero block / button language) instead of a circle.
- * - Label font size uses the portfolio's section-header weights.
+ *   1. STEP_COLORS — same 7 hues but brightened a step or two so they
+ *      read as more saturated / closer to the portfolio's yellow,
+ *      magenta, and ink language while keeping the per-step rhythm
+ *      Ditto established.
+ *   2. Active link gets a soft pill shadow so the tile lifts off the
+ *      cream spine, instead of sitting flat against it.
  *
- * Geometry, branch SVGs, and motion timings are unchanged so v1 ↔ v2
- * comparisons stay 1:1 visually except for the styling.
+ * Geometry, branch SVGs, dot shape, motion timings, and typography are
+ * unchanged so v1 ↔ v2 comparisons stay 1:1 visually.
  */
 
-// Portfolio palette mapped onto Ditto's 7 step slots.
+// One palette, seven hues. All seven colors are locked to the same
+// OKLCH lightness and chroma as our primary magenta `#f91ca9`
+// (~L 0.65, C 0.27); only the hue varies so the steps stay
+// identifiable as gold / violet / green / sky / orange / yellow /
+// pink without one color screaming louder than the others.
 const STEP_COLORS = [
-  "#f91ca9", // magenta primary
-  "#fdf004", // yellow
-  "#0a0a0a", // ink
-  "#f91ca9",
-  "#fdf004",
-  "#0a0a0a",
-  "#f91ca9",
+  "oklch(0.65 0.27 70)", // warm gold-orange (was brown)
+  "oklch(0.65 0.27 310)", // violet (was purple)
+  "oklch(0.65 0.27 145)", // green
+  "oklch(0.65 0.27 230)", // sky blue
+  "oklch(0.65 0.27 30)", // orange (was red-orange)
+  "oklch(0.65 0.27 95)", // yellow-lime (was olive)
+  "oklch(0.65 0.27 358)", // pink (matches primary magenta)
 ];
 
-const SPINE_FILL = "oklch(0.96 0.002 260)"; // --color-bg-elevated
-const PAGE_BG = "#ffffff"; // --color-bg
-const MUTED = "oklch(0.55 0.004 260)"; // --color-muted
+const SPINE_FILL = "#ECE9E5";
+const PAGE_BG = "#f7f5f3";
+const BEIGE = "#dcd8cf";
 
 const EASE_LINK = "cubic-bezier(.23, 1, .32, 1)";
 const EASE_BRANCH = "cubic-bezier(.165, .84, .44, 1)";
@@ -88,7 +89,6 @@ export function CaseStudyNav({ sections }: { sections: CaseSection[] }) {
     <nav
       aria-label="Case study contents"
       style={{
-        position: "relative",
         width: 40,
         height: "85vh",
         paddingTop: "6vh",
@@ -97,11 +97,7 @@ export function CaseStudyNav({ sections }: { sections: CaseSection[] }) {
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
-        background: SPINE_FILL,
-        WebkitMaskImage:
-          "linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%)",
-        maskImage:
-          "linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%)",
+        backgroundImage: `linear-gradient(180deg, ${PAGE_BG}, ${SPINE_FILL} 5%, ${SPINE_FILL} 90%, ${PAGE_BG})`,
       }}
     >
       <style>{`
@@ -146,10 +142,6 @@ function StickyItem({
   color: string;
   isActive: boolean;
 }) {
-  // Inner mark contrasts against the active tile. On magenta or yellow
-  // we use ink; on the ink-on-ink case we use white.
-  const innerColor = color === "#0a0a0a" ? "#ffffff" : "#0a0a0a";
-
   return (
     <div
       style={{
@@ -160,10 +152,6 @@ function StickyItem({
     >
       <BranchWrap shape="top" expanded={isActive} />
 
-      {/* Mirror v1's structure exactly: an <a> with width/height that
-         transitions, containing an SVG circle that fills the link.
-         The only v2 difference is the SVG <rect> instead of <circle>
-         so the dot is square (matches portfolio hero-block edges). */}
       <a
         href={`#${id}`}
         className="ditto-v2-link"
@@ -173,13 +161,30 @@ function StickyItem({
           width: isActive ? 80 : 40,
           height: isActive ? 80 : 17,
           padding: isActive ? 12 : 0,
-          background: isActive ? color : SPINE_FILL,
-          color: isActive ? innerColor : MUTED,
+          // Active tile: a subtle vertical gradient on top of the
+          // base color so the surface reads as lit from above rather
+          // than a flat block. Inactive: plain cream so the spine
+          // stays uniform.
+          background: isActive
+            ? `linear-gradient(180deg, rgba(255,255,255,0.18), rgba(0,0,0,0.10)), ${color}`
+            : SPINE_FILL,
+          color: isActive ? "#000" : color,
           transitionProperty:
-            "width, height, background-color, padding, transform",
+            "width, height, background-color, padding, transform, box-shadow",
           transitionDuration: ".6s",
           transitionTimingFunction: EASE_LINK,
           boxSizing: "border-box",
+          // Active tile lift. Layered:
+          //   • 1px inset top highlight — fake printed-sticker rim
+          //     under a top light
+          //   • 1px inset bottom shadow — bottom of the tile reads
+          //     darker than the lit top
+          //   • tight outer 1-2px shadow — crispness against spine
+          //   • wide tinted cast — color-aware lift off the cream
+          // Inactive: no shadow so the spine reads as a flat ribbon.
+          boxShadow: isActive
+            ? `inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.10), 0 14px 28px -14px ${color}80`
+            : "none",
         }}
       >
         <svg
@@ -188,9 +193,68 @@ function StickyItem({
           viewBox="0 0 17 17"
           preserveAspectRatio="xMidYMid meet"
           fill="none"
-          style={{ display: "block" }}
+          style={{ display: "block", overflow: "visible" }}
         >
-          <rect x="0" y="0" width="17" height="17" fill="currentColor" />
+          {isActive ? (
+            <>
+              <defs>
+                <radialGradient
+                  id={`dot-grad-${id}`}
+                  cx="0.42"
+                  cy="0.36"
+                  r="0.85"
+                >
+                  {/* Slight top-left lift on the dot so it reads as
+                     spherical, with the darkest point bottom-right. */}
+                  <stop offset="0%" stopColor="#3a3a3a" />
+                  <stop offset="55%" stopColor="#0a0a0a" />
+                  <stop offset="100%" stopColor="#000000" />
+                </radialGradient>
+                <radialGradient
+                  id={`dot-spec-${id}`}
+                  cx="0.32"
+                  cy="0.28"
+                  r="0.32"
+                >
+                  {/* Tight specular highlight, very subtle. */}
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.32)" />
+                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+                </radialGradient>
+              </defs>
+              {/* Soft contact shadow under the dot for a sticker-on-
+                 a-sticker feel. */}
+              <ellipse
+                cx="8.5"
+                cy="14.5"
+                rx="6"
+                ry="1.2"
+                fill="rgba(0,0,0,0.18)"
+              />
+              <circle
+                cx="8.5"
+                cy="8.5"
+                r="8.5"
+                fill={`url(#dot-grad-${id})`}
+              />
+              {/* Faint inner rim light — just on the upper edge. */}
+              <circle
+                cx="8.5"
+                cy="8.5"
+                r="8"
+                fill="none"
+                stroke="rgba(255,255,255,0.12)"
+                strokeWidth="0.4"
+              />
+              <circle
+                cx="8.5"
+                cy="8.5"
+                r="8.5"
+                fill={`url(#dot-spec-${id})`}
+              />
+            </>
+          ) : (
+            <circle cx="8.5" cy="8.5" r="8.5" fill="currentColor" />
+          )}
         </svg>
       </a>
 
@@ -204,14 +268,12 @@ function StickyItem({
           top: "50%",
           left: isActive ? 120 : 80,
           transform: "translateY(-50%)",
-          color: isActive ? "#0a0a0a" : MUTED,
-          fontWeight: isActive ? 700 : 500,
+          color: isActive ? "#000" : BEIGE,
+          fontWeight: isActive ? 700 : 400,
           fontSize: isActive ? "1.625rem" : "1rem",
-          letterSpacing: isActive ? "-0.02em" : "0",
           lineHeight: 1,
           whiteSpace: "nowrap",
           textDecoration: "none",
-          fontFamily: "var(--font-sans)",
           transitionProperty: "left, color, font-size, transform",
           transitionDuration: ".4s, .2s, .2s, .15s",
           transitionTimingFunction: `${EASE_BRANCH}, linear, linear, ${EASE_LINK}`,
