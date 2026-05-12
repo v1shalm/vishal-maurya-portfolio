@@ -46,17 +46,17 @@ export default function AboutContent() {
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
               2+ years across quick-commerce, healthtech, fintech, and
-              brand. Most recently at{" "}
+              brand. Currently at{" "}
               <StickerWord sticker="pineapple">Pineapple Design Studio</StickerWord>{" "}
               in Mumbai. I take projects from the first whiteboard to
               the dev handoff.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
-              AI brought the engineering brain back. Lately I&rsquo;m{" "}
-              <StickerWord sticker="ai">building prototypes</StickerWord>{" "}
-              and small tools I actually use, instead of just speccing what
-              someone else builds.
+              AI forward. I write specs and{" "}
+              <StickerWord sticker="ai">build the prototype</StickerWord>{" "}
+              the same afternoon. Small tools I use, flows I want to
+              feel before I hand them off.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
