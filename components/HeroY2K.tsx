@@ -20,8 +20,8 @@ export function HeroY2K() {
           </h1>
 
           <p className="hero-blocks__sub mx-auto mt-10 max-w-[560px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
-            I&rsquo;m Vishal. Product designer in Mumbai. 2+ years
-            across quick-commerce, healthtech, fintech.
+            I&rsquo;m Vishal. AI-forward product designer in Mumbai.
+            2+ years across quick-commerce, healthtech, fintech.
             <br />
             Looking for full-time roles.
           </p>
