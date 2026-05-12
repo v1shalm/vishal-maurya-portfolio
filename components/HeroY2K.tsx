@@ -2,7 +2,13 @@ import { Container } from "@/components/Container";
 import { Nav } from "@/components/Nav";
 import { AliveBlock } from "@/components/AliveBlock";
 
-export function HeroY2K() {
+/**
+ * On the `portfolio.*` subdomain, the hero body says where I currently
+ * work (Pineapple). On the public apex domain, it keeps the
+ * recruiter-facing line ("Looking for full-time roles") instead.
+ * Same shape, single line break, just two different closing sentences.
+ */
+export function HeroY2K({ unlocked = false }: { unlocked?: boolean }) {
   return (
     <section className="bg-bg">
       <Nav />
@@ -23,7 +29,9 @@ export function HeroY2K() {
             I&rsquo;m Vishal. AI-forward product designer in Mumbai.
             2+ years across quick-commerce, healthtech, fintech.
             <br />
-            Looking for full-time roles.
+            {unlocked
+              ? "Currently at Pineapple Design Studio."
+              : "Looking for full-time roles."}
           </p>
         </div>
       </Container>

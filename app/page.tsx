@@ -148,7 +148,7 @@ export default async function Home() {
   return (
     <>
       <main id="main-content" className="flex flex-1 flex-col">
-        <HeroY2K />
+        <HeroY2K unlocked={unlockAll} />
 
         {/* Client strip: infinite marquee (stays within the global container) */}
         <section className="pt-20 md:pt-28">

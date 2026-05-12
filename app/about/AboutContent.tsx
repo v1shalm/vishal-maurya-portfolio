@@ -20,7 +20,13 @@ const STRIP_PHOTOS = [
   { src: "/image3.jpg", alt: "Out and about", aspect: "3/2" },
 ];
 
-export default function AboutContent() {
+export default function AboutContent({
+  unlocked = false,
+}: {
+  /** True on the portfolio.* subdomain. Reveals the current-employer
+   *  line so it doesn't leak onto the public apex domain. */
+  unlocked?: boolean;
+}) {
   return (
     <>
       <Nav />
@@ -37,19 +43,29 @@ export default function AboutContent() {
             <p className="mt-8 text-[18px] leading-[1.8] text-ink-soft">
               I started as a{" "}
               <StickerWord sticker="code">frontend developer</StickerWord>,
-              building interfaces from the engineering side. The part I
-              kept getting pulled into was the decisions behind them. Why
-              this button goes here. Why this flow loses people halfway
-              through. So I switched to{" "}
+              building interfaces from the engineering side. I kept
+              dragging conversations back to the decisions behind them.
+              Why this button goes here. Why this flow loses people
+              halfway through. I switched to{" "}
               <StickerWord sticker="cursor">product design</StickerWord>.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
               2+ years across quick-commerce, healthtech, fintech, and
-              brand. Currently at{" "}
-              <StickerWord sticker="pineapple">Pineapple Design Studio</StickerWord>{" "}
-              in Mumbai. I take projects from the first whiteboard to
-              the dev handoff.
+              brand.{" "}
+              {unlocked ? (
+                <>
+                  Currently at{" "}
+                  <StickerWord sticker="pineapple">
+                    Pineapple Design Studio
+                  </StickerWord>{" "}
+                  in Mumbai.
+                </>
+              ) : (
+                <>Based in Mumbai.</>
+              )}{" "}
+              I take projects from the first whiteboard to the dev
+              handoff.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
@@ -76,7 +92,7 @@ export default function AboutContent() {
                 Looking for full-time product design roles.
               </BulletItem>
               <BulletItem color="yellow">
-                Treating AI as a teammate.
+                Prototyping flows in Claude before I open Figma.
               </BulletItem>
               <BulletItem color="pink">
                 Sketching UI ideas in{" "}
