@@ -192,6 +192,33 @@ body {
   padding-inline: var(--page-px);
 }
 
+/* Footer email: at rest a thin baseline underline; on hover the
+   underline sweeps from left to right at full thickness via a
+   background-image trick so we can animate `background-size`. The
+   resting line uses `currentColor` so it inherits the white-ish ink
+   of the dark footer without hardcoding a hex. */
+.footer-email-link {
+  text-decoration: none;
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 0 2px, 100% 1px;
+  padding-bottom: 8px;
+  transition: background-size 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 200ms ease-out;
+}
+.footer-email-link:hover {
+  background-size: 100% 2px, 100% 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-email-link {
+    background-size: 100% 2px, 0 1px;
+    transition: none;
+  }
+}
+
 @media (min-width: 768px) {
   .page-container {
     padding-inline: var(--page-px-md);

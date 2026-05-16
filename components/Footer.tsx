@@ -1,6 +1,11 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/Container";
 import { SignatureLetters } from "@/components/SignatureLetters";
 import { EmailLink } from "@/components/EmailLink";
+import { Confetti } from "@/components/Confetti";
+import { play } from "@/lib/sounds";
 import { links } from "@/lib/links";
 
 /**
@@ -25,12 +30,52 @@ import { links } from "@/lib/links";
  */
 export function Footer() {
   const year = new Date().getFullYear();
+  // Bump to fire a confetti burst (e.g. when the email is copied).
+  const [confettiRun, setConfettiRun] = useState(0);
+  // True once the user has scrolled into the footer reveal zone, used
+  // to stagger fade-in animations on the email, tagline, and links.
+  const [revealed, setRevealed] = useState(false);
+  const footerRef = useRef<HTMLElement>(null);
+
+  function celebrateCopy() {
+    play("confetti");
+    setConfettiRun((n) => n + 1);
+  }
+
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setRevealed(true);
+            obs.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.18 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const FOCUS_RING =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fdf004] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0a0a0a] rounded-sm";
 
+  // Shared entrance class. Each element overrides --d to stagger.
+  // Sits at translateY(12px) + opacity 0 until `revealed` flips, then
+  // settles into place over 600ms ease-out-quint.
+  const enterBase =
+    "transition-[opacity,transform] duration-[600ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
+  const enterStateClass = revealed
+    ? "opacity-100 translate-y-0"
+    : "opacity-0 translate-y-3";
+
   return (
     <footer
+      ref={footerRef}
       className="flex h-full flex-col justify-between pb-10 pt-12 md:pb-14 md:pt-16"
       style={{ color: "#f5f5f5" }}
     >
@@ -38,14 +83,20 @@ export function Footer() {
         <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between md:gap-16">
           {/* Left: email + tagline + socials */}
           <div className="flex min-w-0 flex-col gap-6 md:gap-8">
-            <EmailLink
-              email={links.emailDisplay}
-              className={`block max-w-full break-words text-[clamp(1.5rem,5vw,2.75rem)] font-medium leading-[1.05] tracking-[-0.02em] underline decoration-[2px] underline-offset-[6px] transition-opacity hover:opacity-80 md:whitespace-nowrap ${FOCUS_RING}`}
-            />
+            <div
+              className={`${enterBase} ${enterStateClass}`}
+              style={{ transitionDelay: revealed ? "0ms" : "0ms" }}
+            >
+              <EmailLink
+                email={links.emailDisplay}
+                onCopied={celebrateCopy}
+                className={`footer-email-link inline-block max-w-full break-words text-[clamp(1.5rem,5vw,2.75rem)] font-medium leading-[1.05] tracking-[-0.02em] md:whitespace-nowrap ${FOCUS_RING}`}
+              />
+            </div>
 
             <p
-              className="max-w-[42ch] text-[14px] leading-[1.55] md:text-[16px] [text-wrap:pretty]"
-              style={{ color: "#a0a0a0" }}
+              className={`max-w-[42ch] text-[14px] leading-[1.55] md:text-[16px] [text-wrap:pretty] ${enterBase} ${enterStateClass}`}
+              style={{ color: "#a0a0a0", transitionDelay: revealed ? "120ms" : "0ms" }}
             >
               Open to senior product design roles. Mumbai,
               remote-friendly.
@@ -55,7 +106,10 @@ export function Footer() {
                tucks in on the right at small scale so the whole row
                stays one line on phone. md+ moves the signature out
                to the right column. */}
-            <div className="flex items-center justify-between gap-6">
+            <div
+              className={`flex items-center justify-between gap-6 ${enterBase} ${enterStateClass}`}
+              style={{ transitionDelay: revealed ? "220ms" : "0ms" }}
+            >
               <div
                 className="flex items-center gap-2 text-[15px] font-medium md:gap-3"
                 style={{ color: "#a0a0a0" }}
@@ -121,7 +175,10 @@ export function Footer() {
 
           {/* Right: signature on tablet+. Hidden on mobile (rendered
              inline with socials above). */}
-          <div className="hidden shrink-0 md:block">
+          <div
+            className={`hidden shrink-0 md:block ${enterBase} ${enterStateClass}`}
+            style={{ transitionDelay: revealed ? "180ms" : "0ms" }}
+          >
             <SignatureLetters className="opacity-90" />
           </div>
         </div>
@@ -131,8 +188,8 @@ export function Footer() {
          the right. Both small body, no uppercase, no tracking. */}
       <Container>
         <div
-          className="mt-8 flex items-center justify-between text-[12px] md:text-[13px]"
-          style={{ color: "#7a7a7a" }}
+          className={`mt-8 flex items-center justify-between text-[12px] md:text-[13px] ${enterBase} ${enterStateClass}`}
+          style={{ color: "#7a7a7a", transitionDelay: revealed ? "320ms" : "0ms" }}
         >
           <span className="tabular-nums">© {year} Vishal Maurya</span>
           <a
@@ -147,6 +204,11 @@ export function Footer() {
           </a>
         </div>
       </Container>
+
+      {/* Confetti burst on email copy. Fixed full-viewport overlay
+         renders at z-200 so it spans across the lifted page edge
+         and the revealed footer alike. */}
+      <Confetti runId={confettiRun} />
     </footer>
   );
 }
