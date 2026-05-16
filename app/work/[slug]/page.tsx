@@ -4,7 +4,6 @@ import type { ProblemItem, PullQuote, StatItem } from "@/lib/works";
 import { siteUrl } from "@/lib/site";
 import { isUnlockedHost } from "@/lib/host";
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { MediaBlock } from "@/components/MediaBlock";
 import { CaseStudyNav } from "@/components/CaseStudyNav";
@@ -326,7 +325,6 @@ export default async function WorkPage({
           </Container>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

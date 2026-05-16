@@ -5,13 +5,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
-import { Button } from "@/components/Button";
-import { SignatureLetters } from "@/components/SignatureLetters";
 import { Wheel } from "@/components/draggable-scroller/Wheel";
 import { StickerWord } from "@/components/StickerWord";
-import { links } from "@/lib/links";
 import { play } from "@/lib/sounds";
 
 const STRIP_PHOTOS = [
@@ -51,8 +47,9 @@ export default function AboutContent({
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
-              2+ years across quick-commerce, healthtech, fintech, and
-              brand.{" "}
+              2.5 years at a design studio, 0-to-1 work on client
+              projects across quick commerce, healthtech, SaaS, and
+              fintech.{" "}
               {unlocked ? (
                 <>
                   Currently at{" "}
@@ -64,8 +61,7 @@ export default function AboutContent({
               ) : (
                 <>Based in Mumbai.</>
               )}{" "}
-              I take projects from the first whiteboard to the dev
-              handoff.
+              I run the project from brief to ship.
             </p>
 
             <p className="mt-5 text-[18px] leading-[1.8] text-ink-soft">
@@ -89,7 +85,7 @@ export default function AboutContent({
             </p>
             <ul className="mt-4 flex flex-col gap-3">
               <BulletItem color="pink">
-                Looking for full-time product design roles.
+                Looking for senior product design roles, full-time.
               </BulletItem>
               <BulletItem color="yellow">
                 Prototyping flows in Claude before I open Figma.
@@ -118,40 +114,13 @@ export default function AboutContent({
               </div>
             </div>
 
-            {/* Open to */}
+            {/* Positioning line. Contact links live in the footer, so
+               this paragraph keeps the "what teams I'm a fit for"
+               statement without repeating the email + socials. */}
             <p className="mt-16 text-[18px] leading-[1.8] text-ink-soft md:mt-20">
               I&rsquo;m best on consumer products built for Indian users:
-              fintech, healthtech, commerce. If that&rsquo;s your team,{" "}
-              <a href={links.email} className="link-accent" data-cursor="email">
-                say hi
-              </a>
-              . Also on{" "}
-              <a href={links.linkedin} target="_blank" rel="noopener noreferrer" className="link-accent" data-cursor="external">
-                LinkedIn
-              </a>
-              ,{" "}
-              <a href={links.dribbble} target="_blank" rel="noopener noreferrer" className="link-accent" data-cursor="external">
-                Dribbble
-              </a>
-              , or grab{" "}
-              <a href={links.resume} target="_blank" rel="noopener noreferrer" className="link-accent" data-cursor="external">
-                my resume
-              </a>
-              .
+              fintech, healthtech, quick commerce.
             </p>
-
-            {/* CTA + signature */}
-            <div className="mt-12 flex flex-col items-start gap-6">
-              <Button variant="yellow" href={links.email} data-cursor="email">
-                Let&rsquo;s Connect
-              </Button>
-              <div className="flex items-center gap-3">
-                <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-muted">
-                  Yours,
-                </span>
-                <SignatureLetters />
-              </div>
-            </div>
 
           </div>
 
@@ -200,7 +169,6 @@ export default function AboutContent({
 
         </Container>
       </main>
-      <Footer />
       <VishalEasterEgg />
     </>
   );

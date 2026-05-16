@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { PixelsMasonry } from "@/components/PixelsMasonry";
 import { type PixelsItem } from "@/components/PixelsTile";
@@ -147,7 +146,6 @@ export default function PixelsPage() {
           </Container>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

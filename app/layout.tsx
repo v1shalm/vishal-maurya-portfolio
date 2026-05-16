@@ -5,6 +5,7 @@ import { CommandPalette } from "@/components/CommandPalette";
 import { CommandPaletteTrigger } from "@/components/CommandPaletteTrigger";
 import { SmartCursor } from "@/components/SmartCursor";
 import { LenisProvider } from "@/components/LenisProvider";
+import { Footer } from "@/components/Footer";
 import { siteUrl } from "@/lib/site";
 
 const geist = Geist({
@@ -21,7 +22,7 @@ const geistMono = Geist_Mono({
 
 const siteTitle = "Vishal Maurya · Product Designer";
 const siteDescription =
-  "Product designer in Mumbai. I design consumer products, lately in quick-commerce, healthtech, and interfaces that feel alive.";
+  "AI-forward product designer in Mumbai. 2.5 years across quick commerce, healthtech, and fintech.";
 const ogImage = {
   url: "/og-image.png",
   width: 1200,
@@ -119,7 +120,14 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-ink font-sans">
+      <body
+        className="min-h-full font-sans text-ink"
+        // Body background is ink. The page (`children`) is a white
+        // layer stacked above the fixed Footer; as you scroll past
+        // the page's last section, its rounded bottom edge lifts off
+        // and reveals the footer underneath.
+        style={{ background: "#0a0a0a" }}
+      >
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-[14px] focus:font-semibold focus:text-bg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow"
@@ -134,7 +142,40 @@ export default function RootLayout({
         <CommandPalette />
         <CommandPaletteTrigger />
         <SmartCursor />
-        {children}
+
+        {/* Fixed footer layer. Sits at the bottom of the viewport,
+           behind the page. The body's black bg lets the footer
+           content read against it. Height adapts via CSS variable so
+           the page wrapper's bottom margin can match it exactly. */}
+        <div
+          className="fixed inset-x-0 bottom-0 z-0"
+          style={{
+            // 560px / 68vh ceiling on mobile so the footer doesn't
+            // crowd short viewports; 640px / 58vh on tablet+ where
+            // horizontal space lets the email + signature breathe.
+            height: "var(--reveal-h)",
+          }}
+        >
+          <Footer />
+        </div>
+
+        {/* Page content layer. White surface with rounded bottom
+           corners. The bottom margin matches the reveal height so
+           the scroll runway and reveal area stay in sync. */}
+        <div
+          className="relative z-10 min-h-screen rounded-b-[24px] bg-bg shadow-[0_24px_60px_-24px_rgba(0,0,0,0.28)] md:rounded-b-[32px]"
+          style={{ marginBottom: "var(--reveal-h)" }}
+        >
+          {children}
+        </div>
+
+        <style>{`
+          :root { --reveal-h: min(560px, 68vh); }
+          @media (min-width: 768px) {
+            :root { --reveal-h: min(640px, 58vh); }
+          }
+        `}</style>
+
       </body>
     </html>
   );

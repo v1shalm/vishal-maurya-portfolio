@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
 import { EmailLink } from "@/components/EmailLink";
 import { Reveal } from "@/components/Reveal";
@@ -118,7 +117,6 @@ export default function NotFound() {
           </Container>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

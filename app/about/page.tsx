@@ -5,7 +5,7 @@ import AboutContent from "./AboutContent";
 export const metadata: Metadata = {
   title: "About · Vishal Maurya",
   description:
-    "Product designer in Mumbai. 2+ years shipping consumer products in quick-commerce and healthtech.",
+    "Product designer in Mumbai. 2.5 years shipping consumer products across quick commerce, healthtech, SaaS, and fintech.",
 };
 
 export default async function AboutPage() {

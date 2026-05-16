@@ -1,14 +1,10 @@
-import { Footer } from "@/components/Footer";
 import { Container } from "@/components/Container";
-import { Reveal } from "@/components/Reveal";
 import { type PixelsItem } from "@/components/PixelsTile";
 import { ClientMarquee } from "@/components/ClientMarquee";
-import { EmailLink } from "@/components/EmailLink";
 import { HeroY2K } from "@/components/HeroY2K";
 import { HomeWorkSection } from "@/components/HomeWorkSection";
 import { HomePixelsSection } from "@/components/HomePixelsSection";
 import { works } from "@/lib/works";
-import { links } from "@/lib/links";
 import { isUnlockedHost } from "@/lib/host";
 
 const clients: {
@@ -164,62 +160,9 @@ export default async function Home() {
         {/* Pixels */}
         <HomePixelsSection items={playground} />
 
-        {/* Contact */}
-        <Reveal as="section" className="pt-36 md:pt-48">
-          <Container>
-            <div className="max-w-[800px]">
-              <h2 className="text-balance text-[clamp(2.25rem,5.5vw,4rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ink">
-                Say hello.
-              </h2>
-
-              <div className="mt-8 md:mt-10">
-                <EmailLink
-                  email="vishalm.designs@gmail.com"
-                  className="link-accent inline-flex items-baseline gap-2 text-[clamp(1.25rem,2.5vw,1.75rem)] leading-[1.2] tracking-[-0.01em]"
-                />
-              </div>
-
-              <p className="mt-10 max-w-[58ch] text-pretty text-[16px] leading-[1.7] text-ink-soft md:mt-12 md:text-[17px]">
-                Or grab the{" "}
-                <a
-                  href={links.resume}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="external"
-                  data-cursor-label="Resume"
-                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
-                >
-                  resume
-                </a>
-                , find me on{" "}
-                <a
-                  href="https://www.linkedin.com/in/v1shalm/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="external"
-                  data-cursor-label="LinkedIn"
-                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
-                >
-                  LinkedIn
-                </a>{" "}
-                or{" "}
-                <a
-                  href="https://dribbble.com/V1shal"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="external"
-                  data-cursor-label="Dribbble"
-                  className="text-ink underline decoration-line decoration-1 underline-offset-4 transition-[color,text-decoration-color] hover:decoration-ink"
-                >
-                  Dribbble
-                </a>
-                .
-              </p>
-            </div>
-          </Container>
-        </Reveal>
+        {/* Contact section removed — the reveal footer is the only
+           contact surface, so this used to repeat the email + socials. */}
       </main>
-      <Footer />
     </>
   );
 }
