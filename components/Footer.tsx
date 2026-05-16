@@ -76,13 +76,13 @@ export function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="flex h-full flex-col justify-between pb-10 pt-12 md:pb-14 md:pt-16"
+      className="flex h-full flex-col justify-end gap-6 pb-8 pt-10 md:justify-between md:gap-0 md:pb-14 md:pt-16"
       style={{ color: "#f5f5f5" }}
     >
       <Container>
         <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between md:gap-16">
           {/* Left: email + tagline + socials */}
-          <div className="flex min-w-0 flex-col gap-6 md:gap-8">
+          <div className="flex min-w-0 flex-col gap-5 md:gap-8">
             <div
               className={`${enterBase} ${enterStateClass}`}
               style={{ transitionDelay: revealed ? "0ms" : "0ms" }}
@@ -95,7 +95,7 @@ export function Footer() {
             </div>
 
             <p
-              className={`max-w-[42ch] text-[14px] leading-[1.55] md:text-[16px] [text-wrap:pretty] ${enterBase} ${enterStateClass}`}
+              className={`text-[14px] leading-[1.55] [text-wrap:pretty] md:max-w-[42ch] md:text-[16px] ${enterBase} ${enterStateClass}`}
               style={{ color: "#a0a0a0", transitionDelay: revealed ? "120ms" : "0ms" }}
             >
               Open to senior product design roles. Mumbai,
@@ -188,7 +188,7 @@ export function Footer() {
          the right. Both small body, no uppercase, no tracking. */}
       <Container>
         <div
-          className={`mt-8 flex items-center justify-between text-[12px] md:text-[13px] ${enterBase} ${enterStateClass}`}
+          className={`mt-2 flex items-center justify-between text-[12px] md:mt-8 md:text-[13px] ${enterBase} ${enterStateClass}`}
           style={{ color: "#7a7a7a", transitionDelay: revealed ? "320ms" : "0ms" }}
         >
           <span className="tabular-nums">© {year} Vishal Maurya</span>

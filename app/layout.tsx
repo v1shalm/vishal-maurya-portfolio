@@ -161,16 +161,18 @@ export default function RootLayout({
 
         {/* Page content layer. White surface with rounded bottom
            corners. The bottom margin matches the reveal height so
-           the scroll runway and reveal area stay in sync. */}
+           the scroll runway and reveal area stay in sync. Mobile
+           uses a smaller radius so it doesn't crop tile content
+           sitting near the page's bottom edge. */}
         <div
-          className="relative z-10 min-h-screen rounded-b-[24px] bg-bg shadow-[0_24px_60px_-24px_rgba(0,0,0,0.28)] md:rounded-b-[32px]"
+          className="relative z-10 min-h-screen rounded-b-[14px] bg-bg pb-10 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.28)] md:rounded-b-[32px] md:pb-0"
           style={{ marginBottom: "var(--reveal-h)" }}
         >
           {children}
         </div>
 
         <style>{`
-          :root { --reveal-h: min(560px, 68vh); }
+          :root { --reveal-h: min(440px, 56vh); }
           @media (min-width: 768px) {
             :root { --reveal-h: min(640px, 58vh); }
           }
