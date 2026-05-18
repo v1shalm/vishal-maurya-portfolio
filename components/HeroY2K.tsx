@@ -27,7 +27,8 @@ export function HeroY2K({ unlocked = false }: { unlocked?: boolean }) {
 
           <p className="hero-blocks__sub mx-auto mt-10 max-w-[560px] text-balance text-[17px] font-medium leading-[1.5] text-[color:var(--color-y-ink)] md:mt-14 md:text-[20px]">
             I&rsquo;m Vishal. AI-forward product designer in Mumbai.
-            2.5 years across quick commerce, healthtech, and fintech.
+            <br />
+            2.5&nbsp;years across quick commerce, healthtech, and fintech.
             <br />
             {unlocked
               ? "Currently at Pineapple Design Studio."

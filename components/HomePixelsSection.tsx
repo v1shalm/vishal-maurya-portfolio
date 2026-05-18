@@ -23,7 +23,7 @@ type Props = { items: PixelsItem[] };
  */
 export function HomePixelsSection({ items }: Props) {
   return (
-    <Reveal as="section" className="pt-36 md:pt-48">
+    <Reveal as="section" className="pt-36 pb-24 md:pt-48 md:pb-32">
       <Container>
         <SectionHeader
           title="Pixels"
