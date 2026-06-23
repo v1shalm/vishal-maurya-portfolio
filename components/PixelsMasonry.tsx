@@ -43,7 +43,7 @@ export function PixelsMasonry({ items }: { items: PixelsItem[] }) {
                 setOpen({ slug: tile.item.slug, index: tile.imageIndex })
               }
               aria-label={`Open ${tile.item.title}: ${img.alt}`}
-              className="group mb-4 block w-full break-inside-avoid text-left active:scale-[0.99]"
+              className="group mb-4 block w-full cursor-pointer break-inside-avoid text-left active:scale-[0.99]"
               style={{ transition: "transform 200ms cubic-bezier(0.16,1,0.3,1)" }}
             >
               <div
